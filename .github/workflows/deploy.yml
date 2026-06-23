@@ -28,7 +28,7 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           script: |
             rm -rf /home/${{ secrets.LIGHTSAIL_USERNAME }}/frontend/*
             mkdir -p /home/${{ secrets.LIGHTSAIL_USERNAME }}/frontend
@@ -38,7 +38,7 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
           source: "dist/*"
           target: "/home/${{ secrets.LIGHTSAIL_USERNAME }}/frontend"
           strip_components: 1
