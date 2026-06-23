@@ -19,6 +19,9 @@ jobs:
           cache: "npm"
 
       - name: Install Dependencies and Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_SOCKET_URL: ${{ secrets.VITE_SOCKET_URL }}
         run: |
           npm ci
           npm run build
