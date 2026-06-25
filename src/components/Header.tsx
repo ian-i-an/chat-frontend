@@ -21,7 +21,7 @@ export default function Header() {
       ) : (
         <Link
           to="/sign-in"
-          className="rounded-xl bg-blue-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-blue-400"
+          className="rounded-xl bg-blue-500 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-blue-400"
         >
           로그인
         </Link>

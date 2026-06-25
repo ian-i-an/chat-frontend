@@ -34,7 +34,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="flex flex-col py-10 px-6  flex-1">
+    <div className="flex flex-1 flex-col px-6 py-10">
       <div className="flex flex-col  items-center gap-3 border-b border-gray-100 pb-4">
         <div className="h-28 w-28 overflow-hidden rounded-full border-4 ring-1 ring-gray-100 border-white  shadow-md">
           <img
@@ -45,13 +45,13 @@ export default function ProfilePage() {
         </div>
 
         {isEditing ? (
-          <div className="flex  h-10 w-full items-center justify-center gap-2">
+          <div className="flex h-10 w-full items-center justify-center gap-2">
             <input
               type="text"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
               autoFocus
-              className=" rounded-md  bg-white px-3 py-1.5 text-center text-lg font-bold text-gray-800 outline-none focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-200"
+              className="rounded-xl bg-white px-3 py-1.5 text-center text-lg font-bold text-gray-800 outline-none focus:ring-2 focus:ring-blue-200"
             />
             <button
               onClick={handleEditSave}
@@ -67,7 +67,7 @@ export default function ProfilePage() {
             </button>{" "}
           </div>
         ) : (
-          <div className="flex  h-10 w-full items-center justify-center gap-2">
+          <div className="flex h-10 w-full items-center justify-center gap-2">
             <div className="text-xl tracking-tight font-bold text-gray-800">
               {myProfile?.nickname || ""}
             </div>
@@ -81,7 +81,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <div className="  flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         <h2 className=" px-1 pt-8 pb-4 text-sm font-semibold text-gray-500">
           계정 설정
         </h2>

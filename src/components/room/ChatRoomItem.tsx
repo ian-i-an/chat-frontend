@@ -5,7 +5,7 @@ export default function ChatRoomItem({ room }: { room: ChatRoomListItem }) {
   return (
     <Link
       to={`/chat-rooms/${room.id}`}
-      className="cursor-pointe flex w-full items-center justify-between gap-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200 hover:shadow-md"
+      className="cursor-pointer flex w-full items-center justify-between gap-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200 hover:shadow-md"
     >
       <div className="flex min-w-0 flex-col gap-1">
         <h3 className="truncate font-bold text-gray-900">{room.name}</h3>

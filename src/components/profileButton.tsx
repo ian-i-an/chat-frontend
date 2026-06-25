@@ -31,10 +31,10 @@ export default function ProfileButton() {
   };
 
   return (
-    <div className="relative " ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className=" shrink-0 cursor-pointer overflow-hidden  rounded-full border focus-visible:ring-2 focus:outline-none focus-visible:ring-blue-500 border-gray-100 transition-opacity hover:opacity-80"
+        className="shrink-0 cursor-pointer overflow-hidden rounded-full border border-gray-100 transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       >
         <img
           src={defaultProfile}
@@ -46,7 +46,7 @@ export default function ProfileButton() {
       </button>
 
       {isOpen && (
-        <div className=" z-11 absolute font-semibold right-0 text-gray-700 text-sm top-full  mt-2 flex w-40 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+        <div className="absolute right-0 top-full z-20 mt-2 flex w-40 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm font-semibold text-gray-700 shadow-lg">
           <Link
             to={`/profile`} // 프로필 페이지 경로
             onClick={() => setIsOpen(false)} // PopoverClose 역할

@@ -35,7 +35,7 @@ export default function Sidebar({ isSignedIn, isOpen, onClose }: SidebarProps) {
         }`}
       >
         <div className="flex h-16 items-center justify-between border-b border-gray-100  px-4">
-          <span className="text-md font-black tracking-tight text-gray-800">
+          <span className="text-base font-black tracking-tight text-gray-800">
             Menu
           </span>
           <button
