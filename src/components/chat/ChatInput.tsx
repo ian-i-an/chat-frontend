@@ -31,6 +31,9 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // 한글 등 IME 조합 중에는 Enter를 무시 (마지막 글자 중복 전송 방지)
+    if (e.nativeEvent.isComposing) return;
+
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
