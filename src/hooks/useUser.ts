@@ -14,7 +14,6 @@ export function useDeleteAccount() {
       if (stompClient.active) {
         stompClient.deactivate();
       }
-      localStorage.removeItem("isSignedIn");
       queryClient.clear();
 
       navigate("/sign-in", { replace: true });

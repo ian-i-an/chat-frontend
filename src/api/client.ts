@@ -1,5 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
-import { toApiError } from "./error";
+import { ApiError, toApiError } from "./error";
 
 export const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,16 +13,17 @@ export const client = axios.create({
 
 interface RetryQueueItem {
   resolve: (value?: unknown) => void;
-  reject: (reason?: AxiosError) => void;
+  reject: (reason?: ApiError) => void;
 }
 
 let isRefreshing = false;
 let failedQueue: RetryQueueItem[] = [];
 
 const processQueue = (error: AxiosError | null) => {
-  failedQueue.forEach((promise) => {
-    if (error) promise.reject(error);
-    else promise.resolve();
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error)
+      reject(toApiError(error)); // ← ApiError로 변환해서 던짐
+    else resolve();
   });
   failedQueue = [];
 };

@@ -28,6 +28,8 @@ export const useChatListWebSocket = (myUserId?: number) => {
             (room) => room.roomCode === updateData.roomCode,
           );
 
+          if (targetIndex === -1) return oldRooms;
+
           const updatedRoom: RoomListItem = {
             ...oldRooms[targetIndex],
             lastMessage: updateData.lastMessage,

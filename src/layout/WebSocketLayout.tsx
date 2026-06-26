@@ -18,7 +18,13 @@ export default function WebSocketLayout() {
       setIsConnected(false);
     };
 
-    stompClient.onStompError = () => {
+    stompClient.onStompError = (frame) => {
+      console.error("[STOMP] 에러:", frame.headers["message"], frame.body);
+      setIsConnected(false);
+    };
+
+    stompClient.onWebSocketError = (event) => {
+      console.error("[STOMP] 웹소켓 에러:", event);
       setIsConnected(false);
     };
 

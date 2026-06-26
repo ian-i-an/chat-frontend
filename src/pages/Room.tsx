@@ -57,7 +57,7 @@ export default function Room() {
     };
   }, [latestChatId, room?.isMyRoom, sendReadStatus]);
 
-  if (!roomCode) return <Navigate to="/rooms" replace />;
+  if (!roomCode || !room) return <Navigate to="/rooms" replace />;
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
