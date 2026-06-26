@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import ChatItem from "./ChatItem";
-import type { Chat } from "@/types";
+import type { Chat } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { formatDate, isSameDay } from "@/utils/time";
-import Loader from "../Loader";
+import Loader from "../common/Loader";
 
 export default function ChatList({
   chats,
@@ -27,7 +27,7 @@ export default function ChatList({
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50/50 px-4 py-6">
+    <div className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6">
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;
 

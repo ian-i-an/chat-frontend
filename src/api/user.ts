@@ -1,4 +1,4 @@
-import type { User } from "@/types";
+import type { User } from "@/types/types";
 import { client } from "./client";
 
 export const deleteAccount = async () => {

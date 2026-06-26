@@ -32,7 +32,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // 기본 Enter(줄바꿈) 동작 막기
+      e.preventDefault();
       handleSend();
     }
   };

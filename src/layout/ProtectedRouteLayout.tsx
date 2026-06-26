@@ -2,8 +2,9 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useFetchMyProfile } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import Loader from "@/components/Loader";
+import Loader from "@/components/common/Loader";
 import { toast } from "sonner";
+import type { ErrorResponse } from "@/types/types";
 
 export default function ProtectedRouteLayout() {
   const { data: myProfile, isLoading: isFetchMyProfileLoading } =
@@ -13,8 +14,10 @@ export default function ProtectedRouteLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleTokenExpired = () => {
-      toast.error("로그인 후 이용 가능합니다.");
+    const handleTokenExpired = (event: Event) => {
+      const errorResponse = (event as CustomEvent<ErrorResponse | undefined>)
+        .detail;
+      toast.error(errorResponse?.message ?? "로그인 후 이용 가능합니다.");
 
       queryClient.clear();
 

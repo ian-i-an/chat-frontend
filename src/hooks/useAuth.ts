@@ -7,13 +7,13 @@ import {
   signOut,
 } from "@/api/auth";
 import { useNavigate } from "react-router-dom";
-import { stompClient } from "@/api/websocket-client";
+import { stompClient } from "@/websocket/websocket-client";
 
 export const USER_KEYS = {
   all: ["user"],
   me: ["user", "me"],
   list: ["user", "list"],
-  byId: (userId: string) => ["user", "byId", userId],
+  byId: (userId: number) => ["user", "byId", userId],
 };
 
 export function useSignIn() {
@@ -23,7 +23,6 @@ export function useSignIn() {
     mutationFn: signIn,
     onSuccess: (userData) => {
       queryClient.setQueryData(USER_KEYS.me, userData);
-      localStorage.setItem("isSignedIn", "true");
     },
   });
 }
@@ -62,7 +61,6 @@ export const useSignOut = () => {
       if (stompClient.active) {
         stompClient.deactivate();
       }
-      localStorage.removeItem("isSignedIn");
       queryClient.clear();
 
       navigate("/sign-in", { replace: true });

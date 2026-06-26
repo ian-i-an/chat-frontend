@@ -1,5 +1,5 @@
 import { deleteAccount, updateNickname } from "@/api/user";
-import { stompClient } from "@/api/websocket-client";
+import { stompClient } from "@/websocket/websocket-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { USER_KEYS } from "./useAuth";

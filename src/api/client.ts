@@ -1,4 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { toApiError } from "./error";
 
 export const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -35,7 +36,7 @@ client.interceptors.response.use(
     };
 
     if (error.response?.status !== 401 || originalRequest.retry) {
-      return Promise.reject(error);
+      return Promise.reject(toApiError(error));
     }
 
     if (isRefreshing) {
@@ -64,10 +65,13 @@ client.interceptors.response.use(
       isRefreshing = false;
       processQueue(refreshError as AxiosError);
 
-      localStorage.removeItem("isSignedIn");
-      window.dispatchEvent(new CustomEvent("token-expired"));
+      window.dispatchEvent(
+        new CustomEvent("token-expired", {
+          detail: (refreshError as AxiosError).response?.data,
+        }),
+      );
 
-      return Promise.reject(refreshError);
+      return Promise.reject(toApiError(error));
     }
   },
 );

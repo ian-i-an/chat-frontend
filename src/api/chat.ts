@@ -1,35 +1,20 @@
-import type { Chat, ChatCursor } from "@/types";
+import type { ChatCursor } from "@/types/types";
 import { client } from "./client";
 
+const ENDPOINT = "/api/rooms";
+
 export const fetchChats = async ({
-  chatRoomId,
+  roomId,
   limit,
   cursor,
 }: {
-  chatRoomId: number;
+  roomId: number;
   limit?: number;
   cursor?: number;
 }) => {
   if (!limit) limit = 20;
-  const response = await client.get<ChatCursor>(
-    `/api/chat-rooms/${chatRoomId}/chats`,
-    {
-      params: { limit, cursor },
-    },
-  );
-  return response.data;
-};
-
-export const sendChat = async ({
-  chatRoomId,
-  content,
-}: {
-  chatRoomId: number;
-  content: string;
-}) => {
-  const response = await client.post<Chat>(
-    `/api/chat-rooms/${chatRoomId}/chats`,
-    { content },
-  );
+  const response = await client.get<ChatCursor>(`${ENDPOINT}/${roomId}/chats`, {
+    params: { limit, cursor },
+  });
   return response.data;
 };

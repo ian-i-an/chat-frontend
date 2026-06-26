@@ -1,5 +1,7 @@
-import type { User } from "@/types";
+import type { User } from "@/types/types";
 import { client } from "./client";
+
+const ENDPOINT = "/api/auth";
 
 export const signIn = async ({
   loginId,
@@ -8,7 +10,7 @@ export const signIn = async ({
   loginId: string;
   password: string;
 }) => {
-  const response = await client.post<User>("/api/auth/sign-in", {
+  const response = await client.post<User>(`${ENDPOINT}/sign-in`, {
     loginId,
     password,
   });
@@ -17,7 +19,7 @@ export const signIn = async ({
 };
 
 export const checkIdDuplication = async ({ loginId }: { loginId: string }) => {
-  await client.post<void>("/api/auth/check-id", { loginId });
+  await client.post<void>(`${ENDPOINT}/check-id`, { loginId });
 };
 
 export const signUp = async ({
@@ -27,7 +29,7 @@ export const signUp = async ({
   loginId: string;
   password: string;
 }) => {
-  const response = await client.post<User>("/api/auth/sign-up", {
+  const response = await client.post<User>(`${ENDPOINT}/sign-up`, {
     loginId,
     password,
   });
@@ -35,10 +37,10 @@ export const signUp = async ({
 };
 
 export const fetchMyProfile = async () => {
-  const response = await client.get<User>("/api/auth/me");
+  const response = await client.get<User>(`${ENDPOINT}/me`);
   return response.data;
 };
 
 export const signOut = async () => {
-  await client.post<void>("/api/auth/sign-out");
+  await client.post<void>(`${ENDPOINT}/sign-out`);
 };
