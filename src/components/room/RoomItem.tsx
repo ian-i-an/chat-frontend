@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function RoomItem({ room }: { room: RoomListItem }) {
   return (
     <Link
-      to={`/rooms/${room.id}`}
+      to={`/rooms/${room.roomCode}`}
       className="cursor-pointer flex w-full items-center justify-between gap-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200 hover:shadow-md"
     >
       <div className="flex min-w-0 flex-col gap-1">

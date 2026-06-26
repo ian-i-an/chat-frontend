@@ -28,7 +28,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
           </Route>
 
-          <Route path="/rooms/:roomId" element={<Room />} />
+          <Route path="/rooms/:roomCode" element={<Room />} />
         </Route>
       </Route>
 

@@ -4,17 +4,20 @@ import { client } from "./client";
 const ENDPOINT = "/api/rooms";
 
 export const fetchChats = async ({
-  roomId,
+  roomCode,
   limit,
   cursor,
 }: {
-  roomId: number;
+  roomCode: string;
   limit?: number;
   cursor?: number;
 }) => {
   if (!limit) limit = 20;
-  const response = await client.get<ChatCursor>(`${ENDPOINT}/${roomId}/chats`, {
-    params: { limit, cursor },
-  });
+  const response = await client.get<ChatCursor>(
+    `${ENDPOINT}/${roomCode}/chats`,
+    {
+      params: { limit, cursor },
+    },
+  );
   return response.data;
 };

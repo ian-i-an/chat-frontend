@@ -2,13 +2,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { ROOM_KEYS } from "./useRoom";
 import { fetchChats } from "@/api/chat";
 
-export function useFetchChats(roomId: number) {
+export function useFetchChats(roomCode: string) {
   return useInfiniteQuery({
     initialPageParam: undefined as number | undefined,
-    queryKey: ROOM_KEYS.chats(roomId),
+    queryKey: ROOM_KEYS.chats(roomCode),
 
     queryFn: ({ pageParam }) =>
-      fetchChats({ roomId, cursor: pageParam, limit: 50 }),
+      fetchChats({ roomCode, cursor: pageParam, limit: 50 }),
 
     getNextPageParam: (lastPage) => {
       if (!lastPage.hasNext || lastPage.chats.length === 0) {

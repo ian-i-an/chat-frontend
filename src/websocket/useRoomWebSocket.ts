@@ -5,7 +5,7 @@ import { stompClient } from "@/websocket/websocket-client";
 import type { RoomListItem } from "@/types/types";
 import { ROOM_KEYS } from "../hooks/useRoom";
 
-type RoomUpdateEvent = Pick<RoomListItem, "lastMessage" | "id"> & {
+type RoomUpdateEvent = Pick<RoomListItem, "lastMessage" | "roomCode"> & {
   isMyMessage: boolean;
 };
 
@@ -25,7 +25,7 @@ export const useChatListWebSocket = (myUserId?: number) => {
           if (!oldRooms) return oldRooms;
 
           const targetIndex = oldRooms.findIndex(
-            (room) => room.id === updateData.id,
+            (room) => room.roomCode === updateData.roomCode,
           );
 
           const updatedRoom: RoomListItem = {

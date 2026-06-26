@@ -4,8 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export const ROOM_KEYS = {
   all: ["room"],
   list: ["room", "list"],
-  byId: (chatRoomId: number) => ["room", "byId", chatRoomId],
-  chats: (chatRoomId: number) => ["room", "byId", chatRoomId, "chats"],
+  byId: (roomCode: string) => ["room", "byId", roomCode],
+  chats: (roomCode: string) => ["room", "byId", roomCode, "chats"],
 };
 
 export function useFetchRooms() {
@@ -27,9 +27,9 @@ export function useCreateRoom() {
   });
 }
 
-export function useFetchRoomById(roomId: number) {
+export function useFetchRoomById(roomCode: string) {
   return useQuery({
-    queryKey: ROOM_KEYS.byId(roomId),
-    queryFn: () => fetchRoomById({ roomId }),
+    queryKey: ROOM_KEYS.byId(roomCode),
+    queryFn: () => fetchRoomById({ roomCode }),
   });
 }

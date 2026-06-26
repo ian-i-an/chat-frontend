@@ -15,7 +15,7 @@ export const fetchRooms = async () => {
   return response.data;
 };
 
-export const fetchRoomById = async ({ roomId }: { roomId: number }) => {
-  const response = await client.get<Room>(`${ENDPOINT}/${roomId}`);
+export const fetchRoomById = async ({ roomCode }: { roomCode: string }) => {
+  const response = await client.get<Room>(`${ENDPOINT}/${roomCode}`);
   return response.data;
 };

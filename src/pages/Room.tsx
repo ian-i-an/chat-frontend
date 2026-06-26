@@ -11,10 +11,10 @@ import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 
 export default function Room() {
-  const { roomId } = useParams<{ roomId: string }>();
-  const numericId = Number(roomId);
-  const { data: room } = useFetchRoomById(numericId);
-  const { sendReadStatus } = useReadStatus(numericId);
+  const roomCode = useParams<{ roomCode: string }>().roomCode!;
+
+  const { data: room } = useFetchRoomById(roomCode);
+  const { sendReadStatus } = useReadStatus(roomCode);
   const queryClient = useQueryClient();
 
   const {
@@ -22,16 +22,16 @@ export default function Room() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFetchChats(numericId);
+  } = useFetchChats(roomCode);
 
   const latestChatId = chats.length > 0 ? chats[0].id : null;
 
-  const { sendMessage } = useChatWebSocket(numericId, (newChat: Chat) => {
+  const { sendMessage } = useChatWebSocket(roomCode!, (newChat: Chat) => {
     if (room?.isMyRoom) {
       sendReadStatus(newChat.id);
     }
     queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
-      ROOM_KEYS.chats(numericId),
+      ROOM_KEYS.chats(roomCode!),
       (old) => {
         if (!old || old.pages.length === 0) return old;
 
@@ -57,7 +57,7 @@ export default function Room() {
     };
   }, [latestChatId, room?.isMyRoom, sendReadStatus]);
 
-  if (!numericId) return <Navigate to="/rooms" replace />;
+  if (!roomCode) return <Navigate to="/rooms" replace />;
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">

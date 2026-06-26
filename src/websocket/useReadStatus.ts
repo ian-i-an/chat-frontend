@@ -4,7 +4,7 @@ import type { RoomListItem } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { ROOM_KEYS } from "../hooks/useRoom";
 
-export const useReadStatus = (chatRoomId: number) => {
+export const useReadStatus = (roomCode: string) => {
   const isConnected = useWebSocketConnection();
   const queryClient = useQueryClient();
 
@@ -13,7 +13,7 @@ export const useReadStatus = (chatRoomId: number) => {
     await queryClient.cancelQueries({ queryKey: ROOM_KEYS.list });
 
     stompClient.publish({
-      destination: `/pub/rooms/${chatRoomId}/read`,
+      destination: `/pub/rooms/${roomCode}/read`,
       body: JSON.stringify({ lastReadChatId: latestChatId }),
     });
 
@@ -21,7 +21,7 @@ export const useReadStatus = (chatRoomId: number) => {
       if (!oldChatRooms) return oldChatRooms;
 
       return oldChatRooms.map((room) =>
-        room.id === chatRoomId ? { ...room, unreadCount: 0 } : room,
+        room.roomCode === roomCode ? { ...room, unreadCount: 0 } : room,
       );
     });
   };

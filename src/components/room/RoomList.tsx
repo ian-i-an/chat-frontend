@@ -22,7 +22,7 @@ export default function RoomList({ rooms }: RoomListProps) {
       <CreateRoomBottom />
 
       {rooms.map((room) => (
-        <RoomItem key={room.id} room={room} />
+        <RoomItem key={room.roomCode} room={room} />
       ))}
     </div>
   );

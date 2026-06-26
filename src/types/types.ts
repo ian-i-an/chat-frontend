@@ -4,7 +4,7 @@ export interface RoomListItem extends Room {
 }
 
 export interface Room {
-  id: number;
+  roomCode: string;
   name: string;
   isMyRoom: boolean;
 }
