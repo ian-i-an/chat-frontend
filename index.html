@@ -12,12 +12,24 @@
     <meta name="description" content="첨벙 - 가볍게 빠져드는 실시간 채팅" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="%VITE_API_URL%" />
     <meta property="og:title" content="첨벙" />
     <meta
       property="og:description"
       content="첨벙 - 가볍게 빠져드는 실시간 채팅"
     />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="%VITE_API_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- 트위터(X) 전용 카드 -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="첨벙" />
+    <meta
+      name="twitter:description"
+      content="첨벙 - 가볍게 빠져드는 실시간 채팅"
+    />
+    <meta name="twitter:image" content="%VITE_API_URL%/og-image.png" />
   </head>
   <body>
     <div id="root"></div>
