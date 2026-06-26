@@ -9,11 +9,16 @@ import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import Loader from "@/components/common/Loader";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
 
-  const { data: room } = useFetchRoomById(roomCode);
+  const {
+    data: room,
+    isLoading: isRoomLoading,
+    isError: isRoomError,
+  } = useFetchRoomById(roomCode);
   const { sendReadStatus } = useReadStatus(roomCode);
   const queryClient = useQueryClient();
 
@@ -57,7 +62,11 @@ export default function Room() {
     };
   }, [latestChatId, room?.isMyRoom, sendReadStatus]);
 
-  if (!roomCode || !room) return <Navigate to="/rooms" replace />;
+  if (isRoomLoading) {
+    return <Loader fullPage />;
+  }
+
+  if (isRoomError || !room) return <Navigate to="/rooms" replace />;
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
