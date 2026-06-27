@@ -1,27 +1,5 @@
 @import "tailwindcss";
 
-/* =========================================
-   0. 키보드 대응 (visual viewport)
-   useViewportHeight 훅이 --app-height 를 실제 가시 높이로 갱신한다.
-   #root 높이를 거기에 맞춰, 인앱 브라우저에서 키보드가 올라와도
-   input 이 가려지지 않게 한다.
-   (주의: #root 에 transform 을 걸면 iOS 에서 input caret 위치가
-    어긋나므로 절대 쓰지 않는다.)
-   ========================================= */
-html,
-body {
-  height: 100%;
-  overflow: hidden;
-}
-
-#root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--app-height, 100dvh);
-}
-
 @theme {
   /* 💡 이렇게 변수 하나만 선언하면 'animate-slide-up' 클래스가 자동 생성됩니다! */
   --animate-slide-up: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
