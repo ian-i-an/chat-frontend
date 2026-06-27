@@ -40,7 +40,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
     }
   };
   return (
-    <div className="shrink-0 border-t border-gray-100 bg-white px-4 pt-3 pb-6 mb-[var(--keyboard-height,0px)]">
+    <div className="fixed inset-x-0 bottom-0 z-10 mx-auto w-full max-w-md border-t border-gray-100 bg-white px-4 pt-3 pb-6">
       <div className="flex min-h-11 items-center gap-2 rounded-2xl bg-gray-100 pr-2 pl-4 transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-200">
         <textarea
           value={content}
