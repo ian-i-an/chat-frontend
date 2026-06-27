@@ -23,15 +23,16 @@ export function useKeyboardInset() {
 
     update();
 
+    // resize(키보드 열림/닫힘) 에서만 갱신한다. scroll 에서 갱신하면 채팅을
+    // 스크롤할 때 innerHeight 와 vv.height 가 순간적으로 어긋나 키보드 높이가
+    // 크게 튀고, 입력창이 위로 솟구친다.
     if (vv) {
       vv.addEventListener("resize", update);
-      vv.addEventListener("scroll", update);
     }
 
     return () => {
       if (vv) {
         vv.removeEventListener("resize", update);
-        vv.removeEventListener("scroll", update);
       }
       // 채팅 화면을 떠날 때 값이 남지 않도록 초기화한다.
       root.style.setProperty("--keyboard-height", "0px");
