@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function NavigationLayout() {
   return (
-    <div className="flex h-dvh flex-col overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden">
       <Header />
 
       <div className="flex flex-1 overflow-hidden bg-gray-100">

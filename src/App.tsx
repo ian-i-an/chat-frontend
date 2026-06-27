@@ -10,8 +10,11 @@ import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
 import Room from "./pages/Room";
+import { useViewportHeight } from "./hooks/useViewportHeight";
 
 function App() {
+  useViewportHeight();
+
   return (
     <Routes>
       <Route element={<CardLayout />}>
