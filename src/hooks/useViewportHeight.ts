@@ -9,9 +9,9 @@ import { useEffect } from "react";
  * 트위터(X) 같은 인앱 브라우저(WKWebView)는 이 보정이 동작하지 않아
  * 키보드가 input을 그대로 가려버린다.
  *
- * window.visualViewport로 실제 가시 높이와 오프셋을 직접 측정해
- * CSS 변수(--app-height, --app-offset-top)에 반영하면, 키보드가 올라와도
- * 앱 전체가 키보드 위 영역에 정확히 들어맞아 input이 항상 보인다.
+ * window.visualViewport로 실제 가시 높이를 직접 측정해 CSS 변수
+ * (--app-height)에 반영하면, 키보드가 올라와도 앱 전체가 키보드 위
+ * 영역에 맞게 줄어들어 input이 항상 보인다.
  */
 export function useViewportHeight() {
   useEffect(() => {
@@ -19,11 +19,7 @@ export function useViewportHeight() {
 
     const update = () => {
       const height = vv ? vv.height : window.innerHeight;
-      const offsetTop = vv ? vv.offsetTop : 0;
-
-      const root = document.documentElement;
-      root.style.setProperty("--app-height", `${height}px`);
-      root.style.setProperty("--app-offset-top", `${offsetTop}px`);
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
     };
 
     update();
