@@ -16,24 +16,59 @@ export function useKeyboardInset() {
     const vv = window.visualViewport;
     const root = document.documentElement;
 
-    const update = () => {
-      const keyboard = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
-      root.style.setProperty("--keyboard-height", `${keyboard}px`);
+    const measure = () =>
+      vv ? Math.round(Math.max(0, window.innerHeight - vv.height)) : 0;
+
+    const apply = () => {
+      root.style.setProperty("--keyboard-height", `${measure()}px`);
     };
 
-    update();
+    let rafId = 0;
 
-    // resize(키보드 열림/닫힘) 에서만 갱신한다. scroll 에서 갱신하면 채팅을
-    // 스크롤할 때 innerHeight 와 vv.height 가 순간적으로 어긋나 키보드 높이가
-    // 크게 튀고, 입력창이 위로 솟구친다.
+    // 인앱 브라우저는 입력창 탭 직후 키보드 높이를 늦게, resize 이벤트 없이
+    // 갱신할 때가 있다. 포커스되면 매 프레임 재측정하다가, 값이 더 이상
+    // 변하지 않고 안정되면 멈춘다. (계속 폴링하면 스크롤 시 값이 튀므로
+    // 안정된 뒤에는 멈춰서 resize 이벤트에만 의존한다.)
+    const trackUntilStable = () => {
+      cancelAnimationFrame(rafId);
+      const start = performance.now();
+      let last = -1;
+      let stableFrames = 0;
+
+      const tick = () => {
+        apply();
+        const kb = measure();
+        if (kb === last) {
+          stableFrames += 1;
+        } else {
+          stableFrames = 0;
+          last = kb;
+        }
+
+        const settled = kb > 0 && stableFrames > 5;
+        if (settled || performance.now() - start > 1500) return;
+        rafId = requestAnimationFrame(tick);
+      };
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    apply();
+
+    // 키보드 열림/닫힘은 resize 로 잡는다. (scroll 은 채팅 스크롤 중 값이
+    // 튀어 입력창이 솟구치므로 쓰지 않는다.)
     if (vv) {
-      vv.addEventListener("resize", update);
+      vv.addEventListener("resize", apply);
     }
+    // 입력창 포커스 직후의 지연 갱신을 프레임 단위로 따라잡는다.
+    window.addEventListener("focusin", trackUntilStable);
 
     return () => {
+      cancelAnimationFrame(rafId);
       if (vv) {
-        vv.removeEventListener("resize", update);
+        vv.removeEventListener("resize", apply);
       }
+      window.removeEventListener("focusin", trackUntilStable);
       // 채팅 화면을 떠날 때 값이 남지 않도록 초기화한다.
       root.style.setProperty("--keyboard-height", "0px");
     };
