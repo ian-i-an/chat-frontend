@@ -16,20 +16,9 @@ export function useKeyboardInset() {
     const vv = window.visualViewport;
     const root = document.documentElement;
 
-    const timers: number[] = [];
-
     const update = () => {
       const keyboard = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
       root.style.setProperty("--keyboard-height", `${keyboard}px`);
-    };
-
-    // 인앱 브라우저는 키보드 애니메이션 중간값에서 resize 가 멈출 때가 있다.
-    // 포커스 직후 여러 번 재측정해 키보드가 완전히 올라온 최종 높이를 잡는다.
-    const remeasure = () => {
-      update();
-      timers.push(window.setTimeout(update, 100));
-      timers.push(window.setTimeout(update, 300));
-      timers.push(window.setTimeout(update, 500));
     };
 
     update();
@@ -38,15 +27,12 @@ export function useKeyboardInset() {
       vv.addEventListener("resize", update);
       vv.addEventListener("scroll", update);
     }
-    window.addEventListener("focusin", remeasure);
 
     return () => {
       if (vv) {
         vv.removeEventListener("resize", update);
         vv.removeEventListener("scroll", update);
       }
-      window.removeEventListener("focusin", remeasure);
-      timers.forEach(clearTimeout);
       // 채팅 화면을 떠날 때 값이 남지 않도록 초기화한다.
       root.style.setProperty("--keyboard-height", "0px");
     };
