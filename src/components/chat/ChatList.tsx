@@ -27,7 +27,7 @@ export default function ChatList({
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 pt-6 pb-24">
+    <div className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6">
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;
 

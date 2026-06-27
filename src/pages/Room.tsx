@@ -10,9 +10,12 @@ import { ChevronLeft } from "lucide-react";
 import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
+import { useKeyboardInset } from "@/hooks/useKeyboardInset";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
+
+  useKeyboardInset();
 
   const {
     data: room,
