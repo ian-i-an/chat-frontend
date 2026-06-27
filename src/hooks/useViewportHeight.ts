@@ -24,7 +24,15 @@ export function useViewportHeight() {
 
     const update = () => {
       const height = vv ? vv.height : window.innerHeight;
-      document.documentElement.style.setProperty("--app-height", `${height}px`);
+      // 키보드가 가린 하단 높이. fixed bottom-0 요소(바텀시트 등)를 이만큼
+      // 띄워야 키보드 위에 보인다.
+      const keyboard = vv
+        ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
+        : 0;
+
+      const root = document.documentElement;
+      root.style.setProperty("--app-height", `${height}px`);
+      root.style.setProperty("--keyboard-height", `${keyboard}px`);
     };
 
     // iOS가 강제로 스크롤시킨 문서를 맨 위로 되돌려 caret 위치를 보정.
