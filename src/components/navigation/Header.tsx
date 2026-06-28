@@ -15,7 +15,7 @@ export default function Header() {
         to="/rooms"
         className="cursor-pointer text-lg font-black tracking-tight whitespace-nowrap text-blue-500 transition-opacity hover:opacity-80"
       >
-        Anonymous Chat
+        ChumBung
       </Link>
 
       {myProfile ? (

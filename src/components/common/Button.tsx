@@ -14,10 +14,10 @@ export default function Button({
 }: ButtonProps) {
   const variantStyles = {
     filled:
-      "bg-blue-500 enabled:hover:bg-blue-400 text-white disabled:bg-gray-200  ",
+      "bg-blue-500 enabled:hover:bg-blue-400 enabled:active:bg-blue-400 text-white disabled:bg-gray-200  ",
 
     outline:
-      "border border-blue-400 text-blue-500 enabled:hover:bg-blue-50  disabled:border-gray-200 ",
+      "border border-blue-400 text-blue-500 enabled:hover:bg-blue-50 enabled:active:bg-blue-50 disabled:border-gray-200 ",
   };
 
   return (

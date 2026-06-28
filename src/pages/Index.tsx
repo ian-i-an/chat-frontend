@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const navigate = useNavigate();
+
   return (
     <div>
       <div className="mb-12 text-center">

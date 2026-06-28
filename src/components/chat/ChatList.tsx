@@ -31,7 +31,6 @@ export default function ChatList({
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;
 
-        // 💡 3. 내 다음 인덱스(나보다 더 과거)의 채팅과 날짜를 비교합니다.
         const showDateDivider =
           isLastElement ||
           !isSameDay(chat.createdAt, chats[index + 1].createdAt);

@@ -1,4 +1,4 @@
-import CreateRoomBottom from "./CreateRoomBottom";
+import RoomCreateButton from "./RoomCreateButton";
 import RoomItem from "./RoomItem";
 
 import type { RoomListItem } from "@/types/types";
@@ -19,7 +19,7 @@ export default function RoomList({ rooms }: RoomListProps) {
         </span>
       </div>
 
-      <CreateRoomBottom />
+      <RoomCreateButton />
 
       {rooms.map((room) => (
         <RoomItem key={room.roomCode} room={room} />

@@ -9,7 +9,6 @@ export default function MenuButton() {
   return (
     <>
       <IconButton onClick={() => setIsOpen(true)}>
-        {" "}
         <Menu className="h-6 w-6" />
       </IconButton>
 

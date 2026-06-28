@@ -10,15 +10,19 @@ import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
 import Room from "./pages/Room";
+import WhiteBarLayout from "./layout/WhiteBarLayout";
+import PublicRouteLayout from "./layout/PublicRouteLayout";
 
 function App() {
   return (
     <Routes>
-      <Route element={<CardLayout />}>
-        <Route path="/" element={<Index />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-up/password" element={<SignUpPassword />} />
+      <Route element={<PublicRouteLayout />}>
+        <Route element={<CardLayout />}>
+          <Route path="/" element={<Index />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-up/password" element={<SignUpPassword />} />
+        </Route>
       </Route>
 
       <Route element={<NavigationLayout />}>
@@ -27,7 +31,11 @@ function App() {
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
+        </Route>
+      </Route>
 
+      <Route element={<WebSocketLayout />}>
+        <Route element={<WhiteBarLayout />}>
           <Route path="/:roomCode" element={<Room />} />
         </Route>
       </Route>
