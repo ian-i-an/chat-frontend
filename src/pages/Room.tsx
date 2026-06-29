@@ -1,16 +1,10 @@
 import ChatInput from "@/components/chat/ChatInput";
 import ChatList from "@/components/chat/ChatList";
-import { useFetchChats } from "@/hooks/useChat";
-import { ROOM_KEYS, useFetchRoomById } from "@/hooks/useRoom";
-import { useChatWebSocket } from "@/websocket/useChatWebSocket";
-import { useReadStatus } from "@/websocket/useReadStatus";
-import type { Chat, ChatCursor } from "@/types/types";
-import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
-import { useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
+import { useRoomChat } from "@/page-hooks/useRoomChat";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
@@ -18,52 +12,15 @@ export default function Room() {
   useKeyboardInset();
 
   const {
-    data: room,
-    isLoading: isRoomLoading,
-    isError: isRoomError,
-  } = useFetchRoomById(roomCode);
-  const { sendReadStatus } = useReadStatus(roomCode);
-  const queryClient = useQueryClient();
-
-  const {
-    data: chats = [],
+    room,
+    chats,
+    isRoomLoading,
+    isRoomError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFetchChats(roomCode);
-
-  const latestChatId = chats.length > 0 ? chats[0].id : null;
-
-  const { sendMessage } = useChatWebSocket(roomCode!, (newChat: Chat) => {
-    if (room?.isMyRoom) {
-      sendReadStatus(newChat.id);
-    }
-    queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
-      ROOM_KEYS.chats(roomCode!),
-      (old) => {
-        if (!old || old.pages.length === 0) return old;
-
-        return {
-          ...old,
-          pages: [
-            {
-              ...old.pages[0],
-              chats: [newChat, ...old.pages[0].chats],
-            },
-            ...old.pages.slice(1),
-          ],
-        };
-      },
-    );
-  });
-
-  useEffect(() => {
-    return () => {
-      if (room?.isMyRoom && latestChatId) {
-        sendReadStatus(latestChatId);
-      }
-    };
-  }, [latestChatId, room?.isMyRoom, sendReadStatus]);
+    sendMessage,
+  } = useRoomChat(roomCode);
 
   if (isRoomLoading) {
     return <Loader fullPage />;
