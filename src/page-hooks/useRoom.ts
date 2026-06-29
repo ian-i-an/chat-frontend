@@ -6,7 +6,7 @@ import type { Chat, ChatCursor } from "@/types/types";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-export function useRoomChat(roomCode: string) {
+export function useRoom(roomCode: string) {
   const queryClient = useQueryClient();
 
   const {

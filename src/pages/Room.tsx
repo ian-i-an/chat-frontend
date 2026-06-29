@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
-import { useRoomChat } from "@/page-hooks/useRoomChat";
+import { useRoom } from "@/page-hooks/useRoomChat";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
@@ -20,7 +20,7 @@ export default function Room() {
     hasNextPage,
     isFetchingNextPage,
     sendMessage,
-  } = useRoomChat(roomCode);
+  } = useRoom(roomCode);
 
   if (isRoomLoading) {
     return <Loader fullPage />;
