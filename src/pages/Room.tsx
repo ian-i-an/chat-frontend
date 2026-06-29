@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
-import { useRoom } from "@/page-hooks/useRoomChat";
+import { useRoom } from "@/page-hooks/useRoom";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
