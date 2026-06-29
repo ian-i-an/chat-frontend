@@ -16,7 +16,7 @@ export default function ChatItem({
       }`}
     >
       <div
-        className={`rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium shadow-sm ${
+        className={`break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium shadow-sm ${
           isRightSide
             ? "rounded-tr-none bg-blue-500 text-white"
             : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
