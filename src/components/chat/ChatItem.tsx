@@ -71,7 +71,7 @@ hover:bg-red-500/10 active:bg-red-500/20"
         <button
           type="button"
           onClick={onReplyPreviewClick}
-          className={`relative z-0 max-w-full rounded-xl border border-gray-200 bg-gray-100
+          className={`relative z-0 max-w-full rounded-xl border border-gray-100 bg-gray-50 cursor-pointer
              text-gray-500 hover:bg-gray-200/80 active:bg-gray-200/80 px-3 py-2 text-left text-xs
               leading-snug shadow-sm transition-colors ${
                 isRightSide ? "mr-2 rounded-br-md " : "ml-2 rounded-bl-md "
@@ -100,7 +100,7 @@ hover:bg-red-500/10 active:bg-red-500/20"
           } ${isHighlighted ? "animate-reply-highlight " : ""} 
           ${
             isDeleted
-              ? "rounded-xl border border-gray-300 bg-gray-200/80 text-xs text-gray-500 shadow-none"
+              ? "rounded-xs border border-gray-200 bg-gray-200/70 text-xs text-gray-500 shadow-none"
               : isRightSide
                 ? "rounded-tr-none bg-blue-500 text-white"
                 : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
