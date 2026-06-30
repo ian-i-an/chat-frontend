@@ -77,7 +77,8 @@ export default function ChatInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder="메시지 보내기"
-          className="my-1.5 max-h-21 flex-1 resize-none overflow-y-auto bg-transparent text-base leading-relaxed font-medium text-gray-800 placeholder-gray-400 focus:outline-none"
+          className="my-1.5 max-h-21 flex-1 resize-none overflow-y-auto bg-transparent text-base leading-relaxed 
+          font-medium text-gray-800 placeholder-gray-400 focus:outline-none"
         />
         <button
           onClick={handleSend}

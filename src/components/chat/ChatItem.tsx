@@ -1,6 +1,8 @@
 import type { Chat } from "@/types/types";
 import { formatTime } from "@/utils/time";
-import { Reply, Trash2 } from "lucide-react";
+import ChatItemActionMenu from "./ChatItemActionMenu";
+import ChatReplyPreview from "./ChatReplyPreview";
+import DeletedChatBubble from "./DeletedChatBubble";
 
 export default function ChatItem({
   chat,
@@ -34,53 +36,20 @@ export default function ChatItem({
       }`}
     >
       {isMenuOpen && !isDeleted && (
-        <div
-          className={`absolute -top-12 z-50 flex items-center rounded-2xl border border-gray-200/60
-bg-white/40 p-1 shadow-md backdrop-blur-xs transition-all duration-200 ${
-            isRightSide ? "right-0" : "left-0"
-          }`}
-        >
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              onStartReply();
-            }}
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-gray-600 transition-colors
-hover:bg-black/5 active:bg-black/10"
-          >
-            <Reply size={16} strokeWidth={2.5} />
-          </button>
-          {canDelete && (
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                onDeleteChat();
-              }}
-              className="flex h-9 w-9 items-center justify-center rounded-xl text-red-500 transition-colors
-hover:bg-red-500/10 active:bg-red-500/20"
-            >
-              <Trash2 size={16} strokeWidth={2.5} />
-            </button>
-          )}
-        </div>
+        <ChatItemActionMenu
+          isRightSide={isRightSide}
+          canDelete={canDelete}
+          onStartReply={onStartReply}
+          onDeleteChat={onDeleteChat}
+        />
       )}
 
       {chat.replyTo && !isDeleted && (
-        <button
-          type="button"
+        <ChatReplyPreview
+          replyTo={chat.replyTo}
+          isRightSide={isRightSide}
           onClick={onReplyPreviewClick}
-          className={`relative z-0 max-w-full rounded-xl border border-gray-100 bg-gray-50 cursor-pointer
-             text-gray-500 hover:bg-gray-200/80 active:bg-gray-200/80 px-3 py-2 text-left text-xs
-              leading-snug shadow-sm transition-colors ${
-                isRightSide ? "mr-2 rounded-br-md " : "ml-2 rounded-bl-md "
-              }`}
-        >
-          <div className="line-clamp-2 break-all">
-            {chat.replyTo.content ?? "삭제된 메세지입니다"}
-          </div>
-        </button>
+        />
       )}
 
       <div
@@ -88,30 +57,26 @@ hover:bg-red-500/10 active:bg-red-500/20"
           isRightSide ? "flex-row-reverse" : ""
         }`}
       >
-        <div
-          onClick={(event) => {
-            event.stopPropagation();
-            if (!isDeleted) {
+        {isDeleted ? (
+          <DeletedChatBubble isHighlighted={isHighlighted} />
+        ) : (
+          <div
+            onClick={(event) => {
+              event.stopPropagation();
               onToggleMenu();
-            }
-          }}
-          className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 ${
-            chat.replyTo ? "-mt-1.5" : ""
-          } ${isHighlighted ? "animate-reply-highlight " : ""} 
-          ${
-            isDeleted
-              ? "rounded-xs border border-gray-200 bg-gray-200/70 text-xs text-gray-500 shadow-none"
-              : isRightSide
-                ? "rounded-tr-none bg-blue-500 text-white"
-                : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
-          }`}
-        >
-          {isDeleted ? (
-            <span className="font-semibold">삭제된 메시지입니다</span>
-          ) : (
-            chat.content
-          )}
-        </div>
+            }}
+            className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5
+               text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 ${
+                 chat.replyTo ? "-mt-1.5" : ""
+               } ${isHighlighted ? "animate-reply-highlight " : ""} ${
+                 isRightSide
+                   ? "rounded-tr-none bg-blue-500 text-white"
+                   : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
+               }`}
+          >
+            {chat.content}
+          </div>
+        )}
 
         <span className="min-w-max pb-1 text-[9px] font-medium text-gray-400">
           {formatTime(chat.createdAt)}
