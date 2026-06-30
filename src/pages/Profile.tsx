@@ -81,12 +81,7 @@ export default function Profile() {
             <div className="text-xl tracking-tight font-bold text-gray-800">
               {myProfile?.nickname || ""}
             </div>
-            {/* <button
-              onClick={handleEditStart}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
-            >
-              
-            </button> */}
+
             <IconButton onClick={handleEditStart}>
               <Edit2 className="h-4 w-4" />
             </IconButton>

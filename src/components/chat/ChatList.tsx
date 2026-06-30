@@ -11,12 +11,22 @@ export default function ChatList({
   isFetchingNextPage,
   fetchNextPage,
   amIOwner,
+  activeChatId,
+  canDelete,
+  onToggleChatMenu,
+  onStartReply,
+  onDeleteChat,
 }: {
   chats: Chat[];
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
   amIOwner: boolean;
+  activeChatId: number | null;
+  canDelete: boolean;
+  onToggleChatMenu: (chatId: number) => void;
+  onStartReply: (chat: Chat) => void;
+  onDeleteChat: (chat: Chat) => void;
 }) {
   const { ref: topObserverRef, inView } = useInView();
 
@@ -37,7 +47,15 @@ export default function ChatList({
 
         return (
           <React.Fragment key={chat.id}>
-            <ChatItem amIOwner={amIOwner} chat={chat} />
+            <ChatItem
+              amIOwner={amIOwner}
+              chat={chat}
+              isMenuOpen={chat.id === activeChatId}
+              canDelete={canDelete}
+              onToggleMenu={() => onToggleChatMenu(chat.id)}
+              onStartReply={() => onStartReply(chat)}
+              onDeleteChat={() => onDeleteChat(chat)}
+            />
             {showDateDivider && (
               <div className="my-1 flex items-center">
                 <div className="flex-1 border-t border-gray-200"></div>

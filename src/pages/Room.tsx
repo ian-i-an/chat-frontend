@@ -5,9 +5,13 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
 import { useRoom } from "@/page-hooks/useRoom";
+import { useState } from "react";
+import type { Chat } from "@/types/types";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
+  const [activeChatId, setActiveChatId] = useState<number | null>(null);
+  const [replyTo, setReplyTo] = useState<Chat | null>(null);
 
   useKeyboardInset();
 
@@ -21,6 +25,25 @@ export default function Room() {
     isFetchingNextPage,
     sendMessage,
   } = useRoom(roomCode);
+
+  const handleToggleChatMenu = (chatId: number) => {
+    setActiveChatId((currentId) => (currentId === chatId ? null : chatId));
+  };
+
+  const handleStartReply = (chat: Chat) => {
+    setReplyTo(chat);
+    setActiveChatId(null);
+  };
+
+  const handleDeleteChat = (chat: Chat) => {
+    setActiveChatId(null);
+    console.log("delete chat", chat.id);
+  };
+
+  const handleSendMessage = (content: string) => {
+    sendMessage(content);
+    setReplyTo(null);
+  };
 
   if (isRoomLoading) {
     return <Loader fullPage />;
@@ -48,9 +71,18 @@ export default function Room() {
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
+        activeChatId={activeChatId}
+        canDelete={room.isMyRoom}
+        onToggleChatMenu={handleToggleChatMenu}
+        onStartReply={handleStartReply}
+        onDeleteChat={handleDeleteChat}
       />
 
-      <ChatInput onSendMessage={sendMessage} />
+      <ChatInput
+        replyTo={replyTo}
+        setReplyTo={setReplyTo}
+        onSendMessage={handleSendMessage}
+      />
     </div>
   );
 }

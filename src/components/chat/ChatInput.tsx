@@ -1,11 +1,19 @@
-import { Send } from "lucide-react";
+import type { Chat } from "@/types/types";
+import { Send, X } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
+import IconButton from "../common/IconButton";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
+  replyTo: Chat | null;
+  setReplyTo: (chat: Chat | null) => void;
 }
 
-export default function ChatInput({ onSendMessage }: ChatInputProps) {
+export default function ChatInput({
+  onSendMessage,
+  replyTo,
+  setReplyTo,
+}: ChatInputProps) {
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -41,6 +49,26 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
   };
   return (
     <div className="shrink-0 border-t border-gray-100 bg-white px-4 pt-3 pb-6 mb-(--keyboard-height,0px)">
+      {replyTo && (
+        <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2 shadow-sm">
+          <div className="min-w-0">
+            <div className="text-[11px] font-bold text-blue-500">
+              {replyTo.isOwner ? "방장 메시지에 답장" : "익명 메시지에 답장"}
+            </div>
+            <div className="line-clamp-2 break-all text-xs font-medium text-gray-500">
+              {replyTo.content}
+            </div>
+          </div>
+          <IconButton
+            onClick={() => {
+              setReplyTo(null);
+            }}
+          >
+            <X className="w-4 h-4" />
+          </IconButton>
+        </div>
+      )}
+
       <div className="flex min-h-11 items-center gap-2 rounded-2xl bg-gray-100 pr-2 pl-4 transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-200">
         <textarea
           value={content}
