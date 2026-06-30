@@ -11,13 +11,21 @@ export interface Room {
 
 export interface ReplyTo {
   id: number;
-  content: string;
+  content: string | null;
 }
+
+export interface ChatEventPayload {
+  type: ChatEventType;
+  chat: Chat;
+}
+
+export type ChatEventType = "CREATED" | "DELETED";
 
 export interface Chat {
   id: number;
-  content: string;
+  content: string | null;
   isOwner: boolean;
+  isDeleted: boolean;
   createdAt: string;
   replyTo: ReplyTo | null;
 }

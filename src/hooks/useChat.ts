@@ -1,6 +1,6 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { ROOM_KEYS } from "./useRoom";
-import { fetchChats } from "@/api/chat";
+import { deleteChat, fetchChats } from "@/api/chat";
 
 export function useFetchChats(roomCode: string) {
   return useInfiniteQuery({
@@ -21,5 +21,11 @@ export function useFetchChats(roomCode: string) {
     select: (data) => {
       return data.pages.flatMap((page) => page.chats);
     },
+  });
+}
+
+export function useDeleteChat(roomCode: string) {
+  return useMutation({
+    mutationFn: (chatId: number) => deleteChat({ roomCode, chatId }),
   });
 }

@@ -1,15 +1,14 @@
 import { useEffect, useRef } from "react";
 import { stompClient } from "./websocket-client";
-import type { Chat } from "@/types/types";
+import type { ChatEventPayload } from "@/types/types";
 import { useWebSocketConnection } from "@/websocket/WebSocketContext";
 import { toast } from "sonner";
 
 export const useChatWebSocket = (
   roomCode: string,
-  onMessageReceived: (newChat: Chat) => void,
+  onMessageReceived: (newChat: ChatEventPayload) => void,
 ) => {
   const isConnected = useWebSocketConnection();
-
   const callbackRef = useRef(onMessageReceived);
 
   useEffect(() => {
@@ -18,11 +17,13 @@ export const useChatWebSocket = (
 
   useEffect(() => {
     if (!isConnected) return;
+
     const subscription = stompClient.subscribe(
       `/sub/rooms/${roomCode}`,
+
       (message) => {
-        const newChat: Chat = JSON.parse(message.body);
-        callbackRef.current(newChat);
+        const event: ChatEventPayload = JSON.parse(message.body);
+        callbackRef.current(event);
       },
     );
 

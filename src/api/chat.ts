@@ -21,3 +21,13 @@ export const fetchChats = async ({
   );
   return response.data;
 };
+
+export const deleteChat = async ({
+  roomCode,
+  chatId,
+}: {
+  roomCode: string;
+  chatId: number;
+}) => {
+  await client.delete<void>(`${ENDPOINT}/${roomCode}/chats/${chatId}`);
+};

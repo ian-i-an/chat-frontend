@@ -7,11 +7,13 @@ import { useKeyboardInset } from "@/hooks/useKeyboardInset";
 import { useRoom } from "@/page-hooks/useRoom";
 import { useState } from "react";
 import type { Chat } from "@/types/types";
+import { useDeleteChat } from "@/hooks/useChat";
 
 export default function Room() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
   const [replyTo, setReplyTo] = useState<Chat | null>(null);
+  const { mutate: deleteChat } = useDeleteChat(roomCode);
 
   useKeyboardInset();
 
@@ -41,7 +43,7 @@ export default function Room() {
 
   const handleDeleteChat = (chat: Chat) => {
     setActiveChatId(null);
-    console.log("delete chat", chat.id);
+    deleteChat(chat.id);
   };
 
   const handleSendMessage = (content: string) => {

@@ -76,7 +76,9 @@ hover:bg-red-500/10 active:bg-red-500/20"
                 isRightSide ? "mr-2 rounded-br-md " : "ml-2 rounded-bl-md "
               }`}
         >
-          <div className="line-clamp-2 break-all">{chat.replyTo.content}</div>
+          <div className="line-clamp-2 break-all">
+            {chat.replyTo.content ?? "삭제된 메세지입니다."}
+          </div>
         </button>
       )}
 
@@ -98,7 +100,7 @@ hover:bg-red-500/10 active:bg-red-500/20"
               : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
           }`}
         >
-          {chat.content}
+          {chat.content ?? "삭제된 메세지입니다."}
         </div>
 
         <span className="min-w-max pb-1 text-[9px] font-medium text-gray-400">
