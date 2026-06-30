@@ -25,16 +25,14 @@ function App() {
         </Route>
       </Route>
 
-      <Route element={<NavigationLayout />}>
-        <Route element={<WebSocketLayout />}>
+      <Route element={<WebSocketLayout />}>
+        <Route element={<NavigationLayout />}>
           <Route element={<ProtectedRouteLayout />}>
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
-      </Route>
 
-      <Route element={<WebSocketLayout />}>
         <Route element={<WhiteBarLayout />}>
           <Route path="/:roomCode" element={<Room />} />
         </Route>
