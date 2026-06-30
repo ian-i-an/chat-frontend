@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     <>
       <div
         className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
-          isOpen ? "visible opacity-100" : "invisible opacity-0"
+          isOpen ? "" : "invisible opacity-0"
         }`}
         onClick={onClose}
       />

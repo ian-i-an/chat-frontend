@@ -30,6 +30,10 @@ export default function Room() {
     setActiveChatId((currentId) => (currentId === chatId ? null : chatId));
   };
 
+  const handleCloseChatMenu = () => {
+    setActiveChatId(null);
+  };
+
   const handleStartReply = (chat: Chat) => {
     setReplyTo(chat);
     setActiveChatId(null);
@@ -41,7 +45,7 @@ export default function Room() {
   };
 
   const handleSendMessage = (content: string) => {
-    sendMessage(content);
+    sendMessage(content, replyTo?.id);
     setReplyTo(null);
   };
 
@@ -76,6 +80,7 @@ export default function Room() {
         onToggleChatMenu={handleToggleChatMenu}
         onStartReply={handleStartReply}
         onDeleteChat={handleDeleteChat}
+        onCloseChatMenu={handleCloseChatMenu}
       />
 
       <ChatInput

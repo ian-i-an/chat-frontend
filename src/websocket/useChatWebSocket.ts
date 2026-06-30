@@ -31,11 +31,11 @@ export const useChatWebSocket = (
     };
   }, [roomCode, isConnected]);
 
-  const sendMessage = (content: string) => {
+  const sendMessage = (content: string, replyToId?: number) => {
     if (stompClient.connected) {
       stompClient.publish({
         destination: `/pub/rooms/${roomCode}/chats`,
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, replyToId }),
       });
     } else {
       toast.error("연결이 끊겨 메시지를 보낼 수 없어요");

@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
 import type { Chat } from "@/types/types";
 import { useInView } from "react-intersection-observer";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
+import { toast } from "sonner";
 
 export default function ChatList({
   chats,
@@ -16,19 +17,23 @@ export default function ChatList({
   onToggleChatMenu,
   onStartReply,
   onDeleteChat,
+  onCloseChatMenu,
 }: {
   chats: Chat[];
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
+  fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;
   amIOwner: boolean;
   activeChatId: number | null;
   canDelete: boolean;
   onToggleChatMenu: (chatId: number) => void;
   onStartReply: (chat: Chat) => void;
   onDeleteChat: (chat: Chat) => void;
+  onCloseChatMenu: () => void;
 }) {
   const { ref: topObserverRef, inView } = useInView();
+  const [pendingReplyToId, setPendingReplyToId] = useState<number | null>(null);
+  const [highlightChatId, setHighlightChatId] = useState<number | null>(null);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -36,8 +41,68 @@ export default function ChatList({
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  const scrollToChatElement = (chatId: number) => {
+    const target = document.getElementById(`chat-${chatId}`);
+
+    if (!target) return false;
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    requestAnimationFrame(() => {
+      setHighlightChatId(chatId);
+      window.setTimeout(() => {
+        setHighlightChatId((currentId) =>
+          currentId === chatId ? null : currentId,
+        );
+      }, 1000);
+    });
+
+    return true;
+  };
+
+  const handleReplyPreviewClick = (replyToId: number) => {
+    if (scrollToChatElement(replyToId)) return;
+
+    setPendingReplyToId(replyToId);
+  };
+
+  useEffect(() => {
+    if (!pendingReplyToId) return;
+
+    if (scrollToChatElement(pendingReplyToId)) {
+      requestAnimationFrame(() => {
+        setPendingReplyToId(null);
+      });
+      return;
+    }
+
+    if (!hasNextPage && !isFetchingNextPage) {
+      requestAnimationFrame(() => {
+        setPendingReplyToId(null);
+        toast.info("원본 메시지를 찾을 수 없어요.");
+      });
+      return;
+    }
+
+    if (!isFetchingNextPage) {
+      fetchNextPage().catch(() => {
+        requestAnimationFrame(() => {
+          setPendingReplyToId(null);
+          toast.error("원본 메시지를 불러오지 못했어요.");
+        });
+      });
+    }
+  }, [pendingReplyToId, chats, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   return (
-    <div className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6">
+    <div
+      onClick={onCloseChatMenu}
+      onScroll={onCloseChatMenu}
+      className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6"
+    >
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;
 
@@ -51,10 +116,16 @@ export default function ChatList({
               amIOwner={amIOwner}
               chat={chat}
               isMenuOpen={chat.id === activeChatId}
+              isHighlighted={chat.id === highlightChatId}
               canDelete={canDelete}
               onToggleMenu={() => onToggleChatMenu(chat.id)}
               onStartReply={() => onStartReply(chat)}
               onDeleteChat={() => onDeleteChat(chat)}
+              onReplyPreviewClick={() => {
+                if (chat.replyTo) {
+                  void handleReplyPreviewClick(chat.replyTo.id);
+                }
+              }}
             />
             {showDateDivider && (
               <div className="my-1 flex items-center">

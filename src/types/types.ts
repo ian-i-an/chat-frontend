@@ -8,11 +8,18 @@ export interface Room {
   name: string;
   isMyRoom: boolean;
 }
+
+export interface ReplyTo {
+  id: number;
+  content: string;
+}
+
 export interface Chat {
   id: number;
   content: string;
   isOwner: boolean;
   createdAt: string;
+  replyTo: ReplyTo | null;
 }
 
 export interface User {
