@@ -91,28 +91,6 @@ export function useRoom(roomCode: string) {
       }
     },
   );
-  // if (room?.isMyRoom) {
-  //   sendReadStatus(newChat.id);
-  // }
-
-  // queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
-  //   ROOM_KEYS.chats(roomCode),
-  //   (old) => {
-  //     if (!old || old.pages.length === 0) return old;
-
-  //     return {
-  //       ...old,
-  //       pages: [
-  //         {
-  //           ...old.pages[0],
-  //           chats: [newChat, ...old.pages[0].chats],
-  //         },
-  //         ...old.pages.slice(1),
-  //       ],
-  //     };
-  //   },
-  // );
-  // });
 
   useEffect(() => {
     return () => {

@@ -24,6 +24,7 @@ export default function ChatItem({
   onReplyPreviewClick: () => void;
 }) {
   const isRightSide = amIOwner === chat.isOwner;
+  const isDeleted = chat.isDeleted || chat.content === null;
 
   return (
     <div
@@ -32,7 +33,7 @@ export default function ChatItem({
         isRightSide ? "items-end self-end" : "items-start"
       }`}
     >
-      {isMenuOpen && (
+      {isMenuOpen && !isDeleted && (
         <div
           className={`absolute -top-12 z-50 flex items-center rounded-2xl border border-gray-200/60
 bg-white/40 p-1 shadow-md backdrop-blur-xs transition-all duration-200 ${
@@ -66,7 +67,7 @@ hover:bg-red-500/10 active:bg-red-500/20"
         </div>
       )}
 
-      {chat.replyTo && (
+      {chat.replyTo && !isDeleted && (
         <button
           type="button"
           onClick={onReplyPreviewClick}
@@ -77,7 +78,7 @@ hover:bg-red-500/10 active:bg-red-500/20"
               }`}
         >
           <div className="line-clamp-2 break-all">
-            {chat.replyTo.content ?? "삭제된 메세지입니다."}
+            {chat.replyTo.content ?? "삭제된 메세지입니다"}
           </div>
         </button>
       )}
@@ -90,17 +91,26 @@ hover:bg-red-500/10 active:bg-red-500/20"
         <div
           onClick={(event) => {
             event.stopPropagation();
-            onToggleMenu();
+            if (!isDeleted) {
+              onToggleMenu();
+            }
           }}
           className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 ${
             chat.replyTo ? "-mt-1.5" : ""
-          } ${isHighlighted ? "animate-reply-highlight " : ""} ${
-            isRightSide
-              ? "rounded-tr-none bg-blue-500 text-white"
-              : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
+          } ${isHighlighted ? "animate-reply-highlight " : ""} 
+          ${
+            isDeleted
+              ? "rounded-xl border border-gray-300 bg-gray-200/80 text-xs text-gray-500 shadow-none"
+              : isRightSide
+                ? "rounded-tr-none bg-blue-500 text-white"
+                : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
           }`}
         >
-          {chat.content ?? "삭제된 메세지입니다."}
+          {isDeleted ? (
+            <span className="font-semibold">삭제된 메시지입니다</span>
+          ) : (
+            chat.content
+          )}
         </div>
 
         <span className="min-w-max pb-1 text-[9px] font-medium text-gray-400">
