@@ -1,12 +1,39 @@
 import { stompClient } from "@/websocket/websocket-client";
 import { WebSocketContext } from "@/websocket/WebSocketContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 export default function WebSocketLayout() {
   const [isConnected, setIsConnected] = useState(false);
+  const isReconnectingRef = useRef(false);
 
   useEffect(() => {
+    const reconnectWebSocket = async () => {
+      if (stompClient.connected || isReconnectingRef.current) return;
+
+      isReconnectingRef.current = true;
+
+      try {
+        if (stompClient.active) {
+          await stompClient.deactivate();
+        }
+
+        stompClient.activate();
+      } finally {
+        isReconnectingRef.current = false;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void reconnectWebSocket();
+      }
+    };
+
+    const handleReconnect = () => {
+      void reconnectWebSocket();
+    };
+
     stompClient.onConnect = () => {
       setIsConnected(true);
     };
@@ -28,9 +55,18 @@ export default function WebSocketLayout() {
       setIsConnected(false);
     };
 
-    stompClient.activate();
+    if (!stompClient.active) {
+      stompClient.activate();
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleReconnect);
+    window.addEventListener("online", handleReconnect);
 
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleReconnect);
+      window.removeEventListener("online", handleReconnect);
       stompClient.deactivate();
     };
   }, []);
