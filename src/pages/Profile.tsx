@@ -63,25 +63,18 @@ export default function Profile() {
               autoFocus
               className="rounded-xl bg-white px-3 py-1.5 text-center text-lg font-bold text-gray-800 outline-none focus:ring-2 focus:ring-blue-200"
             />
-            <button
-              onClick={handleEditSave}
-              className=" flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white transition-colors hover:bg-blue-400"
-            >
+            <IconButton onClick={handleEditSave} variant="primary">
               <Check className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-gray-200"
-            >
+            </IconButton>
+            <IconButton onClick={() => setIsEditing(false)} variant="secondary">
               <X className="h-4 w-4" />
-            </button>{" "}
+            </IconButton>
           </div>
         ) : (
           <div className="flex h-10 w-full items-center justify-center gap-2">
             <div className="text-xl tracking-tight font-bold text-gray-800">
               {myProfile?.nickname || ""}
             </div>
-
             <IconButton onClick={handleEditStart}>
               <Edit2 className="h-4 w-4" />
             </IconButton>
@@ -89,7 +82,7 @@ export default function Profile() {
         )}
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 mb-7">
         <h2 className=" px-1 pt-8 pb-4 text-sm font-semibold text-gray-500">
           계정 설정
         </h2>
