@@ -3,7 +3,7 @@ import ChatItem from "./ChatItem";
 import type { Chat } from "@/types/types";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
-import { useChatNext } from "./useChatNext";
+import { useChatNext } from "./use-chat-next";
 import { useCloseActiveMenu } from "@/store/room-ui-store";
 
 interface ChatListProps {
