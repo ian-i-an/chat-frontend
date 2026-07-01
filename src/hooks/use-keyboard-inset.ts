@@ -15,8 +15,21 @@ export function useKeyboardInset() {
   useEffect(() => {
     const vv = window.visualViewport;
     const root = document.documentElement;
+    const isInAppBrowser =
+      /Twitter|Instagram|FBAN|FBAV|Line|KAKAOTALK|NAVER|DaumApps/i.test(
+        window.navigator.userAgent,
+      );
+
+    const reset = () => {
+      root.style.setProperty("--keyboard-height", "0px");
+    };
 
     const update = () => {
+      if (!isInAppBrowser) {
+        reset();
+        return;
+      }
+
       const keyboard = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
       root.style.setProperty("--keyboard-height", `${keyboard}px`);
     };
@@ -35,7 +48,7 @@ export function useKeyboardInset() {
         vv.removeEventListener("resize", update);
       }
       // 채팅 화면을 떠날 때 값이 남지 않도록 초기화한다.
-      root.style.setProperty("--keyboard-height", "0px");
+      reset();
     };
   }, []);
 }
