@@ -1,19 +1,15 @@
-import type { Chat } from "@/types/types";
 import { Send, X } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
 import IconButton from "../common/IconButton";
+import { useCloseReply, useReplyTo } from "@/store/room-ui";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
-  replyTo: Chat | null;
-  setReplyTo: (chat: Chat | null) => void;
 }
 
-export default function ChatInput({
-  onSendMessage,
-  replyTo,
-  setReplyTo,
-}: ChatInputProps) {
+export default function ChatInput({ onSendMessage }: ChatInputProps) {
+  const replyTo = useReplyTo();
+  const closeReply = useCloseReply();
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -59,11 +55,7 @@ export default function ChatInput({
               {replyTo.content}
             </div>
           </div>
-          <IconButton
-            onClick={() => {
-              setReplyTo(null);
-            }}
-          >
+          <IconButton onClick={closeReply}>
             <X className="w-4 h-4" />
           </IconButton>
         </div>

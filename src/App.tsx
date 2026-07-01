@@ -9,7 +9,7 @@ import WebSocketLayout from "./layout/WebSocketLayout";
 import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
-import Room from "./pages/Room";
+import RoomPage from "./pages/RoomPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
 
@@ -34,7 +34,7 @@ function App() {
         </Route>
 
         <Route element={<WhiteBarLayout />}>
-          <Route path="/:roomCode" element={<Room />} />
+          <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
       </Route>
 

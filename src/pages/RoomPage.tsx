@@ -6,17 +6,21 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import type { Chat } from "@/types/types";
 import { useDeleteChat } from "@/hooks/useChat";
 import { toast } from "sonner";
+import { useChatScroll } from "@/components/chat/useChatScroll";
+import { useReplyNavigation } from "@/components/chat/useReplyNavigation";
+import { useCloseReply, useReplyTo } from "@/store/room-ui";
 
-export default function Room() {
+export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
-  const [activeChatId, setActiveChatId] = useState<number | null>(null);
-  const [replyTo, setReplyTo] = useState<Chat | null>(null);
+  const replyTo = useReplyTo();
+  const closeReply = useCloseReply();
+  //
+  const onChatCreatedRef = useRef<(chat: Chat) => void>(() => {});
   const navigate = useNavigate();
-
   const { mutate: deleteChat } = useDeleteChat(roomCode);
 
   useKeyboardInset();
@@ -30,33 +34,39 @@ export default function Room() {
     hasNextPage,
     isFetchingNextPage,
     sendMessage,
-  } = useRoomPageHook(roomCode);
+  } = useRoomPageHook({
+    roomCode,
+    onChatCreated: (chat) => {
+      onChatCreatedRef.current(chat);
+    },
+  });
 
-  const handleGoToRoomList = () => {
-    navigate("/rooms");
-  };
+  const { chatListRef, highlightChatId, scrollToLatestChat, focusChat } =
+    useChatScroll();
 
-  const handleToggleChatMenu = (chatId: number) => {
-    setActiveChatId((currentId) => (currentId === chatId ? null : chatId));
-  };
+  const { handleReplyPreviewClick } = useReplyNavigation({
+    chats,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    focusChat,
+  });
 
-  const handleCloseChatMenu = () => {
-    setActiveChatId(null);
-  };
-
-  const handleStartReply = (chat: Chat) => {
-    setReplyTo(chat);
-    setActiveChatId(null);
-  };
+  useEffect(() => {
+    onChatCreatedRef.current = () => {
+      requestAnimationFrame(() => {
+        scrollToLatestChat();
+      });
+    };
+  }, [scrollToLatestChat]);
 
   const handleDeleteChat = (chat: Chat) => {
-    setActiveChatId(null);
     deleteChat(chat.id);
   };
 
   const handleSendMessage = (content: string) => {
     sendMessage(content, replyTo?.id);
-    setReplyTo(null);
+    closeReply();
   };
 
   const handleCopyRoomLink = async () => {
@@ -79,7 +89,7 @@ export default function Room() {
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <header className="z-10 flex h-13 shrink-0 items-center gap-3 border-b border-gray-100 px-4">
-        <IconButton onClick={handleGoToRoomList}>
+        <IconButton onClick={() => navigate("/rooms")}>
           <ChevronLeft className="h-6 w-6" />
         </IconButton>
         <h2 className="flex-1 truncate text-base font-bold text-gray-900">
@@ -91,24 +101,19 @@ export default function Room() {
       </header>
 
       <ChatList
+        chatListRef={chatListRef}
         amIOwner={room?.isMyRoom ?? false}
         chats={chats}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
-        activeChatId={activeChatId}
         canDelete={room.isMyRoom}
-        onToggleChatMenu={handleToggleChatMenu}
-        onStartReply={handleStartReply}
         onDeleteChat={handleDeleteChat}
-        onCloseChatMenu={handleCloseChatMenu}
+        highlightChatId={highlightChatId}
+        onReplyPreviewClick={handleReplyPreviewClick}
       />
 
-      <ChatInput
-        replyTo={replyTo}
-        setReplyTo={setReplyTo}
-        onSendMessage={handleSendMessage}
-      />
+      <ChatInput onSendMessage={handleSendMessage} />
     </div>
   );
 }

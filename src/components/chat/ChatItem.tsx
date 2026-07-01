@@ -3,6 +3,17 @@ import { formatTime } from "@/utils/time";
 import ChatItemActionMenu from "./ChatItemActionMenu";
 import ChatReplyPreview from "./ChatReplyPreview";
 import DeletedChatBubble from "./DeletedChatBubble";
+import { useToggleActiveMenuId } from "@/store/room-ui";
+
+interface ChatItemProps {
+  chat: Chat;
+  amIOwner: boolean;
+  isMenuOpen: boolean;
+  isHighlighted: boolean;
+  canDelete: boolean;
+  onDeleteChat: () => void;
+  onReplyPreviewClick: () => void;
+}
 
 export default function ChatItem({
   chat,
@@ -10,23 +21,13 @@ export default function ChatItem({
   isMenuOpen,
   isHighlighted,
   canDelete,
-  onToggleMenu,
-  onStartReply,
+
   onDeleteChat,
   onReplyPreviewClick,
-}: {
-  chat: Chat;
-  amIOwner: boolean;
-  isMenuOpen: boolean;
-  isHighlighted: boolean;
-  canDelete: boolean;
-  onToggleMenu: () => void;
-  onStartReply: () => void;
-  onDeleteChat: () => void;
-  onReplyPreviewClick: () => void;
-}) {
+}: ChatItemProps) {
   const isRightSide = amIOwner === chat.isOwner;
   const isDeleted = chat.isDeleted || chat.content === null;
+  const toggleActiveMenuId = useToggleActiveMenuId();
 
   return (
     <div
@@ -37,9 +38,9 @@ export default function ChatItem({
     >
       {isMenuOpen && !isDeleted && (
         <ChatItemActionMenu
+          chat={chat}
           isRightSide={isRightSide}
           canDelete={canDelete}
-          onStartReply={onStartReply}
           onDeleteChat={onDeleteChat}
         />
       )}
@@ -63,7 +64,7 @@ export default function ChatItem({
           <div
             onClick={(event) => {
               event.stopPropagation();
-              onToggleMenu();
+              toggleActiveMenuId(chat.id);
             }}
             className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5
                text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 ${

@@ -1,16 +1,20 @@
+import { useStartReply } from "@/store/room-ui";
+import type { Chat } from "@/types/types";
 import { Reply, Trash2 } from "lucide-react";
-
-export default function ChatItemActionMenu({
-  isRightSide,
-  canDelete,
-  onStartReply,
-  onDeleteChat,
-}: {
+interface ChatIemACtionMenuProps {
+  chat: Chat;
   isRightSide: boolean;
   canDelete: boolean;
-  onStartReply: () => void;
   onDeleteChat: () => void;
-}) {
+}
+
+export default function ChatItemActionMenu({
+  chat,
+  isRightSide,
+  canDelete,
+  onDeleteChat,
+}: ChatIemACtionMenuProps) {
+  const startReply = useStartReply();
   return (
     <div
       className={`absolute -top-12 z-50 flex items-center rounded-2xl border border-gray-200/60
@@ -22,7 +26,7 @@ bg-white/40 p-1 shadow-md backdrop-blur-xs transition-all duration-200 ${
         type="button"
         onClick={(event) => {
           event.stopPropagation();
-          onStartReply();
+          startReply(chat);
         }}
         className="flex h-9 w-9 items-center justify-center rounded-xl text-gray-600 transition-colors
 hover:bg-black/5 active:bg-black/10"

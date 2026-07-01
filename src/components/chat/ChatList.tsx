@@ -1,9 +1,26 @@
-import React from "react";
+import React, { type RefObject } from "react";
 import ChatItem from "./ChatItem";
 import type { Chat } from "@/types/types";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
-import { useChatList } from "./useChatList";
+import { useChatNext } from "./useChatNext";
+import { useActiveMenuId, useCloseActiveMenu } from "@/store/room-ui";
+
+interface ChatListProps {
+  chats: Chat[];
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;
+  amIOwner: boolean;
+
+  canDelete: boolean;
+
+  onDeleteChat: (chat: Chat) => void;
+
+  chatListRef: RefObject<HTMLDivElement | null>;
+  highlightChatId: number | null;
+  onReplyPreviewClick: (replyToId: number) => void;
+}
 
 export default function ChatList({
   chats,
@@ -11,37 +28,25 @@ export default function ChatList({
   isFetchingNextPage,
   fetchNextPage,
   amIOwner,
-  activeChatId,
   canDelete,
-  onToggleChatMenu,
-  onStartReply,
   onDeleteChat,
-  onCloseChatMenu,
-}: {
-  chats: Chat[];
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;
-  amIOwner: boolean;
-  activeChatId: number | null;
-  canDelete: boolean;
-  onToggleChatMenu: (chatId: number) => void;
-  onStartReply: (chat: Chat) => void;
-  onDeleteChat: (chat: Chat) => void;
-  onCloseChatMenu: () => void;
-}) {
-  const { topObserverRef, highlightChatId, handleReplyPreviewClick } =
-    useChatList({
-      chats,
-      hasNextPage,
-      isFetchingNextPage,
-      fetchNextPage,
-    });
+  chatListRef,
+  highlightChatId,
+  onReplyPreviewClick,
+}: ChatListProps) {
+  const { topObserverRef } = useChatNext({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+  const activeMenuId = useActiveMenuId();
+  const closeActiveMenu = useCloseActiveMenu();
 
   return (
     <div
-      onClick={onCloseChatMenu}
-      onScroll={onCloseChatMenu}
+      ref={chatListRef}
+      onClick={closeActiveMenu}
+      onScroll={closeActiveMenu}
       className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6"
     >
       {chats.map((chat, index) => {
@@ -56,15 +61,13 @@ export default function ChatList({
             <ChatItem
               amIOwner={amIOwner}
               chat={chat}
-              isMenuOpen={chat.id === activeChatId}
+              isMenuOpen={chat.id === activeMenuId}
               isHighlighted={chat.id === highlightChatId}
               canDelete={canDelete}
-              onToggleMenu={() => onToggleChatMenu(chat.id)}
-              onStartReply={() => onStartReply(chat)}
               onDeleteChat={() => onDeleteChat(chat)}
               onReplyPreviewClick={() => {
                 if (chat.replyTo) {
-                  void handleReplyPreviewClick(chat.replyTo.id);
+                  onReplyPreviewClick(chat.replyTo.id);
                 }
               }}
             />

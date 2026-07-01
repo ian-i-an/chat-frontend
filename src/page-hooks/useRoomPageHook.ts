@@ -2,11 +2,17 @@ import { useFetchChats } from "@/hooks/useChat";
 import { ROOM_KEYS, useFetchRoomById } from "@/hooks/useRoom";
 import { useReadStatus } from "@/websocket/useReadStatus";
 import { useChatWebSocket } from "@/websocket/useChatWebSocket";
-import type { ChatCursor, ChatEventPayload } from "@/types/types";
+import type { Chat, ChatCursor, ChatEventPayload } from "@/types/types";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
-export function useRoomPageHook(roomCode: string) {
+export function useRoomPageHook({
+  roomCode,
+  onChatCreated,
+}: {
+  roomCode: string;
+  onChatCreated: (chat: Chat) => void;
+}) {
   const queryClient = useQueryClient();
 
   const {
@@ -49,6 +55,7 @@ export function useRoomPageHook(roomCode: string) {
             };
           },
         );
+        onChatCreated(newChat);
 
         return;
       }
