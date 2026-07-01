@@ -2,7 +2,7 @@ import { stompClient } from "@/websocket/websocket-client";
 import { useWebSocketConnection } from "@/websocket/WebSocketContext";
 import type { RoomListItem } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { ROOM_KEYS } from "../hooks/useRoom";
+import { ROOM_KEYS } from "../hooks/use-room";
 import { useCallback } from "react";
 
 export const useReadStatus = (roomCode: string) => {

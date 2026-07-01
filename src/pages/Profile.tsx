@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Edit2, Check, X, AlertCircle } from "lucide-react";
 import defaultProfile from "@/assets/default-profile.png";
-import { useFetchMyProfile } from "@/hooks/useAuth";
-import { useDeleteAccount, useUpdateNickname } from "@/hooks/useUser";
+import { useFetchMyProfile } from "@/hooks/use-auth";
+import { useDeleteAccount, useUpdateNickname } from "@/hooks/use-user";
 import { toast } from "sonner";
 import IconButton from "@/components/common/IconButton";
 

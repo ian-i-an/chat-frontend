@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useWebSocketConnection } from "@/websocket/WebSocketContext";
 import { stompClient } from "@/websocket/websocket-client";
 import type { RoomListItem } from "@/types/types";
-import { ROOM_KEYS } from "../hooks/useRoom";
+import { ROOM_KEYS } from "../hooks/use-room";
 
 type RoomUpdateEvent = Pick<RoomListItem, "lastMessage" | "roomCode"> & {
   isMyMessage: boolean;

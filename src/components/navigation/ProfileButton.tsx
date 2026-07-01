@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import defaultProfile from "@/assets/default-profile.png";
-import { useSignOut } from "@/hooks/useAuth";
+import { useSignOut } from "@/hooks/use-auth";
 import PhotoButton from "../common/PhotoButton";
 
 export default function ProfileButton() {

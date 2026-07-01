@@ -1,7 +1,7 @@
 import RoomList from "@/components/room/RoomList";
 import RoomListSkeleton from "@/components/room/skeleton/RoomListSkeleton";
-import { useFetchMyProfile } from "@/hooks/useAuth";
-import { useFetchRooms } from "@/hooks/useRoom";
+import { useFetchMyProfile } from "@/hooks/use-auth";
+import { useFetchRooms } from "@/hooks/use-room";
 import { useChatListWebSocket } from "@/websocket/useRoomWebSocket";
 import { Navigate } from "react-router-dom";
 

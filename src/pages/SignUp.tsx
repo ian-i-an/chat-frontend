@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FormInput from "@/components/common/FormInput";
 import Button from "@/components/common/Button";
 import { type SubmitEventHandler, useState } from "react";
-import { useCheckId } from "@/hooks/useAuth";
+import { useCheckId } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import AuthHeader from "@/components/auth/AuthHeader";
 

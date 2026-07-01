@@ -1,5 +1,5 @@
 import Loader from "@/components/common/Loader";
-import { useFetchMyProfile } from "@/hooks/useAuth";
+import { useFetchMyProfile } from "@/hooks/use-auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PublicRouteLayout() {

@@ -1,5 +1,5 @@
-import { useFetchChats } from "@/hooks/useChat";
-import { ROOM_KEYS, useFetchRoomById } from "@/hooks/useRoom";
+import { useFetchChats } from "@/hooks/use-chat";
+import { ROOM_KEYS, useFetchRoomById } from "@/hooks/use-room";
 import { useReadStatus } from "@/websocket/useReadStatus";
 import { useChatWebSocket } from "@/websocket/useChatWebSocket";
 import type { Chat, ChatCursor, ChatEventPayload } from "@/types/types";

@@ -4,14 +4,14 @@ import IconButton from "@/components/common/IconButton";
 import { ChevronLeft, Copy } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-import { useKeyboardInset } from "@/hooks/useKeyboardInset";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
 import { useEffect, useRef } from "react";
 import type { Chat } from "@/types/types";
-import { useDeleteChat } from "@/hooks/useChat";
+import { useDeleteChat } from "@/hooks/use-chat";
 import { toast } from "sonner";
-import { useChatScroll } from "@/components/chat/useChatScroll";
-import { useReplyNavigation } from "@/components/chat/useReplyNavigation";
+import { useChatScroll } from "@/components/chat/use-chat-scroll";
+import { useReplyNavigation } from "@/components/chat/use-reply-navigation";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
 
 export default function RoomPage() {

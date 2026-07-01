@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
-import { ROOM_KEYS } from "./useRoom";
+import { ROOM_KEYS } from "./use-room";
 import { deleteChat, fetchChats } from "@/api/chat";
 
 export function useFetchChats(roomCode: string) {

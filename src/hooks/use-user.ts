@@ -2,7 +2,7 @@ import { deleteAccount, updateNickname } from "@/api/user";
 import { stompClient } from "@/websocket/websocket-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { USER_KEYS } from "./useAuth";
+import { USER_KEYS } from "./use-auth";
 
 export function useDeleteAccount() {
   const queryClient = useQueryClient();

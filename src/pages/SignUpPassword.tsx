@@ -2,7 +2,7 @@ import FormInput from "@/components/common/FormInput";
 import Button from "@/components/common/Button";
 import { type SubmitEventHandler, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSignUp } from "@/hooks/useAuth";
+import { useSignUp } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import AuthHeader from "@/components/auth/AuthHeader";
 

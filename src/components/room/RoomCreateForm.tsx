@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import Button from "../common/Button";
 import FormInput from "../common/FormInput";
 import { useState } from "react";
-import { useCreateRoom as useCreateRoom } from "@/hooks/useRoom";
+import { useCreateRoom as useCreateRoom } from "@/hooks/use-room";
 import { toast } from "sonner";
 
 export default function ChatRoomCreateForm({

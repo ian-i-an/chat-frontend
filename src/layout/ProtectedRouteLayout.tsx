@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { useFetchMyProfile } from "@/hooks/useAuth";
+import { useFetchMyProfile } from "@/hooks/use-auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import Loader from "@/components/common/Loader";
