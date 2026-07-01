@@ -9,7 +9,7 @@ export default function Rooms() {
   const { data: myProfile, isLoading: isFetchMyProfileLoading } =
     useFetchMyProfile();
   const { data: rooms = [], isLoading, isError } = useFetchRooms();
-  useChatListWebSocket(myProfile?.id);
+  useChatListWebSocket();
 
   if (isFetchMyProfileLoading || isLoading)
     return <RoomListSkeleton count={3} />;

@@ -9,15 +9,15 @@ type RoomUpdateEvent = Pick<RoomListItem, "lastMessage" | "roomCode"> & {
   isMyMessage: boolean;
 };
 
-export const useChatListWebSocket = (myUserId?: number) => {
+export const useChatListWebSocket = () => {
   const isConnected = useWebSocketConnection();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (!isConnected || !myUserId) return;
+    if (!isConnected) return;
 
     const subscription = stompClient.subscribe(
-      `/sub/users/${myUserId}/rooms`,
+      `/user/queue/rooms`,
       (message) => {
         const updateData: RoomUpdateEvent = JSON.parse(message.body);
 
@@ -50,5 +50,5 @@ export const useChatListWebSocket = (myUserId?: number) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [isConnected, myUserId, queryClient]);
+  }, [isConnected, queryClient]);
 };
