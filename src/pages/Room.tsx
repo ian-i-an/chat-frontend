@@ -5,7 +5,7 @@ import { ChevronLeft, Copy } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useKeyboardInset } from "@/hooks/useKeyboardInset";
-import { useRoom } from "@/page-hooks/useRoom";
+import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
 import { useState } from "react";
 import type { Chat } from "@/types/types";
 import { useDeleteChat } from "@/hooks/useChat";
@@ -30,7 +30,7 @@ export default function Room() {
     hasNextPage,
     isFetchingNextPage,
     sendMessage,
-  } = useRoom(roomCode);
+  } = useRoomPageHook(roomCode);
 
   const handleGoToRoomList = () => {
     navigate("/rooms");

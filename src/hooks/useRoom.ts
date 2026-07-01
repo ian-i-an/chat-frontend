@@ -12,6 +12,7 @@ export function useFetchRooms() {
   return useQuery({
     queryKey: ROOM_KEYS.list,
     queryFn: fetchRooms,
+    staleTime: 30000,
   });
 }
 

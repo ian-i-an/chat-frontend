@@ -4,9 +4,9 @@ import { useReadStatus } from "@/websocket/useReadStatus";
 import { useChatWebSocket } from "@/websocket/useChatWebSocket";
 import type { ChatCursor, ChatEventPayload } from "@/types/types";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export function useRoom(roomCode: string) {
+export function useRoomPageHook(roomCode: string) {
   const queryClient = useQueryClient();
 
   const {
@@ -22,17 +22,15 @@ export function useRoom(roomCode: string) {
     isFetchingNextPage,
   } = useFetchChats(roomCode);
 
-  const { sendReadStatus } = useReadStatus(roomCode);
+  const { isConnected, sendReadStatus } = useReadStatus(roomCode);
   const latestChatId = chats.length > 0 ? chats[0].id : null;
+  const lastReadChatIdRef = useRef<number | null>(null);
 
   const { sendMessage } = useChatWebSocket(
     roomCode,
     (event: ChatEventPayload) => {
       if (event.type === "CREATED") {
         const newChat = event.chat;
-        if (room?.isMyRoom) {
-          sendReadStatus(newChat.id);
-        }
 
         queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
           ROOM_KEYS.chats(roomCode),
@@ -93,12 +91,15 @@ export function useRoom(roomCode: string) {
   );
 
   useEffect(() => {
-    return () => {
-      if (room?.isMyRoom && latestChatId) {
-        sendReadStatus(latestChatId);
+    if (!room?.isMyRoom || !latestChatId) return;
+    if (lastReadChatIdRef.current === latestChatId) return;
+
+    void sendReadStatus(latestChatId).then((sent) => {
+      if (sent) {
+        lastReadChatIdRef.current = latestChatId;
       }
-    };
-  }, [latestChatId, room?.isMyRoom, sendReadStatus]);
+    });
+  }, [isConnected, latestChatId, room?.isMyRoom, sendReadStatus]);
 
   return {
     room,
