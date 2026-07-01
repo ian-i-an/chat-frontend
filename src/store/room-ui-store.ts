@@ -12,7 +12,7 @@ const initialState: State = {
   replyTo: null,
 };
 
-const useRoomUiStore = create(
+export const useRoomUiStore = create(
   devtools(
     combine(initialState, (set) => ({
       actions: {
@@ -33,10 +33,15 @@ const useRoomUiStore = create(
         startReply: (chat: Chat) => {
           set({ replyTo: chat, actionMenuId: null });
         },
+
+        reset: () => {
+          set(initialState);
+        },
       },
     })),
     {
       name: "Room UI Store",
+      enabled: import.meta.env.DEV,
     },
   ),
 );
@@ -73,4 +78,14 @@ export const useCloseReply = () => {
 export const useStartReply = () => {
   const startReply = useRoomUiStore((state) => state.actions.startReply);
   return startReply;
+};
+
+export const useReset = () => {
+  const reset = useRoomUiStore((state) => state.actions.reset);
+  return reset;
+};
+
+//응용
+export const useIsMenuOpen = (chatId: number) => {
+  return useRoomUiStore((state) => state.actionMenuId === chatId);
 };

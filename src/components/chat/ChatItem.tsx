@@ -3,12 +3,11 @@ import { formatTime } from "@/utils/time";
 import ChatItemActionMenu from "./ChatItemActionMenu";
 import ChatReplyPreview from "./ChatReplyPreview";
 import DeletedChatBubble from "./DeletedChatBubble";
-import { useToggleActiveMenuId } from "@/store/room-ui";
+import { useIsMenuOpen, useToggleActiveMenuId } from "@/store/room-ui-store";
 
 interface ChatItemProps {
   chat: Chat;
   amIOwner: boolean;
-  isMenuOpen: boolean;
   isHighlighted: boolean;
   canDelete: boolean;
   onDeleteChat: () => void;
@@ -18,7 +17,7 @@ interface ChatItemProps {
 export default function ChatItem({
   chat,
   amIOwner,
-  isMenuOpen,
+
   isHighlighted,
   canDelete,
 
@@ -28,6 +27,7 @@ export default function ChatItem({
   const isRightSide = amIOwner === chat.isOwner;
   const isDeleted = chat.isDeleted || chat.content === null;
   const toggleActiveMenuId = useToggleActiveMenuId();
+  const isMenuOpen = useIsMenuOpen(chat.id);
 
   return (
     <div

@@ -12,12 +12,13 @@ import { useDeleteChat } from "@/hooks/useChat";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/useChatScroll";
 import { useReplyNavigation } from "@/components/chat/useReplyNavigation";
-import { useCloseReply, useReplyTo } from "@/store/room-ui";
+import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
 
 export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
   const replyTo = useReplyTo();
   const closeReply = useCloseReply();
+  const reset = useReset();
   //
   const onChatCreatedRef = useRef<(chat: Chat) => void>(() => {});
   const navigate = useNavigate();
@@ -79,6 +80,11 @@ export default function RoomPage() {
       toast.error("링크를 복사하지 못했어요.");
     }
   };
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
 
   if (isRoomLoading) {
     return <Loader fullPage />;

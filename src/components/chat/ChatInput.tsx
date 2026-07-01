@@ -1,7 +1,7 @@
 import { Send, X } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
 import IconButton from "../common/IconButton";
-import { useCloseReply, useReplyTo } from "@/store/room-ui";
+import { useCloseReply, useReplyTo } from "@/store/room-ui-store";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;

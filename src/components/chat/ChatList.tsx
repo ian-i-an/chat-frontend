@@ -4,7 +4,7 @@ import type { Chat } from "@/types/types";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
 import { useChatNext } from "./useChatNext";
-import { useActiveMenuId, useCloseActiveMenu } from "@/store/room-ui";
+import { useCloseActiveMenu } from "@/store/room-ui-store";
 
 interface ChatListProps {
   chats: Chat[];
@@ -12,11 +12,8 @@ interface ChatListProps {
   isFetchingNextPage: boolean;
   fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;
   amIOwner: boolean;
-
   canDelete: boolean;
-
   onDeleteChat: (chat: Chat) => void;
-
   chatListRef: RefObject<HTMLDivElement | null>;
   highlightChatId: number | null;
   onReplyPreviewClick: (replyToId: number) => void;
@@ -39,7 +36,7 @@ export default function ChatList({
     isFetchingNextPage,
     fetchNextPage,
   });
-  const activeMenuId = useActiveMenuId();
+
   const closeActiveMenu = useCloseActiveMenu();
 
   return (
@@ -61,7 +58,6 @@ export default function ChatList({
             <ChatItem
               amIOwner={amIOwner}
               chat={chat}
-              isMenuOpen={chat.id === activeMenuId}
               isHighlighted={chat.id === highlightChatId}
               canDelete={canDelete}
               onDeleteChat={() => onDeleteChat(chat)}
