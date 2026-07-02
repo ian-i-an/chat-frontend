@@ -17,7 +17,12 @@ export function useKeyboardInset(targetRef: RefObject<HTMLDivElement | null>) {
         return;
       }
 
-      const targetBottom = target.getBoundingClientRect().bottom;
+      const currentInset =
+        Number.parseFloat(
+          getComputedStyle(root).getPropertyValue("--keyboard-height"),
+        ) || 0;
+
+      const targetBottom = target.getBoundingClientRect().bottom + currentInset;
       const visibleBottom = vv.offsetTop + vv.height;
       const hiddenAmount = targetBottom - visibleBottom;
       const keyboardInset = Math.max(0, hiddenAmount);
