@@ -20,10 +20,6 @@
    2. 스크롤바 디자인 (기존 코드 그대로 적용)
    ========================================= */
 @layer base {
-  body {
-    overscroll-behavior: none;
-  }
-
   ::-webkit-scrollbar {
     width: 3px; /* 스크롤바 너비를 아주 얇고 세련되게! */
   }
