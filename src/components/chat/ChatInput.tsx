@@ -44,7 +44,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
     }
   };
   return (
-    <div className="shrink-0 border-t border-gray-100 bg-white px-4 pt-3 pb-4 mb-(--keyboard-height,0px)">
+    <div className="shrink-0 border-t border-gray-100 bg-white px-4 py-3">
       {replyTo && (
         <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2 shadow-sm">
           <div className="min-w-0">
