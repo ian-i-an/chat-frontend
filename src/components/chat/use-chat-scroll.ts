@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 
-const HIGHLIGHT_DURATION = 1000;
+const HIGHLIGHT_DURATION = 3000;
 
 export function useChatScroll() {
   const chatListRef = useRef<HTMLDivElement | null>(null);
