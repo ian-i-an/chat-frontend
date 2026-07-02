@@ -44,7 +44,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
     }
   };
   return (
-    <div className="shrink-0 border-t border-gray-100 bg-white px-4 pt-3 pb-6 mb-(--keyboard-height,0px)">
+    <div className="shrink-0 border-t border-gray-100 bg-white px-4 pt-3 pb-6">
       {replyTo && (
         <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2 shadow-sm">
           <div className="min-w-0">
@@ -69,7 +69,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder="메시지 보내기"
-          className="my-1.5 max-h-21 flex-1 resize-none overflow-y-auto overscroll-contain bg-transparent text-base leading-relaxed 
+          className="my-1.5 max-h-21 flex-1 resize-none overflow-y-auto  bg-transparent text-base leading-relaxed 
           font-medium text-gray-800 placeholder-gray-400 focus:outline-none"
         />
         <button

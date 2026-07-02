@@ -4,7 +4,7 @@ import IconButton from "@/components/common/IconButton";
 import { ChevronLeft, Copy } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+// import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
 import { useEffect, useRef } from "react";
 import type { Chat } from "@/types/types";
@@ -24,7 +24,7 @@ export default function RoomPage() {
   const navigate = useNavigate();
   const { mutate: deleteChat } = useDeleteChat(roomCode);
 
-  useKeyboardInset();
+  // useKeyboardInset();
 
   const {
     room,
@@ -118,8 +118,11 @@ export default function RoomPage() {
         highlightChatId={highlightChatId}
         onReplyPreviewClick={handleReplyPreviewClick}
       />
+      {/* <ChatInput onSendMessage={handleSendMessage} /> */}
 
-      <ChatInput onSendMessage={handleSendMessage} />
+      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md min-w-64">
+        <ChatInput onSendMessage={handleSendMessage} />
+      </div>
     </div>
   );
 }
