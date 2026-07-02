@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+const KEYBOARD_SAFE_OFFSET = 16;
+
 /**
  * 키보드가 가린 화면 하단 높이를 측정해 CSS 변수 --keyboard-height 로 노출한다.
  * 채팅 화면(Room)에서만 mount 해서, 입력창을 그 높이만큼 위로 올리는 데 쓴다.
@@ -18,7 +20,10 @@ export function useKeyboardInset() {
 
     const update = () => {
       const keyboard = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
-      root.style.setProperty("--keyboard-height", `${keyboard}px`);
+      const keyboardHeight =
+        keyboard > 0 ? keyboard + KEYBOARD_SAFE_OFFSET : keyboard;
+
+      root.style.setProperty("--keyboard-height", `${keyboardHeight}px`);
     };
 
     update();
