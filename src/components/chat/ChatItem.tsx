@@ -54,7 +54,7 @@ export default function ChatItem({
       )}
 
       <div
-        className={`flex items-end gap-1.5  ${
+        className={`flex items-end gap-1.5 ${
           isRightSide ? "flex-row-reverse" : ""
         }`}
       >
@@ -66,13 +66,11 @@ export default function ChatItem({
               event.stopPropagation();
               toggleActiveMenuId(chat.id);
             }}
-            className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5
-               text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 
-         ${isHighlighted ? "animate-reply-highlight " : ""} ${
-           isRightSide
-             ? "rounded-tr-none bg-blue-500 text-white"
-             : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
-         }`}
+            className={`relative z-10 rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium break-all whitespace-pre-wrap shadow-sm transition-all duration-300 ${isHighlighted ? "animate-reply-highlight" : ""} ${
+              isRightSide
+                ? "rounded-tr-none bg-blue-500 text-white"
+                : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
+            }`}
           >
             {chat.content}
           </div>
