@@ -44,7 +44,7 @@ export default function ChatList({
       ref={chatListRef}
       onClick={closeActiveMenu}
       onScroll={closeActiveMenu}
-      className="flex flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6"
+      className="flex min-h-0 flex-1 flex-col-reverse gap-4 overflow-y-auto bg-gray-50 px-4 py-6"
     >
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;

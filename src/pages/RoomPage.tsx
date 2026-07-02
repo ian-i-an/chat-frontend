@@ -93,7 +93,7 @@ export default function RoomPage() {
   if (isRoomError || !room) return <Navigate to="/rooms" replace />;
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <header className="z-10 flex h-13 shrink-0 items-center gap-3 border-b border-gray-100 px-4">
         <IconButton onClick={() => navigate("/rooms")}>
           <ChevronLeft className="h-6 w-6" />
@@ -118,11 +118,7 @@ export default function RoomPage() {
         highlightChatId={highlightChatId}
         onReplyPreviewClick={handleReplyPreviewClick}
       />
-      {/* <ChatInput onSendMessage={handleSendMessage} /> */}
-
-      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md min-w-64">
-        <ChatInput onSendMessage={handleSendMessage} />
-      </div>
+      <ChatInput onSendMessage={handleSendMessage} />
     </div>
   );
 }
