@@ -67,13 +67,12 @@ export default function ChatItem({
               toggleActiveMenuId(chat.id);
             }}
             className={`relative z-10 break-all whitespace-pre-wrap rounded-2xl px-3.5 py-2.5
-               text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 ${
-                 chat.replyTo ? "-mt-1.5" : ""
-               } ${isHighlighted ? "animate-reply-highlight " : ""} ${
-                 isRightSide
-                   ? "rounded-tr-none bg-blue-500 text-white"
-                   : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
-               }`}
+               text-sm leading-relaxed font-medium shadow-sm transition-all duration-300 
+         ${isHighlighted ? "animate-reply-highlight " : ""} ${
+           isRightSide
+             ? "rounded-tr-none bg-blue-500 text-white"
+             : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
+         }`}
           >
             {chat.content}
           </div>

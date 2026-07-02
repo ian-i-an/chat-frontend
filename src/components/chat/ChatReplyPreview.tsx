@@ -13,7 +13,7 @@ export default function ChatReplyPreview({
     <button
       type="button"
       onClick={onClick}
-      className={`relative z-0 max-w-full cursor-pointer rounded-xl border border-gray-100 bg-gray-50
+      className={`relative z-0 -mb-1.5  max-w-full cursor-pointer rounded-xl border border-gray-100 bg-gray-50
 px-3 py-2 text-left text-xs leading-snug text-gray-500 shadow-sm transition-colors
 hover:bg-gray-200/80 active:bg-gray-200/80 ${
         isRightSide ? "mr-2 rounded-br-md" : "ml-2 rounded-bl-md"
