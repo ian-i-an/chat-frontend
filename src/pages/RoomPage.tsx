@@ -4,7 +4,6 @@ import IconButton from "@/components/common/IconButton";
 import { ChevronLeft, Copy } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-// import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
 import { useEffect, useRef } from "react";
 import type { Chat } from "@/types/types";
@@ -13,6 +12,7 @@ import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
 import { useReplyNavigation } from "@/components/chat/use-reply-navigation";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
 export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
@@ -23,8 +23,7 @@ export default function RoomPage() {
   const onChatCreatedRef = useRef<(chat: Chat) => void>(() => {});
   const navigate = useNavigate();
   const { mutate: deleteChat } = useDeleteChat(roomCode);
-
-  // useKeyboardInset();
+  useKeyboardInset();
 
   const {
     room,
