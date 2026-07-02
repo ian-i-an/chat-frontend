@@ -2,6 +2,7 @@ import { Send, X } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
 import IconButton from "../common/IconButton";
 import { useCloseReply, useReplyTo } from "@/store/room-ui-store";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
@@ -12,6 +13,9 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
   const closeReply = useCloseReply();
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chatInputRef = useRef<HTMLDivElement | null>(null);
+
+  useKeyboardInset(chatInputRef);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -44,7 +48,10 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
     }
   };
   return (
-    <div className="shrink-0 border-t border-gray-100 bg-white px-4 py-3">
+    <div
+      ref={chatInputRef}
+      className="shrink-0 border-t border-gray-100 bg-white px-4 py-3 mb-(--keyboard-height,0px)"
+    >
       {replyTo && (
         <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-blue-100 bg-blue-50/80 px-3 py-2 shadow-sm">
           <div className="min-w-0">
