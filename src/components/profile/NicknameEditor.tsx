@@ -64,7 +64,7 @@ export default function NicknameEditor({
           onChange={(event) => setDraftNickname(event.target.value)}
           disabled={isUpdating}
           autoFocus
-          className="rounded-xl bg-white px-3 py-1.5 text-center text-lg font-bold text-gray-800 outline-none focus:ring-2 focus:ring-blue-200 disabled:text-gray-400"
+          className="rounded-xl bg-white px-3 py-1.5 text-center text-lg font-semibold tracking-tight text-gray-800 outline-none focus:ring-2 focus:ring-blue-200 disabled:text-gray-400"
         />
         <IconButton
           type="submit"
@@ -86,8 +86,8 @@ export default function NicknameEditor({
   }
 
   return (
-    <div className="flex h-10 w-full items-center justify-center gap-2">
-      <div className="text-xl font-bold tracking-tight text-gray-800">
+    <div className="flex w-full items-center justify-center gap-2">
+      <div className="text-lg font-semibold tracking-tight text-gray-800">
         {nickname ?? ""}
       </div>
       <IconButton type="button" onClick={startEditing} disabled={!nickname}>

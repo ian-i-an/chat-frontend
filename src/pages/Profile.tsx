@@ -3,9 +3,11 @@ import defaultProfile from "@/assets/default-profile.png";
 import { useFetchMyProfile } from "@/hooks/use-auth";
 import { useDeleteAccount, useUpdateNickname } from "@/hooks/use-user";
 import NicknameEditor from "@/components/profile/NicknameEditor";
+import { Navigate } from "react-router-dom";
+import Loader from "@/components/common/Loader";
 
 export default function Profile() {
-  const { data: myProfile } = useFetchMyProfile();
+  const { data: myProfile, isError, isLoading } = useFetchMyProfile();
   const { mutateAsync: updateNickname, isPending: isUpdatingNickname } =
     useUpdateNickname();
   const { mutate: deleteAccount } = useDeleteAccount();
@@ -22,6 +24,9 @@ export default function Profile() {
       deleteAccount();
     }
   };
+
+  if (isLoading) return <Loader fullPage />;
+  if (isError) return <Navigate to={"/sign-in"} />;
 
   return (
     <div className="flex flex-1 flex-col px-6 py-10">
