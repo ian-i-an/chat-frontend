@@ -23,18 +23,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 ${
           isOpen ? "" : "invisible opacity-0"
         }`}
         onClick={onClose}
       />
 
       <div
-        className={`fixed left-0 top-0 z-50 flex h-full w-64 flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 flex h-full w-64 flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center justify-between border-b border-gray-100  px-4">
+        <div className="flex h-16 items-center justify-between border-b border-gray-100 px-4">
           <span className="text-base font-black tracking-tight text-gray-800">
             Menu
           </span>
@@ -42,7 +42,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <X className="h-5 w-5" />
           </IconButton>
         </div>
-        <nav className="flex flex-col gap-1 ">
+        <nav className="flex flex-col gap-1">
           <>
             <Link
               to="/rooms"

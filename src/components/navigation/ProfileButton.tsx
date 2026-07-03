@@ -7,7 +7,6 @@ import PhotoButton from "../common/PhotoButton";
 export default function ProfileButton() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
   const { mutate: SignOut } = useSignOut();
 
   useEffect(() => {
@@ -44,18 +43,18 @@ export default function ProfileButton() {
       </PhotoButton>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-20 mt-2 flex w-40 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm font-semibold text-gray-700 shadow-lg">
+        <div className="absolute top-full right-0 z-20 mt-2 flex w-40 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm font-semibold text-gray-700 shadow-lg">
           <Link
             to={`/profile`} // 프로필 페이지 경로
             onClick={() => setIsOpen(false)}
-            className="rounded-xl cursor-pointer px-4 py-3 transition-colors hover:bg-gray-100 active:bg-gray-100"
+            className="cursor-pointer rounded-xl px-4 py-3 transition-colors hover:bg-gray-100 active:bg-gray-100"
           >
             프로필
           </Link>
 
           <button
             onClick={handleSignOut}
-            className="rounded-xl w-full cursor-pointer px-4 py-3 text-left  text-red-600 transition-colors hover:bg-gray-100 active:bg-gray-100"
+            className="w-full cursor-pointer rounded-xl px-4 py-3 text-left text-red-600 transition-colors hover:bg-gray-100 active:bg-gray-100"
           >
             로그아웃
           </button>
