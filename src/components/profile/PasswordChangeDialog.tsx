@@ -61,53 +61,65 @@ export default function PasswordChangeDialog() {
           <div className="flex h-full min-h-0 flex-col p-4">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-1 flex-col gap-6 overflow-y-auto"
+              className="flex flex-1 flex-col gap-6 overflow-y-auto pb-6"
             >
-              <div className="flex flex-col gap-2">
-                <PasswordInput
-                  value={currentPassword}
-                  onChange={(event) => setCurrentPassword(event.target.value)}
-                  placeholder="현재 비밀번호"
-                  autoFocus
-                />
-                {isSubmitted && isCurrentPasswordEmpty && (
-                  <p className="px-1 text-xs font-medium text-red-500">
-                    현재 비밀번호를 입력해주세요.
-                  </p>
-                )}
+              <div className="flex flex-col gap-4">
+                <div className="pl-1 text-sm text-gray-400">현재 비밀번호</div>
+
+                <div className="flex flex-col gap-2">
+                  <PasswordInput
+                    value={currentPassword}
+                    onChange={(event) => setCurrentPassword(event.target.value)}
+                    placeholder="현재 비밀번호"
+                    autoFocus
+                  />
+                  {isSubmitted && isCurrentPasswordEmpty && (
+                    <p className="px-1 text-xs font-medium text-red-500">
+                      현재 비밀번호를 입력해주세요.
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <PasswordInput
-                  value={newPassword}
-                  onChange={(event) => setNewPassword(event.target.value)}
-                  placeholder="새로운 비밀번호"
-                />
-                {isSubmitted && isNewPasswordEmpty && (
-                  <p className="px-1 text-xs font-medium text-red-500">
-                    새로운 비밀번호를 입력해주세요.
-                  </p>
-                )}
-              </div>
+              <div className="border-b border-gray-100" />
 
-              <div className="flex flex-col gap-2">
-                <PasswordInput
-                  value={newPasswordConfirm}
-                  onChange={(event) =>
-                    setNewPasswordConfirm(event.target.value)
-                  }
-                  placeholder="새로운 비밀번호 확인"
-                />
-                {isSubmitted && isNewPasswordConfirmEmpty && (
-                  <p className="px-1 text-xs font-medium text-red-500">
-                    새로운 비밀번호 확인을 입력해주세요.
-                  </p>
-                )}
-                {isPasswordMismatch && (
-                  <p className="px-1 text-xs font-medium text-red-500">
-                    새로운 비밀번호가 일치하지 않습니다.
-                  </p>
-                )}
+              <div className="flex flex-col gap-4">
+                <div className="pl-1 text-sm text-gray-400">
+                  새로운 비밀번호 설정
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <PasswordInput
+                    value={newPassword}
+                    onChange={(event) => setNewPassword(event.target.value)}
+                    placeholder="새로운 비밀번호"
+                  />
+                  {isSubmitted && isNewPasswordEmpty && (
+                    <p className="px-1 text-xs font-medium text-red-500">
+                      새로운 비밀번호를 입력해주세요.
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <PasswordInput
+                    value={newPasswordConfirm}
+                    onChange={(event) =>
+                      setNewPasswordConfirm(event.target.value)
+                    }
+                    placeholder="새로운 비밀번호 확인"
+                  />
+                  {isSubmitted && isNewPasswordConfirmEmpty && (
+                    <p className="px-1 text-xs font-medium text-red-500">
+                      새로운 비밀번호 확인을 입력해주세요.
+                    </p>
+                  )}
+                  {isPasswordMismatch && (
+                    <p className="px-1 text-xs font-medium text-red-500">
+                      새로운 비밀번호가 일치하지 않습니다.
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="flex justify-between gap-2">
