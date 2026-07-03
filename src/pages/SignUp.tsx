@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 import FormInput from "@/components/common/FormInput";
 import Button from "@/components/common/Button";
 import { type SubmitEventHandler, useState } from "react";
@@ -48,8 +47,8 @@ export default function SignUp() {
         <FormInput
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
-          label="아이디"
           placeholder="사용할 아이디를 입력해주세요"
+
           autoFocus
         />
         <Button disabled={isCheckIdPending} type="submit" className="mt-6">

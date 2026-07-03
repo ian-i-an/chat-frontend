@@ -61,16 +61,16 @@ export default function SignUpPassword() {
         <FormInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          label="비밀번호"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호"
+
           type="password"
           autoFocus
         />
         <FormInput
           value={passwordCheck}
           onChange={(e) => setPasswordCheck(e.target.value)}
-          label="비밀번호 확인"
-          placeholder="비밀번호를 한 번 더 입력해주세요"
+          placeholder="비밀번호 확인"
+
           type="password"
         />
         <Button disabled={isSignUpPending} className="mt-6" type="submit">

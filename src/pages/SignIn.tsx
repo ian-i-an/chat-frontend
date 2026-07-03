@@ -1,13 +1,10 @@
 import Button from "@/components/common/Button";
 import FormInput from "@/components/common/FormInput";
 import { useNavigate } from "react-router-dom";
-
 import { useState, type SubmitEventHandler } from "react";
 import { useSignIn } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import AuthHeader from "@/components/auth/AuthHeader";
-// import { getErrorMessage } from "@/api/error";
-// import type { ErrorResponse } from "@/types/types";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -43,15 +40,15 @@ export default function SignIn() {
 
       <form onSubmit={handleLogin} className="mt-6 mb-3 flex flex-col gap-3">
         <FormInput
-          label={"아이디"}
-          placeholder={"아이디를 입력해주세요"}
+          placeholder={"아이디"}
+
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
           autoFocus
         />
         <FormInput
-          label={"비밀번호"}
-          placeholder={"비밀번호를 입력해주세요"}
+          placeholder={"비밀번호"}
+
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type={"password"}
