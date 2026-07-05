@@ -1,15 +1,12 @@
 import ChatInput from "@/components/chat/ChatInput";
 import { MessageCircle, Shuffle } from "lucide-react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
 
   const handleSubmit = () => {
-    if (!message.trim()) return;
-    setMessage("");
+    navigate("/random");
   };
 
   return (
@@ -29,6 +26,7 @@ export default function Index() {
         <div className="mt-4 grid grid-cols-2 gap-3">
           <button
             type="button"
+            onClick={() => navigate("/random")}
             className="flex flex-col gap-2 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left text-blue-500 transition-all active:scale-95"
           >
             <Shuffle className="h-5 w-5" />

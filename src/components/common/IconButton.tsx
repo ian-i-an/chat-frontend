@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "primary" | "secondary";
+  variant?: "default" | "primary" | "secondary" | "ghost";
   children: ReactNode;
 }
 
@@ -18,6 +18,7 @@ export default function IconButton({
       "bg-blue-500 text-white enabled:hover:bg-blue-400 enabled:active:bg-blue-400",
     secondary:
       "bg-gray-200 text-gray-500 enabled:hover:bg-gray-100 enabled:active:bg-gray-100",
+    ghost: "text-gray-500",
   };
 
   return (

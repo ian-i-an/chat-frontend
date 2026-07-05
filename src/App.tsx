@@ -10,6 +10,7 @@ import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
 import RoomPage from "./pages/RoomPage";
+import RandomChatPage from "./pages/RandomChatPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
 import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
@@ -20,6 +21,10 @@ function App() {
       <Route element={<AppBackgroundLayout />}>
         <Route element={<NavigationLayout />}>
           <Route path="/" element={<Index />} />
+        </Route>
+
+        <Route element={<WhiteBarLayout />}>
+          <Route path="/random" element={<RandomChatPage />} />
         </Route>
 
         <Route element={<PublicRouteLayout />}>
