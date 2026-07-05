@@ -12,7 +12,7 @@ export default function PhotoButton({
   return (
     <button
       {...props}
-      className={`cursor-pointer overflow-hidden rounded-full border border-gray-100 transition-opacity hover:opacity-80 active:opacity-80 ${className}`}
+      className={`shrink-0 cursor-pointer overflow-hidden rounded-full border border-gray-100 transition-opacity hover:opacity-80 active:opacity-80 ${className}`}
     >
       {children}
     </button>
