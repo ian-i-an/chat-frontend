@@ -4,9 +4,13 @@ import IconButton from "../common/IconButton";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
+  variant?: "default" | "glass";
 }
 
-export default function ChatInput({ onSendMessage }: ChatInputProps) {
+export default function ChatInput({
+  onSendMessage,
+  variant = "default",
+}: ChatInputProps) {
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isMultiline, setIsMultiline] = useState(false);
@@ -52,9 +56,15 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
       handleSend();
     }
   };
+
+  const inputStyle =
+    variant === "glass"
+      ? "border border-white/70 bg-white/55 shadow-lg shadow-gray-200/60 ring-1 ring-gray-950/5 backdrop-blur-xl"
+      : "border-2 border-blue-200 bg-white";
+
   return (
     <div
-      className={`gap-2 rounded-2xl border-2 border-blue-200 bg-white ${
+      className={`gap-2 rounded-2xl ${inputStyle} ${
         isMultiline
           ? "flex flex-col px-4 py-2"
           : "flex items-center py-1 pr-2 pl-4"
@@ -73,6 +83,8 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
       />
 
       <IconButton
+        onClick={handleSend}
+        disabled={!content.trim()}
         className={`${isMultiline ? "self-end" : ""}`}
         variant="primary"
       >

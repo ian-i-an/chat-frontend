@@ -17,6 +17,7 @@ interface ChatListProps {
   chatListRef: RefObject<HTMLDivElement | null>;
   highlightChatId: number | null;
   onReplyPreviewClick: (replyToId: number) => void;
+  bottomInset?: number;
 }
 
 export default function ChatList({
@@ -30,6 +31,7 @@ export default function ChatList({
   chatListRef,
   highlightChatId,
   onReplyPreviewClick,
+  bottomInset,
 }: ChatListProps) {
   const { topObserverRef } = useChatNext({
     hasNextPage,
@@ -44,7 +46,8 @@ export default function ChatList({
       ref={chatListRef}
       onClick={closeActiveMenu}
       onScroll={closeActiveMenu}
-      className="flex min-h-0 flex-1 flex-col-reverse gap-4 overflow-y-auto p-4"
+      className="flex min-h-0 flex-1 flex-col-reverse gap-4 overflow-y-auto px-4 pt-18 pb-5"
+      style={bottomInset ? { paddingBottom: `${bottomInset}px` } : undefined}
     >
       {chats.map((chat, index) => {
         const isLastElement = index === chats.length - 1;
