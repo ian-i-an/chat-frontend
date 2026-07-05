@@ -12,33 +12,39 @@ import Profile from "./pages/Profile";
 import RoomPage from "./pages/RoomPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
+import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
 
 function App() {
   return (
     <Routes>
-      <Route element={<PublicRouteLayout />}>
-        <Route element={<CardLayout />}>
-          <Route path="/" element={<Index />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/sign-up/password" element={<SignUpPassword />} />
-        </Route>
-      </Route>
-
-      <Route element={<WebSocketLayout />}>
+      <Route element={<AppBackgroundLayout />}>
         <Route element={<NavigationLayout />}>
-          <Route element={<ProtectedRouteLayout />}>
-            <Route path="/rooms" element={<Rooms />} />
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Index />} />
+        </Route>
+
+        <Route element={<PublicRouteLayout />}>
+          <Route element={<CardLayout />}>
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-up/password" element={<SignUpPassword />} />
           </Route>
         </Route>
 
-        <Route element={<WhiteBarLayout />}>
-          <Route path="/:roomCode" element={<RoomPage />} />
-        </Route>
-      </Route>
+        <Route element={<WebSocketLayout />}>
+          <Route element={<NavigationLayout />}>
+            <Route element={<ProtectedRouteLayout />}>
+              <Route path="/rooms" element={<Rooms />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </Route>
 
-      <Route path="/*" element={<Navigate to={"/"} replace />} />
+          <Route element={<WhiteBarLayout />}>
+            <Route path="/:roomCode" element={<RoomPage />} />
+          </Route>
+        </Route>
+
+        <Route path="/*" element={<Navigate to={"/"} replace />} />
+      </Route>
     </Routes>
   );
 }

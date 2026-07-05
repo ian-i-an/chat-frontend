@@ -10,12 +10,10 @@ export default function RoomCreateButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-transparent bg-blue-50 p-6 text-blue-500 shadow-sm transition-all hover:border-blue-100 hover:shadow-md active:scale-95 active:border-blue-100 active:shadow-md"
+        className="flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-blue-500 px-4 text-sm font-bold text-white shadow-sm shadow-blue-100 transition-all hover:bg-blue-400 active:scale-95"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 transition-colors">
-          <Plus className="h-5 w-5" />
-        </div>
-        <span className="text-sm font-semibold">새로운 채팅방 만들기</span>
+        <Plus className="h-4.5 w-4.5" />
+        <span>새 방</span>
       </button>
 
       {isOpen && (

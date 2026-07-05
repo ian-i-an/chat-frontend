@@ -23,8 +23,7 @@ export default function IconButton({
   return (
     <button
       {...props}
-      className={`shrink-0 flex h-9 w-9 items-center justify-center cursor-pointer active:scale-95
-         rounded-full transition-colors disabled:cursor-not-allowed disabled:text-gray-400 ${variantStyles[variant]} ${className}`}
+      className={`flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors active:scale-95 disabled:cursor-not-allowed ${variantStyles[variant]} ${className}`}
     >
       {children}
     </button>
