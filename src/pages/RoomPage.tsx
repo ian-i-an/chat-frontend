@@ -1,8 +1,8 @@
 import ChatInput from "@/components/chat/ChatInput";
-import GlassChatHeader from "@/components/chat/GlassChatHeader";
+
 import ChatList from "@/components/chat/ChatList";
 import IconButton from "@/components/common/IconButton";
-import { Copy, MessageCircle, X } from "lucide-react";
+import { ChevronLeft, Copy, X } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
@@ -97,14 +97,24 @@ export default function RoomPage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-50/70">
-      <GlassChatHeader
-        title={room.name}
-        subtitle="개인 채팅방"
-        icon={<MessageCircle className="h-4.5 w-4.5" />}
-        actionIcon={<Copy className="h-4.5 w-4.5" />}
-        onBack={() => navigate("/rooms")}
-        onAction={handleCopyRoomLink}
-      />
+      <header className="absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl border border-white/50 bg-white/50 px-1.5 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs">
+        <IconButton onClick={() => navigate("/rooms")} variant="ghost">
+          <ChevronLeft className="h-6 w-6" />
+        </IconButton>
+
+        <div className="min-w-0 flex-1">
+          <h2 className="truncate text-base font-extrabold text-gray-950">
+            {room.name}
+          </h2>
+          <p className="truncate text-xs font-medium text-gray-400">
+            개인 채팅방
+          </p>
+        </div>
+
+        <IconButton onClick={handleCopyRoomLink} variant="ghost">
+          <Copy className="h-4.5 w-4.5" />
+        </IconButton>
+      </header>
 
       <ChatList
         chatListRef={chatListRef}
@@ -139,7 +149,7 @@ export default function RoomPage() {
             </IconButton>
           </div>
         )}
-        <ChatInput onSendMessage={handleSendMessage} variant="glass" />
+        <ChatInput onSendMessage={handleSendMessage} />
       </div>
     </div>
   );

@@ -1,15 +1,15 @@
 import { Send } from "lucide-react";
-import { type ChangeEvent, useRef, useState } from "react";
+import { type ChangeEvent, type ReactNode, useRef, useState } from "react";
 import IconButton from "../common/IconButton";
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
-  variant?: "default" | "glass";
+  leftButton?: ReactNode;
 }
 
 export default function ChatInput({
   onSendMessage,
-  variant = "default",
+  leftButton,
 }: ChatInputProps) {
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -57,19 +57,16 @@ export default function ChatInput({
     }
   };
 
-  const inputStyle =
-    variant === "glass"
-      ? "border border-white/70 bg-white/55 shadow-lg shadow-gray-200/60 ring-1 ring-gray-950/5 backdrop-blur-xl"
-      : "border-2 border-blue-200 bg-white";
-
   return (
     <div
-      className={`gap-2 rounded-2xl ${inputStyle} ${
+      className={`w-full gap-2 rounded-2xl border border-white/50 bg-white/50 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs ${
         isMultiline
           ? "flex flex-col px-4 py-2"
           : "flex items-center py-1 pr-2 pl-4"
       }`}
     >
+      {!isMultiline && leftButton}
+
       <textarea
         value={content}
         ref={textareaRef}
@@ -82,14 +79,23 @@ export default function ChatInput({
         }`}
       />
 
-      <IconButton
-        onClick={handleSend}
-        disabled={!content.trim()}
-        className={`${isMultiline ? "self-end" : ""}`}
-        variant="primary"
+      <div
+        className={
+          isMultiline
+            ? "flex w-full items-center"
+            : "flex shrink-0 items-center"
+        }
       >
-        <Send className="-ml-0.5 h-4 w-4" />
-      </IconButton>
+        {isMultiline && leftButton}
+        <IconButton
+          onClick={handleSend}
+          disabled={!content.trim()}
+          className={isMultiline ? "ml-auto" : ""}
+          variant="primary"
+        >
+          <Send className="-ml-0.5 h-4 w-4" />
+        </IconButton>
+      </div>
     </div>
   );
 }
