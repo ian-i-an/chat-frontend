@@ -23,10 +23,6 @@ function App() {
           <Route path="/" element={<Index />} />
         </Route>
 
-        <Route element={<WhiteBarLayout />}>
-          <Route path="/random" element={<RandomChatPage />} />
-        </Route>
-
         <Route element={<PublicRouteLayout />}>
           <Route element={<CardLayout />}>
             <Route path="/sign-in" element={<SignIn />} />
@@ -44,6 +40,7 @@ function App() {
           </Route>
 
           <Route element={<WhiteBarLayout />}>
+            <Route path="/random" element={<RandomChatPage />} />
             <Route path="/:roomCode" element={<RoomPage />} />
           </Route>
         </Route>

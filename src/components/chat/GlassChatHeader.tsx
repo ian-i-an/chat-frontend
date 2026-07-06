@@ -11,6 +11,7 @@ interface GlassChatHeaderProps {
   onAction?: () => void;
 }
 
+//이런 식으로 말고, 아예 유리 모양의 박스를 컴포넌트로 빼서 여기서 감싸자!
 export default function GlassChatHeader({
   title,
   subtitle,

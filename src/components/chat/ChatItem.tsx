@@ -17,10 +17,8 @@ interface ChatItemProps {
 export default function ChatItem({
   chat,
   amIOwner,
-
   isHighlighted,
   canDelete,
-
   onDeleteChat,
   onReplyPreviewClick,
 }: ChatItemProps) {

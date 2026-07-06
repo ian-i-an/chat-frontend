@@ -21,6 +21,28 @@ export interface ChatEventPayload {
 
 export type ChatEventType = "CREATED" | "DELETED";
 
+export type RandomChatEvent =
+  | {
+      type: "WAITING";
+    }
+  | {
+      type: "MATCHED";
+    }
+  | {
+      type: "PARTNER_LEFT";
+    }
+  | {
+      type: "ENDED";
+    }
+  | {
+      type: "ERROR";
+    }
+  | {
+      type: "MESSAGE";
+      content: string;
+      isMine: boolean;
+    };
+
 export interface Chat {
   id: number;
   content: string | null;

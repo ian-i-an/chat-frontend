@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 export default function Index() {
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    navigate("/random");
+  const handleSubmit = (message: string) => {
+    navigate("/random", { state: { initialMessage: message } });
   };
 
   return (
