@@ -33,7 +33,7 @@ export default function Dialog({ title, onClose, children }: DialogProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 backdrop-blur-xs"
       role="presentation"
       onMouseDown={onClose}
     >
