@@ -1,8 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import type { RandomChatEvent } from "@/types/types";
 import { useWebSocketConnection } from "@/websocket/WebSocketContext";
 import { stompClient } from "./websocket-client";
+
+type RandomChatStartRequest = {
+  initialMessage?: string;
+};
+
+type RandomChatMessageRequest = {
+  content: string;
+};
 
 export const useRandomChatWebSocket = (
   onEventReceived: (event: RandomChatEvent) => void,
@@ -16,11 +24,11 @@ export const useRandomChatWebSocket = (
 
   useEffect(() => {
     if (!isConnected) return;
-
     const subscription = stompClient.subscribe(
       "/user/queue/random-chat",
       (message) => {
         const event: RandomChatEvent = JSON.parse(message.body);
+
         callbackRef.current(event);
       },
     );
@@ -30,38 +38,49 @@ export const useRandomChatWebSocket = (
     };
   }, [isConnected]);
 
-  const startRandomChat = () => {
+  const startRandomChat = useCallback((initialMessage?: string) => {
     if (!stompClient.connected) {
       toast.error("연결이 끊겨 랜덤 채팅을 시작할 수 없어요.");
       return;
     }
 
+    const payload: RandomChatStartRequest = initialMessage
+      ? { initialMessage }
+      : {};
+
     stompClient.publish({
       destination: "/pub/random-chat/start",
-      body: JSON.stringify({}),
+      body: JSON.stringify(payload),
     });
-  };
+    console.log("[random chat] 연결 요청");
+  }, []);
 
-  const sendRandomChatMessage = (content: string) => {
+  const sendRandomChatMessage = useCallback((content: string) => {
     if (!stompClient.connected) {
       toast.error("연결이 끊겨 메시지를 보낼 수 없어요.");
       return;
     }
 
+    const payload: RandomChatMessageRequest = { content };
+
     stompClient.publish({
       destination: "/pub/random-chat/message",
-      body: JSON.stringify({ content }),
+      body: JSON.stringify(payload),
     });
-  };
+    console.log("랜덤 채팅 메세지 발송");
+  }, []);
 
-  const leaveRandomChat = () => {
-    if (!stompClient.connected) return;
+  const leaveRandomChat = useCallback(() => {
+    if (!stompClient.connected) {
+      toast.error("연결이 끊겨 요청을 보낼 수 없어요.");
+      return;
+    }
 
     stompClient.publish({
       destination: "/pub/random-chat/leave",
       body: JSON.stringify({}),
     });
-  };
+  }, []);
 
   return {
     isConnected,

@@ -127,7 +127,7 @@ export default function RoomPage() {
         onDeleteChat={handleDeleteChat}
         highlightChatId={highlightChatId}
         onReplyPreviewClick={handleReplyPreviewClick}
-        bottomInset={inputBarHeight + 16}
+        bottomInset={inputBarHeight + 24}
       />
 
       <div

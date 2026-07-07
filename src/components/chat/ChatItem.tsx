@@ -4,6 +4,7 @@ import ChatItemActionMenu from "./ChatItemActionMenu";
 import ChatReplyPreview from "./ChatReplyPreview";
 import DeletedChatBubble from "./DeletedChatBubble";
 import { useIsMenuOpen, useToggleActiveMenuId } from "@/store/room-ui-store";
+import ChatBubble from "./ChatBubble";
 
 interface ChatItemProps {
   chat: Chat;
@@ -59,19 +60,15 @@ export default function ChatItem({
         {isDeleted ? (
           <DeletedChatBubble isHighlighted={isHighlighted} />
         ) : (
-          <div
+          <ChatBubble
             onClick={(event) => {
               event.stopPropagation();
               toggleActiveMenuId(chat.id);
             }}
-            className={`relative z-10 rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed font-medium break-all whitespace-pre-wrap shadow-sm transition-all duration-300 ${isHighlighted ? "animate-reply-highlight" : ""} ${
-              isRightSide
-                ? "rounded-tr-none bg-blue-500 text-white"
-                : "rounded-tl-none border border-gray-100 bg-white text-gray-800"
-            }`}
-          >
-            {chat.content}
-          </div>
+            content={chat?.content}
+            isRightSide={isRightSide}
+            isHighlighted={isHighlighted}
+          />
         )}
 
         <span className="min-w-max pb-1 text-[9px] font-medium text-gray-400">
