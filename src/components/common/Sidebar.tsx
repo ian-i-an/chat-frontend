@@ -2,13 +2,21 @@ import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import IconButton from "./IconButton";
+import { useSignOut } from "@/hooks/use-auth";
 
 interface SidebarProps {
   isOpen: boolean;
+  isAuthenticated: boolean;
   onClose: () => void;
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({
+  isOpen,
+  isAuthenticated,
+  onClose,
+}: SidebarProps) {
+  const { mutate: signOut } = useSignOut();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -19,6 +27,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  const handleSignOut = () => {
+    onClose();
+    signOut();
+  };
 
   return (
     <>
@@ -42,38 +55,50 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <X className="h-5 w-5" />
           </IconButton>
         </div>
-        <nav className="flex flex-col gap-1">
-          <>
-            <Link
-              to="/rooms"
-              onClick={onClose}
-              className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-            >
-              채팅방 목록
-            </Link>
-            <Link
-              to="/profile"
-              onClick={onClose}
-              className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-            >
-              내 프로필
-            </Link>
+        <nav className="flex flex-col gap-1 p-2">
+          {isAuthenticated ? (
+            <>
+              <Link
+                to="/rooms"
+                onClick={onClose}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                채팅방 목록
+              </Link>
+              <Link
+                to="/profile"
+                onClick={onClose}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                내 프로필
+              </Link>
 
-            <Link
-              to="/sign-in"
-              onClick={onClose}
-              className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-            >
-              로그인
-            </Link>
-            <Link
-              to="/sign-up"
-              onClick={onClose}
-              className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-            >
-              회원가입
-            </Link>
-          </>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="cursor-pointer rounded-xl px-4 py-3 text-left text-sm font-medium text-red-600 transition-colors hover:bg-gray-100 active:bg-gray-100"
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/sign-in"
+                onClick={onClose}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                로그인
+              </Link>
+              <Link
+                to="/sign-up"
+                onClick={onClose}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                회원가입
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </>

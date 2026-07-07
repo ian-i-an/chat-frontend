@@ -11,7 +11,7 @@ export default function Header() {
     <header className="w-full px-4 py-3">
       <div className="flex w-full min-w-64 items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <MenuButton />
+          <MenuButton isAuthenticated={!!myProfile} />
 
           <Link
             to="/"
