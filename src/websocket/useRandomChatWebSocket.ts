@@ -67,7 +67,6 @@ export const useRandomChatWebSocket = (
       destination: "/pub/random-chat/message",
       body: JSON.stringify(payload),
     });
-    console.log("랜덤 채팅 메세지 발송");
   }, []);
 
   const leaveRandomChat = useCallback(() => {
