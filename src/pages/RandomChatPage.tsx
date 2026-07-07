@@ -1,34 +1,22 @@
 import ChatInput from "@/components/chat/ChatInput";
 import Button from "@/components/common/Button";
-
 import IconButton from "@/components/common/IconButton";
-
 import RandomMain from "@/components/random/RandomMain";
 import { useElementSize } from "@/hooks/use-element-size";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import type { RandomChatEvent } from "@/types/types";
+import type { RandomChatEvent, RandomMessage } from "@/types/types";
 import { useRandomChatWebSocket } from "@/websocket/useRandomChatWebSocket";
 import {
-  Check,
+  ChevronDown,
   ChevronLeft,
+  ChevronUp,
   Loader,
   MessageCircle,
-  Pencil,
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-export type RandomMessage = {
-  id: string;
-  content: string;
-  isMine: boolean;
-};
-
-interface RandomLocationState {
-  initialMessage?: string;
-}
 
 type RandomChatStatus = "idle" | "waiting" | "chatting" | "partnerLeft";
 
@@ -37,21 +25,31 @@ export default function RandomChatPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [initialMessage, setInitialMessage] = useState(
-    (location.state as RandomLocationState | null)?.initialMessage?.trim() ??
-      "",
+    (
+      location.state as {
+        initialMessage?: string;
+      }
+    )?.initialMessage?.trim() ?? "",
   );
-
-  const [isEditingInitialMessage, setIsEditingInitialMessage] = useState(false);
   const [messages, setMessages] = useState<RandomMessage[]>([]);
+  const [isEditing, setIsEditing] = useState(true);
   const [status, setStatus] = useState<RandomChatStatus>("idle");
-  // const showRequestMessage = !isMatched;
+  const hasStartedRef = useRef(false);
 
   useKeyboardInset();
 
   const handleRandomChatEvent = (event: RandomChatEvent) => {
     if (event.type === "MATCHED") {
-      console.log("연결 성공");
+      setMessages([
+        {
+          id: crypto.randomUUID(),
+          content: "상대와 연결되었습니다",
+
+          type: "system",
+        },
+      ]);
       setStatus("chatting");
+
       return;
     }
     if (event.type === "MESSAGE") {
@@ -60,6 +58,7 @@ export default function RandomChatPage() {
           id: crypto.randomUUID(),
           content: event.content,
           isMine: event.isMine,
+          type: "message",
         },
         ...prevMessages,
       ]);
@@ -69,22 +68,43 @@ export default function RandomChatPage() {
 
     if (event.type === "WAITING") {
       setStatus("waiting");
+      if (initialMessage.trim()) {
+        setMessages([
+          {
+            id: crypto.randomUUID(),
+            content: initialMessage,
+            isMine: true,
+            type: "message",
+          },
+        ]);
+      }
+
       return;
     }
 
     if (event.type === "PARTNER_LEFT") {
       setStatus("partnerLeft");
+      setMessages((prevMessages) => [
+        {
+          id: crypto.randomUUID(),
+          content: "상대방이 채팅을 떠났습니다",
+
+          type: "system",
+        },
+        ...prevMessages,
+      ]);
       return;
     }
 
     if (event.type === "ENDED" || event.type === "ERROR") {
       setStatus("idle");
+      setMessages([]);
       return;
     }
   };
 
   const {
-    // isConnected,
+    isConnected,
     startRandomChat,
     sendRandomChatMessage,
     leaveRandomChat,
@@ -97,12 +117,10 @@ export default function RandomChatPage() {
   };
 
   const handleStartMatching = () => {
-    setStatus("waiting");
     startRandomChat(initialMessage);
   };
 
   const handleRestartMatching = () => {
-    setStatus("waiting");
     setMessages([]);
     startRandomChat(initialMessage);
   };
@@ -112,6 +130,15 @@ export default function RandomChatPage() {
     setMessages([]);
     leaveRandomChat();
   };
+
+  useEffect(() => {
+    if (hasStartedRef.current) return;
+    if (!isConnected) return;
+
+    hasStartedRef.current = true;
+
+    startRandomChat(initialMessage);
+  }, [isConnected, initialMessage, setStatus, startRandomChat]);
 
   const RandomStatusButton =
     status === "idle" ? (
@@ -151,83 +178,50 @@ export default function RandomChatPage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-50/70">
-      <header className="absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl border border-white/50 bg-white/50 px-1.5 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs">
-        <IconButton onClick={() => navigate("/")} variant="ghost">
-          <ChevronLeft className="h-6 w-6" />
-        </IconButton>
+      <div className="absolute top-1.5 right-2.5 left-2.5 z-20 flex flex-col gap-2 rounded-2xl border border-white/50 bg-gray-50/50 px-1.5 py-2 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs">
+        <div className="flex justify-between gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <IconButton onClick={() => navigate("/")}>
+              <ChevronLeft className="h-6 w-6" />
+            </IconButton>
 
-        <div className="min-w-0 flex-1">
-          <h2 className="truncate text-base font-extrabold text-gray-950">
-            랜덤 채팅
-          </h2>
-          <p className="truncate text-xs font-medium text-gray-400">
-            익명으로 연결됨
-          </p>
-        </div>
-      </header>
-
-      {status === "idle" && (
-        <div className="mt-18 px-2.5">
-          <div className="flex-1 rounded-2xl border border-blue-100 bg-blue-50/80 p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex min-w-0 items-center gap-2 text-blue-500">
-                <MessageCircle className="h-4.5 w-4.5 shrink-0" />
-                <span className="truncate text-sm font-bold">
-                  연결 신청 메시지
-                </span>
-              </div>
-              {isEditingInitialMessage ? (
-                <IconButton
-                  onClick={() => {
-                    setIsEditingInitialMessage(false);
-                  }}
-                  variant="primary"
-                >
-                  <Check className="h-4 w-4" />
-                </IconButton>
-              ) : (
-                <IconButton onClick={() => setIsEditingInitialMessage(true)}>
-                  <Pencil className="h-4 w-4" />
-                </IconButton>
-              )}
+            <div className="flex min-w-0 items-center gap-2 text-blue-500">
+              <MessageCircle className="h-4.5 w-4.5 shrink-0" />
+              <span className="truncate text-base font-bold">랜덤채팅</span>
             </div>
-
-            {isEditingInitialMessage ? (
-              <div
-                className={`mt-3 flex w-full flex-col gap-2 rounded-2xl bg-white px-4 pt-3 pb-1 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5`}
-              >
-                <textarea
-                  value={initialMessage}
-                  onChange={(event) => setInitialMessage(event.target.value)}
-                  rows={3}
-                  maxLength={100}
-                  placeholder="처음 건넬 말을 적어주세요"
-                  className="max-h-40 w-full resize-none bg-transparent text-sm leading-relaxed font-medium text-gray-800 placeholder-gray-400 focus:outline-none"
-                />
-                <div className="self-end text-right text-xs font-medium text-gray-400">
-                  {initialMessage.length}/100
-                </div>
-              </div>
-            ) : (
-              <div className="mt-3 rounded-2xl bg-white px-3 py-2.5 text-sm leading-relaxed font-medium shadow-sm">
-                {initialMessage ? (
-                  <p className="line-clamp-3 break-all whitespace-pre-wrap text-gray-800">
-                    {initialMessage}
-                  </p>
-                ) : (
-                  <p className="text-gray-400">
-                    첫 메시지 없이 바로 매칭을 시작할 수 있어요.
-                  </p>
-                )}
-              </div>
-            )}
-
-            <p className="mt-3 text-xs leading-5 font-semibold text-blue-400">
-              입력하지 않으면 첫 메시지 없이 상대를 찾습니다.
-            </p>
           </div>
+          {(status === "idle" || status === "partnerLeft") && (
+            <IconButton onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? (
+                <ChevronUp className="h-6 w-6" />
+              ) : (
+                <ChevronDown className="h-6 w-6" />
+              )}
+            </IconButton>
+          )}
         </div>
-      )}
+
+        {isEditing && (status === "idle" || status === "partnerLeft") && (
+          <div className="flex w-full flex-col gap-2 rounded-2xl px-4 pt-3 pb-1 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5">
+            <textarea
+              value={initialMessage}
+              onChange={(event) => setInitialMessage(event.target.value)}
+              rows={3}
+              maxLength={100}
+              placeholder="처음 건넬 말을 적어주세요"
+              className="max-h-40 w-full resize-none bg-transparent text-sm leading-relaxed font-medium text-gray-800 placeholder-gray-400 focus:outline-none"
+            />
+            <div className="flex justify-between">
+              <p className="mt-3 text-xs leading-5 font-semibold text-blue-400">
+                입력하지 않으면 첫 메시지 없이 상대를 찾습니다.
+              </p>
+              <div className="self-end text-right text-xs font-medium text-gray-400">
+                {initialMessage.length}/100
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {status === "waiting" && (
         <div className="mt-18 px-2.5">

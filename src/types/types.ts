@@ -21,11 +21,22 @@ export interface ChatEventPayload {
 
 export type ChatEventType = "CREATED" | "DELETED";
 
-export interface RandomChatEvent {
-  type: "WAITING" | "MATCHED" | "MESSAGE" | "PARTNER_LEFT" | "ENDED" | "ERROR";
-  content: string;
-  isMine: boolean;
-}
+export type RandomChatEvent =
+  | { type: "WAITING" | "MATCHED" | "PARTNER_LEFT" | "ENDED" | "ERROR" }
+  | { type: "MESSAGE"; content: string; isMine: boolean };
+
+export type RandomMessage =
+  | {
+      id: string;
+      type: "message";
+      content: string;
+      isMine: boolean;
+    }
+  | {
+      id: string;
+      type: "system";
+      content: string;
+    };
 
 export interface Chat {
   id: number;

@@ -30,7 +30,7 @@ export default function Index() {
             className="flex flex-col gap-2 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left text-blue-500 transition-all active:scale-95"
           >
             <Shuffle className="h-5 w-5" />
-            <span className="text-sm font-bold">랜덤 연결</span>
+            <span className="text-sm font-bold">랜덤 채팅</span>
           </button>
           <button
             type="button"
