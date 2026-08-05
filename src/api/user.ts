@@ -1,9 +1,10 @@
 import type { User } from "@/types/types";
 
+const ENDPOINT = "/api/users";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const deleteAccount = async (): Promise<void> => {
-  const response = await fetch(`${API_URL}/api/users`, {
+  const response = await fetch(`${API_URL}${ENDPOINT}`, {
     method: "DELETE",
     credentials: "include",
   });
@@ -19,7 +20,7 @@ export const updateNickname = async ({
 }: {
   newNickname: string;
 }): Promise<User> => {
-  const response = await fetch(`${API_URL}/api/users`, {
+  const response = await fetch(`${API_URL}${ENDPOINT}`, {
     method: "PATCH",
     credentials: "include",
     headers: {
