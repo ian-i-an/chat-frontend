@@ -1,21 +1,56 @@
 import type { Room, RoomListItem } from "@/types/types";
-import { client } from "./client";
 
 const ENDPOINT = "/api/rooms";
+const API_URL = import.meta.env.VITE_API_URL;
 
-export const createRoom = async ({ roomName }: { roomName: string }) => {
-  const response = await client.post<RoomListItem>(ENDPOINT, {
-    roomName,
+export const createRoom = async ({
+  roomName,
+}: {
+  roomName: string;
+}): Promise<RoomListItem> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ roomName }),
   });
-  return response.data;
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
 };
 
-export const fetchRooms = async () => {
-  const response = await client.get<RoomListItem[]>(ENDPOINT);
-  return response.data;
+export const fetchRooms = async (): Promise<RoomListItem[]> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
 };
 
-export const fetchRoomById = async ({ roomCode }: { roomCode: string }) => {
-  const response = await client.get<Room>(`${ENDPOINT}/${roomCode}`);
-  return response.data;
+export const fetchRoomById = async ({
+  roomCode,
+}: {
+  roomCode: string;
+}): Promise<Room> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
 };

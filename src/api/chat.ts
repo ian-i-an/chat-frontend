@@ -1,7 +1,7 @@
 import type { ChatCursor } from "@/types/types";
-import { client } from "./client";
 
 const ENDPOINT = "/api/rooms";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchChats = async ({
   roomCode,
@@ -11,15 +11,28 @@ export const fetchChats = async ({
   roomCode: string;
   limit?: number;
   cursor?: number;
-}) => {
+}): Promise<ChatCursor> => {
   if (!limit) limit = 20;
-  const response = await client.get<ChatCursor>(
-    `${ENDPOINT}/${roomCode}/chats`,
+
+  const params = new URLSearchParams({ limit: String(limit) });
+
+  if (cursor !== undefined) {
+    params.set("cursor", String(cursor));
+  }
+
+  const response = await fetch(
+    `${API_URL}${ENDPOINT}/${roomCode}/chats?${params}`,
     {
-      params: { limit, cursor },
+      credentials: "include",
     },
   );
-  return response.data;
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
 };
 
 export const deleteChat = async ({
@@ -28,6 +41,17 @@ export const deleteChat = async ({
 }: {
   roomCode: string;
   chatId: number;
-}) => {
-  await client.delete<void>(`${ENDPOINT}/${roomCode}/chats/${chatId}`);
+}): Promise<void> => {
+  const response = await fetch(
+    `${API_URL}${ENDPOINT}/${roomCode}/chats/${chatId}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
 };
