@@ -5,7 +5,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SignUpPassword from "./pages/SignUpPassword";
 import NavigationLayout from "./layout/NavigationLayout";
-import WebSocketLayout from "./layout/WebSocketLayout";
 import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import Rooms from "./pages/Rooms";
 import Profile from "./pages/Profile";
@@ -31,18 +30,16 @@ function App() {
           </Route>
         </Route>
 
-        <Route element={<WebSocketLayout />}>
-          <Route element={<NavigationLayout />}>
-            <Route element={<ProtectedRouteLayout />}>
-              <Route path="/rooms" element={<Rooms />} />
-              <Route path="/profile" element={<Profile />} />
-            </Route>
+        <Route element={<NavigationLayout />}>
+          <Route element={<ProtectedRouteLayout />}>
+            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
+        </Route>
 
-          <Route element={<WhiteBarLayout />}>
-            <Route path="/random" element={<RandomChatPage />} />
-            <Route path="/:roomCode" element={<RoomPage />} />
-          </Route>
+        <Route element={<WhiteBarLayout />}>
+          <Route path="/random" element={<RandomChatPage />} />
+          <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
 
         <Route path="/*" element={<Navigate to={"/"} replace />} />
