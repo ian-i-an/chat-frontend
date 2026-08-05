@@ -25,6 +25,7 @@ export type RandomChatEvent =
   | { type: "WAITING" | "MATCHED" | "PARTNER_LEFT" | "ENDED" | "ERROR" }
   | { type: "MESSAGE"; content: string; isMine: boolean };
 
+
 export type RandomMessage =
   | {
       id: string;
@@ -38,6 +39,7 @@ export type RandomMessage =
       content: string;
     };
 
+    
 export interface Chat {
   id: number;
   content: string | null;
@@ -56,3 +58,10 @@ export interface ChatCursor {
   chats: Chat[];
   hasNext: boolean;
 }
+
+
+export type RoomSseEvent = {
+  roomCode: string;
+  lastMessage: string;
+  isMyMessage: boolean;
+};

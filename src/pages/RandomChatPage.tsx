@@ -1,11 +1,16 @@
+import {
+  leaveRandomChat as leaveRandomChatRequest,
+  sendRandomChatMessage as sendRandomChatMessageRequest,
+  startRandomChat as startRandomChatRequest,
+} from "@/api/random-chat";
 import ChatInput from "@/components/chat/ChatInput";
 import Button from "@/components/common/Button";
 import IconButton from "@/components/common/IconButton";
 import RandomMain from "@/components/random/RandomMain";
 import { useElementSize } from "@/hooks/use-element-size";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+import { useRandomChatSse } from "@/sse/useRandomChatSse";
 import type { RandomChatEvent, RandomMessage } from "@/types/types";
-import { useRandomChatWebSocket } from "@/websocket/useRandomChatWebSocket";
 import {
   ChevronDown,
   ChevronLeft,
@@ -15,8 +20,9 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type RandomChatStatus = "idle" | "waiting" | "chatting" | "partnerLeft";
 
@@ -103,32 +109,52 @@ export default function RandomChatPage() {
     }
   };
 
-  const {
-    isConnected,
-    startRandomChat,
-    sendRandomChatMessage,
-    leaveRandomChat,
-  } = useRandomChatWebSocket(handleRandomChatEvent);
+  const { isConnected } = useRandomChatSse(handleRandomChatEvent);
+
+  const requestRandomChatStart = useCallback(
+    (message?: string) => {
+      if (!isConnected) {
+        toast.error("연결이 끊겨 랜덤 채팅을 시작할 수 없어요.");
+        return;
+      }
+
+      void startRandomChatRequest({ initialMessage: message }).catch(
+        (error: Error) => {
+          toast.error(error.message);
+        },
+      );
+    },
+    [isConnected],
+  );
 
   const handleSendMessage = (content: string) => {
     if (status === "chatting") {
-      sendRandomChatMessage(content);
+      if (!isConnected) {
+        toast.error("연결이 끊겨 메시지를 보낼 수 없어요.");
+        return;
+      }
+
+      void sendRandomChatMessageRequest({ content }).catch((error: Error) => {
+        toast.error(error.message);
+      });
     }
   };
 
   const handleStartMatching = () => {
-    startRandomChat(initialMessage);
+    requestRandomChatStart(initialMessage);
   };
 
   const handleRestartMatching = () => {
     setMessages([]);
-    startRandomChat(initialMessage);
+    requestRandomChatStart(initialMessage);
   };
 
   const handleLeaveRandomChat = () => {
     setStatus("idle");
     setMessages([]);
-    leaveRandomChat();
+    void leaveRandomChatRequest().catch((error: Error) => {
+      toast.error(error.message);
+    });
   };
 
   useEffect(() => {
@@ -137,8 +163,8 @@ export default function RandomChatPage() {
 
     hasStartedRef.current = true;
 
-    startRandomChat(initialMessage);
-  }, [isConnected, initialMessage, setStatus, startRandomChat]);
+    requestRandomChatStart(initialMessage);
+  }, [isConnected, initialMessage, requestRandomChatStart, setStatus]);
 
   const RandomStatusButton =
     status === "idle" ? (

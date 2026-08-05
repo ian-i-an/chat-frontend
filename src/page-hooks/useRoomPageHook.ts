@@ -1,10 +1,19 @@
+import {
+  sendChat as sendChatRequest,
+  sendReadStatus as sendReadStatusRequest,
+} from "@/api/chat";
 import { useFetchChats } from "@/hooks/use-chat";
 import { ROOM_KEYS, useFetchRoomById } from "@/hooks/use-room";
-import { useReadStatus } from "@/websocket/useReadStatus";
-import { useChatWebSocket } from "@/websocket/useChatWebSocket";
-import type { Chat, ChatCursor, ChatEventPayload } from "@/types/types";
+import { useChatSse } from "@/sse/useChatSse";
+import type {
+  Chat,
+  ChatCursor,
+  ChatEventPayload,
+  RoomListItem,
+} from "@/types/types";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 export function useRoomPageHook({
   roomCode,
@@ -28,11 +37,11 @@ export function useRoomPageHook({
     isFetchingNextPage,
   } = useFetchChats(roomCode);
 
-  const { isConnected, sendReadStatus } = useReadStatus(roomCode);
   const latestChatId = chats.length > 0 ? chats[0].id : null;
   const lastReadChatIdRef = useRef<number | null>(null);
+  const hasSseConnectedRef = useRef(false);
 
-  const { sendMessage } = useChatWebSocket(
+  const { isConnected: isChatSseConnected } = useChatSse(
     roomCode,
     (event: ChatEventPayload) => {
       if (event.type === "CREATED") {
@@ -98,15 +107,48 @@ export function useRoomPageHook({
   );
 
   useEffect(() => {
+    if (!isChatSseConnected) return;
+
+    if (!hasSseConnectedRef.current) {
+      hasSseConnectedRef.current = true;
+      return;
+    }
+
+    void queryClient.invalidateQueries({ queryKey: ROOM_KEYS.chats(roomCode) });
+  }, [isChatSseConnected, queryClient, roomCode]);
+
+  useEffect(() => {
     if (!room?.isMyRoom || !latestChatId) return;
     if (lastReadChatIdRef.current === latestChatId) return;
 
-    void sendReadStatus(latestChatId).then((sent) => {
-      if (sent) {
+    void sendReadStatusRequest({ roomCode, lastReadChatId: latestChatId })
+      .then(() => {
         lastReadChatIdRef.current = latestChatId;
-      }
-    });
-  }, [isConnected, latestChatId, room?.isMyRoom, sendReadStatus]);
+
+        queryClient.setQueryData<RoomListItem[]>(
+          ROOM_KEYS.list,
+          (oldChatRooms) => {
+            if (!oldChatRooms) return oldChatRooms;
+
+            return oldChatRooms.map((room) =>
+              room.roomCode === roomCode ? { ...room, unreadCount: 0 } : room,
+            );
+          },
+        );
+      })
+      .catch(() => undefined);
+  }, [latestChatId, queryClient, room?.isMyRoom, roomCode]);
+
+  const sendMessage = useCallback(
+    (content: string, replyToId?: number) => {
+      void sendChatRequest({ roomCode, content, replyToId }).catch(
+        (error: Error) => {
+          toast.error(error.message);
+        },
+      );
+    },
+    [roomCode],
+  );
 
   return {
     room,

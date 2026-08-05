@@ -1,17 +1,13 @@
+import type { RoomSseEvent } from "@/types/types";
 import { useEffect, useRef, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export type ChatListSseEvent = {
-  roomCode: string;
-  lastMessage: string;
-  isMyMessage: boolean;
-};
 
-export function useChatListSse({
+export function useRoomSse({
   onEventReceived,
 }: {
-  onEventReceived: (event: ChatListSseEvent) => void;
+  onEventReceived: (event: RoomSseEvent) => void;
 }) {
   const [isConnected, setIsConnected] = useState(false);
   const callbackRef = useRef(onEventReceived);
@@ -30,7 +26,7 @@ export function useChatListSse({
     };
 
     eventSource.onmessage = (message) => {
-      const event: ChatListSseEvent = JSON.parse(message.data);
+      const event: RoomSseEvent = JSON.parse(message.data);
       callbackRef.current(event);
     };
 
