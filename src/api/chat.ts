@@ -55,3 +55,49 @@ export const deleteChat = async ({
     throw new Error(error.message);
   }
 };
+
+export const sendChat = async ({
+  roomCode,
+  content,
+  replyToId,
+}: {
+  roomCode: string;
+  content: string;
+  replyToId?: number;
+}): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/chats`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ content, replyToId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+};
+
+export const sendReadStatus = async ({
+  roomCode,
+  lastReadChatId,
+}: {
+  roomCode: string;
+  lastReadChatId: number;
+}): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/read`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ lastReadChatId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+};

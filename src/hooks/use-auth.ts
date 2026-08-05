@@ -3,11 +3,10 @@ import {
   signIn,
   checkIdDuplication,
   signUp,
-  fetchMyProfile,
   signOut,
 } from "@/api/auth";
+import { fetchMyProfile } from "@/api/user";
 import { useNavigate } from "react-router-dom";
-import { stompClient } from "@/websocket/websocket-client";
 
 export const USER_KEYS = {
   all: ["user"],
@@ -58,9 +57,6 @@ export const useSignOut = () => {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      if (stompClient.active) {
-        stompClient.deactivate();
-      }
       queryClient.clear();
 
       navigate("/sign-in", { replace: true });

@@ -1,4 +1,4 @@
-import type { User } from "@/types/types";
+import type { UserDto } from "@/types/types";
 
 const ENDPOINT = "/api/auth";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -9,10 +9,11 @@ export const signIn = async ({
 }: {
   loginId: string;
   password: string;
-}) => {
+}):Promise<UserDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-in`, {
     method: "POST",
     // credentials: "include": 브라우저가 cross-origin 요청에도 쿠키를 포함하게 함
+    // 기본은 same-origin 임, 이건 완전히 같아야 동작
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +26,7 @@ export const signIn = async ({
     throw new Error(error.message);
   }
 
-  return response.json() as Promise<User>;
+  return response.json();
 };
 
 export const checkIdDuplication = async ({ loginId }: { loginId: string }) => {
@@ -50,7 +51,7 @@ export const signUp = async ({
 }: {
   loginId: string;
   password: string;
-}) : Promise<User>=> {
+}) : Promise<UserDto>=> {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-up`, {
     method: "POST",
     credentials: "include",
@@ -66,19 +67,6 @@ export const signUp = async ({
   }
 
   return response.json();
-};
-
-export const fetchMyProfile = async (): Promise<User> => {
-  const response = await fetch(`${API_URL}${ENDPOINT}/me`, {
-    credentials: "include",
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-
-  return response.json() ;
 };
 
 export const signOut = async ():Promise<void> => {

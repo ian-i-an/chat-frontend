@@ -47,7 +47,7 @@ export interface Chat {
   replyTo: ReplyTo | null;
 }
 
-export interface User {
+export interface UserDto {
   id: number;
   nickname: string;
 }

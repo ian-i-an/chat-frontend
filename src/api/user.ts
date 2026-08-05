@@ -1,4 +1,4 @@
-import type { User } from "@/types/types";
+import type { UserDto } from "@/types/types";
 
 const ENDPOINT = "/api/users";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -19,7 +19,7 @@ export const updateNickname = async ({
   newNickname,
 }: {
   newNickname: string;
-}): Promise<User> => {
+}): Promise<UserDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}`, {
     method: "PATCH",
     credentials: "include",
@@ -35,4 +35,17 @@ export const updateNickname = async ({
   }
 
   return response.json();
+};
+
+export const fetchMyProfile = async (): Promise<UserDto> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/me`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json() ;
 };
