@@ -9,9 +9,10 @@ export const signIn = async ({
 }: {
   loginId: string;
   password: string;
-}): Promise<User> => {
+}) => {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-in`, {
     method: "POST",
+    // credentials: "include": 브라우저가 cross-origin 요청에도 쿠키를 포함하게 함
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
@@ -20,20 +21,14 @@ export const signIn = async ({
   });
 
   if (!response.ok) {
-    const error = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(error?.message);
+    const error = await response.json();
+    throw new Error(error.message);
   }
 
-  return response.json();
+  return response.json() as Promise<User>;
 };
 
-export const checkIdDuplication = async ({
-  loginId,
-}: {
-  loginId: string;
-}): Promise<void> => {
+export const checkIdDuplication = async ({ loginId }: { loginId: string }) => {
   const response = await fetch(`${API_URL}${ENDPOINT}/check-id`, {
     method: "POST",
     credentials: "include",
@@ -44,10 +39,8 @@ export const checkIdDuplication = async ({
   });
 
   if (!response.ok) {
-    const error = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(error?.message);
+    const error = await response.json();
+    throw new Error(error.message);
   }
 };
 
@@ -57,7 +50,7 @@ export const signUp = async ({
 }: {
   loginId: string;
   password: string;
-}): Promise<User> => {
+}) : Promise<User>=> {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-up`, {
     method: "POST",
     credentials: "include",
@@ -68,10 +61,8 @@ export const signUp = async ({
   });
 
   if (!response.ok) {
-    const error = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(error?.message);
+    const error = await response.json();
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -83,25 +74,21 @@ export const fetchMyProfile = async (): Promise<User> => {
   });
 
   if (!response.ok) {
-    const error = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(error?.message);
+    const error = await response.json();
+    throw new Error(error.message);
   }
 
-  return response.json();
+  return response.json() ;
 };
 
-export const signOut = async (): Promise<void> => {
+export const signOut = async ():Promise<void> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-out`, {
     method: "POST",
     credentials: "include",
   });
 
   if (!response.ok) {
-    const error = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(error?.message);
+   const error = await response.json();
+    throw new Error(error.message);
   }
 };
