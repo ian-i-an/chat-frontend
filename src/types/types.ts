@@ -9,17 +9,17 @@ export interface Room {
   isMyRoom: boolean;
 }
 
-export interface ReplyTo {
+export interface ReplyView {
   id: number;
   content: string | null;
 }
 
-export interface ChatEventPayload {
-  type: ChatEventType;
-  chat: Chat;
+export interface ChatSseEvent {
+  type: ChatSseEventType;
+  chat: ChatView;
 }
 
-export type ChatEventType = "CREATED" | "DELETED";
+export type ChatSseEventType = "CREATED" | "DELETED";
 
 export type RandomChatEvent =
   | { type: "WAITING" | "MATCHED" | "PARTNER_LEFT" | "ENDED" | "ERROR" }
@@ -40,13 +40,13 @@ export type RandomMessage =
     };
 
     
-export interface Chat {
+export interface ChatView {
   id: number;
   content: string | null;
   isOwner: boolean;
   isDeleted: boolean;
   createdAt: string;
-  replyTo: ReplyTo | null;
+  replyTo: ReplyView | null;
 }
 
 export interface UserDto {
@@ -55,7 +55,7 @@ export interface UserDto {
 }
 
 export interface ChatCursor {
-  chats: Chat[];
+  chats: ChatView[];
   hasNext: boolean;
 }
 
