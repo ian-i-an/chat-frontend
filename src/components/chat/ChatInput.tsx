@@ -59,7 +59,7 @@ export default function ChatInput({
 
   return (
     <div
-      className={`w-full gap-2 rounded-2xl border border-white/50 bg-white/50 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs ${
+      className={`w-full gap-2 rounded-2xl glass ${
         isMultiline
           ? "flex flex-col px-4 py-2"
           : "flex items-center py-1 pr-2 pl-4"

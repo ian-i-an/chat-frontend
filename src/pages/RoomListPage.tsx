@@ -41,7 +41,7 @@ export default function RoomListPage() {
     },
   });
 
-  if (!isFetchMyProfileLoading || isLoading)
+  if (isFetchMyProfileLoading || isLoading)
     return <Loader fullPage />;
   if (!myProfile || isError) return <Navigate to="/" replace />;
 

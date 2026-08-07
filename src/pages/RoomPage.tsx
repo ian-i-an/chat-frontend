@@ -202,8 +202,8 @@ export default function RoomPage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-50/70">
-      <header className="absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl border border-white/50 bg-white/50 px-1.5 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs">
-        <IconButton onClick={() => navigate("/rooms")} variant="ghost">
+      <header className="absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl  px-1.5 glass">
+        <IconButton onClick={() => navigate("/rooms")} variant="ghost" className="glass-hover">
           <ChevronLeft className="h-6 w-6" />
         </IconButton>
 

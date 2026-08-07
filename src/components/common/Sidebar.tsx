@@ -51,7 +51,7 @@ export default function Sidebar({
       />
 
       <div
-        className={`fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col bg-white/80 shadow-2xl backdrop-blur-xs transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col glass transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -71,7 +71,7 @@ export default function Sidebar({
           <Link
             to="/"
             onClick={onClose}
-            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors hover:bg-white/50 active:bg-white/50"
+            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
           >
             <Home className="h-4.5 w-4.5 text-blue-500" /> 홈
           </Link>
@@ -81,7 +81,7 @@ export default function Sidebar({
               <Link
                 to="/rooms"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors hover:bg-white/50 active:bg-white/50"
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
                 <MessageCircle className="h-4.5 w-4.5 text-blue-500" />
                 채팅방
@@ -89,7 +89,7 @@ export default function Sidebar({
               <Link
                 to="/profile"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors hover:bg-white/50 active:bg-white/50"
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
                 <User className="h-4.5 w-4.5 text-blue-500" />내 프로필
               </Link>
@@ -97,7 +97,7 @@ export default function Sidebar({
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold text-red-500 transition-colors hover:bg-white/70 active:bg-white/70"
+                className="flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold text-red-500 transition-colors glass-hover"
               >
                 <LogOut className="h-4.5 w-4.5" />
                 로그아웃
@@ -108,7 +108,7 @@ export default function Sidebar({
               <Link
                 to="/sign-in"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors hover:bg-white/50 active:bg-white/50"
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
                 <LogIn className="h-4.5 w-4.5 text-blue-500" />
                 로그인
@@ -116,7 +116,7 @@ export default function Sidebar({
               <Link
                 to="/sign-up"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors hover:bg-white/50 active:bg-white/50"
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
                 <UserPlus className="h-4.5 w-4.5 text-blue-500" />
                 회원가입

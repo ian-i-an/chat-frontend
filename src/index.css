@@ -1,7 +1,17 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .glass {
+    @apply border border-white/50 bg-white/50  shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs;
+  }
+
+  .glass-hover {
+    @apply hover:bg-black/5 active:bg-black/5;
+  }
+}
+
 /* =========================================
-   2. 스크롤바 디자인 (기존 코드 그대로 적용)
+    스크롤바 디자인 (기존 코드 그대로 적용)
    ========================================= */
 @layer base {
   ::-webkit-scrollbar {
