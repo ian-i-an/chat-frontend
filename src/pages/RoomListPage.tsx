@@ -1,6 +1,5 @@
 import Loader from "@/components/common/Loader";
 import RoomList from "@/components/room/RoomList";
-import { useFetchMyProfile } from "@/hooks/use-auth";
 import { ROOM_KEYS, useFetchRooms } from "@/hooks/use-room";
 import { useRoomSse } from "@/sse/useRoomSse";
 import type { RoomListItem } from "@/types/types";
@@ -9,8 +8,6 @@ import { Navigate } from "react-router-dom";
 
 export default function RoomListPage() {
   const queryClient = useQueryClient();
-  const { data: myProfile, isLoading: isFetchMyProfileLoading } =
-    useFetchMyProfile();
   const { data: rooms = [], isLoading, isError } = useFetchRooms();
 
   useRoomSse({
@@ -41,9 +38,8 @@ export default function RoomListPage() {
     },
   });
 
-  if (isFetchMyProfileLoading || isLoading)
-    return <Loader fullPage />;
-  if (!myProfile || isError) return <Navigate to="/" replace />;
+  if (isLoading) return <Loader fullPage />;
+  if (isError) return <Navigate to="/sign-in" replace />;
 
   return (
     <div className="flex-1 overflow-y-auto">

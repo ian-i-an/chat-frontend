@@ -5,13 +5,14 @@ import ProfileButton from "./ProfileButton";
 import { useFetchMyProfile } from "@/hooks/use-auth";
 
 export default function Header() {
-  const { data: myProfile } = useFetchMyProfile();
+  const { data: myProfile, isError } = useFetchMyProfile();
+  const isAuthenticated = !!myProfile && !isError;
 
   return (
     <header className="w-full px-4 py-3">
       <div className="flex w-full min-w-64 items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <MenuButton isAuthenticated={!!myProfile} />
+          <MenuButton isAuthenticated={isAuthenticated} />
 
           <Link
             to="/"
@@ -21,7 +22,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {myProfile ? (
+        {isAuthenticated ? (
           <ProfileButton />
         ) : (
           <Link

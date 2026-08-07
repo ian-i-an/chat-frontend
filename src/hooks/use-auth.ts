@@ -40,7 +40,7 @@ export function useFetchMyProfile() {
   return useQuery({
     queryKey: USER_KEYS.me,
     queryFn: fetchMyProfile,
-    staleTime: 1000 * 60 * 30, // 30분
+    // staleTime: 1000 * 60 * 30, // 30분
   });
 }
 
