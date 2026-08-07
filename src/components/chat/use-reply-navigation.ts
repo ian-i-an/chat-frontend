@@ -1,9 +1,9 @@
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type UseReplyNavigationParams = {
-  chats: Chat[];
+  chats: ChatView[];
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;

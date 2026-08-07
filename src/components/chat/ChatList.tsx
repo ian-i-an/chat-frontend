@@ -1,19 +1,19 @@
 import React, { type RefObject } from "react";
 import ChatItem from "./ChatItem";
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
 import { useChatNext } from "./use-chat-next";
 import { useCloseActiveMenu } from "@/store/room-ui-store";
 
 interface ChatListProps {
-  chats: Chat[];
+  chats: ChatView[];
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => Promise<{ hasNextPage?: boolean }>;
   amIOwner: boolean;
   canDelete: boolean;
-  onDeleteChat: (chat: Chat) => void;
+  onDeleteChat: (chat: ChatView) => void;
   chatListRef: RefObject<HTMLDivElement | null>;
   highlightChatId: number | null;
   onReplyPreviewClick: (replyToId: number) => void;

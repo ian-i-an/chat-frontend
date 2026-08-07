@@ -1,8 +1,8 @@
 import { useStartReply } from "@/store/room-ui-store";
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { Reply, Trash2 } from "lucide-react";
 interface ChatIemACtionMenuProps {
-  chat: Chat;
+  chat: ChatView;
   isRightSide: boolean;
   canDelete: boolean;
   onDeleteChat: () => void;

@@ -6,9 +6,9 @@ import { useFetchChats } from "@/hooks/use-chat";
 import { ROOM_KEYS, useFetchRoomById } from "@/hooks/use-room";
 import { useChatSse } from "@/sse/useChatSse";
 import type {
-  Chat,
+  ChatView,
   ChatCursor,
-  ChatEventPayload,
+  ChatSseEvent,
   RoomListItem,
 } from "@/types/types";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ export function useRoomPageHook({
   onChatCreated,
 }: {
   roomCode: string;
-  onChatCreated: (chat: Chat) => void;
+  onChatCreated: (chat: ChatView) => void;
 }) {
   const queryClient = useQueryClient();
 
@@ -43,7 +43,7 @@ export function useRoomPageHook({
 
   const { isConnected: isChatSseConnected } = useChatSse(
     roomCode,
-    (event: ChatEventPayload) => {
+    (event: ChatSseEvent) => {
       if (event.type === "CREATED") {
         const newChat = event.chat;
 

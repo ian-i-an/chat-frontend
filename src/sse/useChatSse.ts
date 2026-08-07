@@ -1,11 +1,11 @@
-import type { ChatEventPayload } from "@/types/types";
+import type { ChatSseEvent } from "@/types/types";
 import { useEffect, useRef, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function useChatSse(
   roomCode: string,
-  onEventReceived: (event: ChatEventPayload) => void,
+  onEventReceived: (event: ChatSseEvent) => void,
 ) {
   const [isConnected, setIsConnected] = useState(false);
   const callbackRef = useRef(onEventReceived);
@@ -25,7 +25,7 @@ export function useChatSse(
     };
 
     eventSource.onmessage = (message) => {
-      const event: ChatEventPayload = JSON.parse(message.data);
+      const event: ChatSseEvent = JSON.parse(message.data);
       callbackRef.current(event);
     };
 

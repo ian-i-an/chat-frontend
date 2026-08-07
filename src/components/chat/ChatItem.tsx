@@ -1,4 +1,4 @@
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { formatTime } from "@/utils/time";
 import ChatItemActionMenu from "./ChatItemActionMenu";
 import ChatReplyPreview from "./ChatReplyPreview";
@@ -7,7 +7,7 @@ import { useIsMenuOpen, useToggleActiveMenuId } from "@/store/room-ui-store";
 import ChatBubble from "./ChatBubble";
 
 interface ChatItemProps {
-  chat: Chat;
+  chat: ChatView;
   amIOwner: boolean;
   isHighlighted: boolean;
   canDelete: boolean;

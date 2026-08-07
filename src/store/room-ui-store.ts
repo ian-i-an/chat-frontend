@@ -1,10 +1,10 @@
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { create } from "zustand";
 import { devtools, combine } from "zustand/middleware";
 
 type State = {
   actionMenuId: number | null;
-  replyTo: Chat | null;
+  replyTo: ChatView | null;
 };
 
 const initialState: State = {
@@ -30,7 +30,7 @@ export const useRoomUiStore = create(
           set({ replyTo: null });
         },
 
-        startReply: (chat: Chat) => {
+        startReply: (chat: ChatView) => {
           set({ replyTo: chat, actionMenuId: null });
         },
 

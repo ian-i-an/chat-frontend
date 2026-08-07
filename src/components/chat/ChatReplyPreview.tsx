@@ -1,11 +1,11 @@
-import type { ReplyTo } from "@/types/types";
+import type { ReplyView } from "@/types/types";
 
 export default function ChatReplyPreview({
   replyTo,
   isRightSide,
   onClick,
 }: {
-  replyTo: ReplyTo;
+  replyTo: ReplyView;
   isRightSide: boolean;
   onClick: () => void;
 }) {

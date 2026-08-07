@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
 import { useEffect, useRef } from "react";
-import type { Chat } from "@/types/types";
+import type { ChatView } from "@/types/types";
 import { useDeleteChat } from "@/hooks/use-chat";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
@@ -22,7 +22,7 @@ export default function RoomPage() {
   const closeReply = useCloseReply();
   const reset = useReset();
   //
-  const onChatCreatedRef = useRef<(chat: Chat) => void>(() => {});
+  const onChatCreatedRef = useRef<(chat: ChatView) => void>(() => {});
   const { ref: inputBarRef, height: inputBarHeight } =
     useElementSize<HTMLDivElement>();
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ export default function RoomPage() {
     };
   }, [scrollToLatestChat]);
 
-  const handleDeleteChat = (chat: Chat) => {
+  const handleDeleteChat = (chat: ChatView) => {
     deleteChat(chat.id);
   };
 
