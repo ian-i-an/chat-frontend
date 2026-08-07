@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useElementSize<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
+  const [element, setElement] = useState<T | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
+  const ref = useCallback((node: T | null) => {
+    setElement(node);
+  }, []);
+
   useEffect(() => {
-    const element = ref.current;
     if (!element) return;
 
     const updateSize = () => {
@@ -35,7 +38,7 @@ export function useElementSize<T extends HTMLElement>() {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [element]);
 
   return { ref, ...size };
 }

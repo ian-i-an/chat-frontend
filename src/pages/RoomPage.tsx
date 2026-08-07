@@ -5,64 +5,169 @@ import IconButton from "@/components/common/IconButton";
 import { ChevronLeft, Copy, X } from "lucide-react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-import { useRoomPageHook } from "@/page-hooks/useRoomPageHook";
-import { useEffect, useRef } from "react";
-import type { ChatView } from "@/types/types";
-import { useDeleteChat } from "@/hooks/use-chat";
+import { useCallback, useEffect, useRef } from "react";
+import type {
+  ChatCursor,
+  ChatSseEvent,
+  ChatView,
+  RoomListItem,
+} from "@/types/types";
+import { useDeleteChat, useFetchChats } from "@/hooks/use-chat";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
-import { useReplyNavigation } from "@/components/chat/use-reply-navigation";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
 import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
 import { useElementSize } from "@/hooks/use-element-size";
+import {
+  sendChat as sendChatRequest,
+  sendReadStatus as sendReadStatusRequest,
+} from "@/api/chat";
+import { ROOM_KEYS, useFetchRoomById } from "@/hooks/use-room";
+import { useChatSse } from "@/sse/useChatSse";
+import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 
 export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
   const replyTo = useReplyTo();
   const closeReply = useCloseReply();
   const reset = useReset();
-  //
-  const onChatCreatedRef = useRef<(chat: ChatView) => void>(() => {});
   const { ref: inputBarRef, height: inputBarHeight } =
     useElementSize<HTMLDivElement>();
+    
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { mutate: deleteChat } = useDeleteChat(roomCode);
+  const lastReadChatIdRef = useRef<number | null>(null);
+  const hasSseConnectedRef = useRef(false);
   useKeyboardInset();
 
   const {
-    room,
-    chats,
-    isRoomLoading,
-    isRoomError,
+    data: room,
+    isLoading: isRoomLoading,
+    isError: isRoomError,
+  } = useFetchRoomById(roomCode);
+
+  const {
+    data: chats = [],
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    sendMessage,
-  } = useRoomPageHook({
+  } = useFetchChats(roomCode);
+
+  const latestChatId = chats.length > 0 ? chats[0].id : null;
+  const { chatListRef, scrollToLatestChat } = useChatScroll();
+
+  const { isConnected: isChatSseConnected } = useChatSse(
     roomCode,
-    onChatCreated: (chat) => {
-      onChatCreatedRef.current(chat);
+    (event: ChatSseEvent) => {
+      if (event.type === "CREATED") {
+        const newChat = event.chatView;
+
+        queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+          ROOM_KEYS.chats(roomCode),
+          (old) => {
+            if (!old || old.pages.length === 0) return old;
+
+            return {
+              ...old,
+              pages: [
+                {
+                  ...old.pages[0],
+                  chatViews: [newChat, ...old.pages[0].chatViews],
+                },
+                ...old.pages.slice(1),
+              ],
+            };
+          },
+        );
+
+        requestAnimationFrame(() => {
+          scrollToLatestChat();
+        });
+
+        return;
+      }
+
+      if (event.type === "DELETED") {
+        const deletedChat = event.chatView;
+
+        queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+          ROOM_KEYS.chats(roomCode),
+          (old) => {
+            if (!old) return old;
+
+            return {
+              ...old,
+              pages: old.pages.map((page) => ({
+                ...page,
+                chatViews: page.chatViews.map((chat) => {
+                  if (chat.id === deletedChat.id) {
+                    return deletedChat;
+                  }
+
+                  if (chat.replyView?.id === deletedChat.id) {
+                    return {
+                      ...chat,
+                      replyView: {
+                        ...chat.replyView,
+                        content: deletedChat.content,
+                      },
+                    };
+                  }
+
+                  return chat;
+                }),
+              })),
+            };
+          },
+        );
+      }
     },
-  });
-
-  const { chatListRef, highlightChatId, scrollToLatestChat, focusChat } =
-    useChatScroll();
-
-  const { handleReplyPreviewClick } = useReplyNavigation({
-    chats,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-    focusChat,
-  });
+  );
 
   useEffect(() => {
-    onChatCreatedRef.current = () => {
-      requestAnimationFrame(() => {
-        scrollToLatestChat();
-      });
-    };
-  }, [scrollToLatestChat]);
+    if (!isChatSseConnected) return;
+
+    if (!hasSseConnectedRef.current) {
+      hasSseConnectedRef.current = true;
+      return;
+    }
+
+    void queryClient.invalidateQueries({ queryKey: ROOM_KEYS.chats(roomCode) });
+  }, [isChatSseConnected, queryClient, roomCode]);
+
+  useEffect(() => {
+    if (!room?.isMyRoom || !latestChatId) return;
+    if (lastReadChatIdRef.current === latestChatId) return;
+
+    void sendReadStatusRequest({ roomCode, lastReadChatId: latestChatId })
+      .then(() => {
+        lastReadChatIdRef.current = latestChatId;
+
+        queryClient.setQueryData<RoomListItem[]>(
+          ROOM_KEYS.list,
+          (oldChatRooms) => {
+            if (!oldChatRooms) return oldChatRooms;
+
+            return oldChatRooms.map((room) =>
+              room.roomCode === roomCode ? { ...room, unreadCount: 0 } : room,
+            );
+          },
+        );
+      })
+      .catch(() => undefined);
+  }, [latestChatId, queryClient, room?.isMyRoom, roomCode]);
+
+  const sendMessage = useCallback(
+    (content: string, replyToId?: number) => {
+      void sendChatRequest({ roomCode, content, replyToId }).catch(
+        (error: Error) => {
+          toast.error(error.message);
+        },
+      );
+    },
+    [roomCode],
+  );
 
   const handleDeleteChat = (chat: ChatView) => {
     deleteChat(chat.id);
@@ -125,8 +230,6 @@ export default function RoomPage() {
         fetchNextPage={fetchNextPage}
         canDelete={room.isMyRoom}
         onDeleteChat={handleDeleteChat}
-        highlightChatId={highlightChatId}
-        onReplyPreviewClick={handleReplyPreviewClick}
         bottomInset={inputBarHeight + 24}
       />
 

@@ -7,7 +7,7 @@ import type { RoomListItem } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Navigate } from "react-router-dom";
 
-export default function Rooms() {
+export default function RoomListPage() {
   const queryClient = useQueryClient();
   const { data: myProfile, isLoading: isFetchMyProfileLoading } =
     useFetchMyProfile();

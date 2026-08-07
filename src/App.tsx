@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import CardLayout from "./layout/CardLayout";
 import Index from "./pages/Index";
-import SignIn from "./pages/SignIn";
+import SignInPage from "./pages/SignInPage";
 import SignUp from "./pages/SignUp";
 import SignUpPassword from "./pages/SignUpPassword";
 import NavigationLayout from "./layout/NavigationLayout";
 import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
-import Rooms from "./pages/Rooms";
+import RoomListPage from "./pages/RoomListPage";
 import Profile from "./pages/Profile";
 import RoomPage from "./pages/RoomPage";
 import RandomChatPage from "./pages/RandomChatPage";
@@ -24,7 +24,7 @@ function App() {
 
         <Route element={<PublicRouteLayout />}>
           <Route element={<CardLayout />}>
-            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-up/password" element={<SignUpPassword />} />
           </Route>
@@ -32,7 +32,7 @@ function App() {
 
         <Route element={<NavigationLayout />}>
           <Route element={<ProtectedRouteLayout />}>
-            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/rooms" element={<RoomListPage />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>

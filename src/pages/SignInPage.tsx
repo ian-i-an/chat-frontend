@@ -6,7 +6,7 @@ import { useSignIn } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import AuthHeader from "@/components/auth/AuthHeader";
 
-export default function SignIn() {
+export default function SignInPage() {
   const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");

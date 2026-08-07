@@ -47,7 +47,6 @@ export default function RandomMain({
             <ChatBubble
               content={message.content}
               isRightSide={message.isMine}
-              isHighlighted={false}
             />
           </div>
         );

@@ -1,11 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   signIn,
-  checkIdDuplication,
-  signUp,
   signOut,
 } from "@/api/auth";
-import { fetchMyProfile } from "@/api/user";
+import { fetchMyProfile, checkIdDuplication,signUp } from "@/api/user";
 import { useNavigate } from "react-router-dom";
 
 export const USER_KEYS = {
@@ -33,12 +31,8 @@ export function useCheckId() {
 }
 
 export function useSignUp() {
-  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: signUp,
-    onSuccess: (userData) => {
-      queryClient.setQueryData(USER_KEYS.me, userData);
-    },
+    mutationFn: signUp
   });
 }
 

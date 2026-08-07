@@ -1,4 +1,4 @@
-import type { Room, RoomListItem } from "@/types/types";
+import type { RoomDto, RoomListItem } from "@/types/types";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -42,7 +42,7 @@ export const fetchRoomById = async ({
   roomCode,
 }: {
   roomCode: string;
-}): Promise<Room> => {
+}): Promise<RoomDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}`, {
     credentials: "include",
   });

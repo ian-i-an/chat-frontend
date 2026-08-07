@@ -1,9 +1,11 @@
-export interface RoomListItem extends Room {
+export interface RoomListItem {
+  roomCode: string;
+  name: string;
   lastMessage: string;
   unreadCount: number;
 }
 
-export interface Room {
+export interface RoomDto {
   roomCode: string;
   name: string;
   isMyRoom: boolean;
@@ -16,7 +18,7 @@ export interface ReplyView {
 
 export interface ChatSseEvent {
   type: ChatSseEventType;
-  chat: ChatView;
+  chatView: ChatView;
 }
 
 export type ChatSseEventType = "CREATED" | "DELETED";
@@ -46,7 +48,7 @@ export interface ChatView {
   isOwner: boolean;
   isDeleted: boolean;
   createdAt: string;
-  replyTo: ReplyView | null;
+  replyView: ReplyView | null;
 }
 
 export interface UserDto {
@@ -55,7 +57,7 @@ export interface UserDto {
 }
 
 export interface ChatCursor {
-  chats: ChatView[];
+  chatViews: ChatView[];
   hasNext: boolean;
 }
 

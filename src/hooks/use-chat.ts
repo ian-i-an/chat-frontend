@@ -15,15 +15,15 @@ export function useFetchChats(roomCode: string) {
     // 다음 요청부터는 getNextPageParam이 반환한 값을 pageParam으로 사용.
     // undefined를 반환하면 요청을 실행하지 않음
     getNextPageParam: (lastPage) => {
-      if (!lastPage.hasNext || lastPage.chats.length === 0) {
+      if (!lastPage.hasNext || lastPage.chatViews.length === 0) {
         return undefined;
       }
 
-      return lastPage.chats[lastPage.chats.length - 1].id;
+      return lastPage.chatViews[lastPage.chatViews.length - 1].id;
     },
 
     select: (data) => {
-      return data.pages.flatMap((page) => page.chats);
+      return data.pages.flatMap((page) => page.chatViews);
     },
   });
 }

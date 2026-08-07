@@ -15,8 +15,6 @@ interface ChatListProps {
   canDelete: boolean;
   onDeleteChat: (chat: ChatView) => void;
   chatListRef: RefObject<HTMLDivElement | null>;
-  highlightChatId: number | null;
-  onReplyPreviewClick: (replyToId: number) => void;
   bottomInset?: number;
 }
 
@@ -29,8 +27,6 @@ export default function ChatList({
   canDelete,
   onDeleteChat,
   chatListRef,
-  highlightChatId,
-  onReplyPreviewClick,
   bottomInset,
 }: ChatListProps) {
   const { topObserverRef } = useChatNext({
@@ -61,14 +57,8 @@ export default function ChatList({
             <ChatItem
               amIOwner={amIOwner}
               chat={chat}
-              isHighlighted={chat.id === highlightChatId}
               canDelete={canDelete}
               onDeleteChat={() => onDeleteChat(chat)}
-              onReplyPreviewClick={() => {
-                if (chat.replyTo) {
-                  onReplyPreviewClick(chat.replyTo.id);
-                }
-              }}
             />
             {showDateDivider && (
               <div className="my-1 flex items-center">

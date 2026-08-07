@@ -9,19 +9,15 @@ import ChatBubble from "./ChatBubble";
 interface ChatItemProps {
   chat: ChatView;
   amIOwner: boolean;
-  isHighlighted: boolean;
   canDelete: boolean;
   onDeleteChat: () => void;
-  onReplyPreviewClick: () => void;
 }
 
 export default function ChatItem({
   chat,
   amIOwner,
-  isHighlighted,
   canDelete,
   onDeleteChat,
-  onReplyPreviewClick,
 }: ChatItemProps) {
   const isRightSide = amIOwner === chat.isOwner;
   const isDeleted = chat.isDeleted || chat.content === null;
@@ -44,11 +40,10 @@ export default function ChatItem({
         />
       )}
 
-      {chat.replyTo && !isDeleted && (
+      {chat.replyView && !isDeleted && (
         <ChatReplyPreview
-          replyTo={chat.replyTo}
+          replyTo={chat.replyView}
           isRightSide={isRightSide}
-          onClick={onReplyPreviewClick}
         />
       )}
 
@@ -58,7 +53,7 @@ export default function ChatItem({
         }`}
       >
         {isDeleted ? (
-          <DeletedChatBubble isHighlighted={isHighlighted} />
+          <DeletedChatBubble />
         ) : (
           <ChatBubble
             onClick={(event) => {
@@ -67,7 +62,6 @@ export default function ChatItem({
             }}
             content={chat?.content}
             isRightSide={isRightSide}
-            isHighlighted={isHighlighted}
           />
         )}
 
