@@ -1,5 +1,5 @@
+import Loader from "@/components/common/Loader";
 import RoomList from "@/components/room/RoomList";
-import RoomListSkeleton from "@/components/room/skeleton/RoomListSkeleton";
 import { useFetchMyProfile } from "@/hooks/use-auth";
 import { ROOM_KEYS, useFetchRooms } from "@/hooks/use-room";
 import { useRoomSse } from "@/sse/useRoomSse";
@@ -41,8 +41,8 @@ export default function RoomListPage() {
     },
   });
 
-  if (isFetchMyProfileLoading || isLoading)
-    return <RoomListSkeleton count={3} />;
+  if (!isFetchMyProfileLoading || isLoading)
+    return <Loader fullPage />;
   if (!myProfile || isError) return <Navigate to="/" replace />;
 
   return (
