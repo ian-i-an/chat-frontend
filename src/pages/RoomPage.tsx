@@ -33,7 +33,7 @@ export default function RoomPage() {
   const reset = useReset();
   const { ref: inputBarRef, height: inputBarHeight } =
     useElementSize<HTMLDivElement>();
-    
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate: deleteChat } = useDeleteChat(roomCode);
@@ -57,76 +57,74 @@ export default function RoomPage() {
   const latestChatId = chats.length > 0 ? chats[0].id : null;
   const { chatListRef, scrollToLatestChat } = useChatScroll();
 
-  const { isConnected: isChatSseConnected } = useChatSse(
-    roomCode,
-    (event: ChatSseEvent) => {
-      if (event.type === "CREATED") {
-        const newChat = event.chatView;
+  const { isConnected } = useChatSse(roomCode, (event: ChatSseEvent) => {
+    if (event.type === "CREATED") {
+      const newChat = event.chatView;
 
-        queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
-          ROOM_KEYS.chats(roomCode),
-          (old) => {
-            if (!old || old.pages.length === 0) return old;
+      queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+        ROOM_KEYS.chats(roomCode),
+        (old) => {
+          if (!old || old.pages.length === 0) return old;
 
-            return {
-              ...old,
-              pages: [
-                {
-                  ...old.pages[0],
-                  chatViews: [newChat, ...old.pages[0].chatViews],
-                },
-                ...old.pages.slice(1),
-              ],
-            };
-          },
-        );
+          return {
+            ...old,
+            pages: [
+              {
+                ...old.pages[0],
+                chatViews: [newChat, ...old.pages[0].chatViews],
+              },
+              ...old.pages.slice(1),
+            ],
+          };
+        },
+      );
 
-        requestAnimationFrame(() => {
-          scrollToLatestChat();
-        });
+      requestAnimationFrame(() => {
+        scrollToLatestChat();
+      });
 
-        return;
-      }
+      return;
+    }
 
-      if (event.type === "DELETED") {
-        const deletedChat = event.chatView;
+    if (event.type === "DELETED") {
+      const deletedChat = event.chatView;
 
-        queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
-          ROOM_KEYS.chats(roomCode),
-          (old) => {
-            if (!old) return old;
+      queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+        ROOM_KEYS.chats(roomCode),
+        (old) => {
+          if (!old) return old;
 
-            return {
-              ...old,
-              pages: old.pages.map((page) => ({
-                ...page,
-                chatViews: page.chatViews.map((chat) => {
-                  if (chat.id === deletedChat.id) {
-                    return deletedChat;
-                  }
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              chatViews: page.chatViews.map((chat) => {
+                if (chat.id === deletedChat.id) {
+                  return deletedChat;
+                }
 
-                  if (chat.replyView?.id === deletedChat.id) {
-                    return {
-                      ...chat,
-                      replyView: {
-                        ...chat.replyView,
-                        content: deletedChat.content,
-                      },
-                    };
-                  }
+                if (chat.replyView?.id === deletedChat.id) {
+                  return {
+                    ...chat,
+                    replyView: {
+                      ...chat.replyView,
+                      content: deletedChat.content,
+                    },
+                  };
+                }
 
-                  return chat;
-                }),
-              })),
-            };
-          },
-        );
-      }
-    },
-  );
+                return chat;
+              }),
+            })),
+          };
+        },
+      );
+    }
+  });
 
+  // sse 연결이 한 번이라도 된 상태에서 연결 상태에 변화가 생겼을 때, 룸 정보를 다시 가져옴.
   useEffect(() => {
-    if (!isChatSseConnected) return;
+    if (!isConnected) return;
 
     if (!hasSseConnectedRef.current) {
       hasSseConnectedRef.current = true;
@@ -134,7 +132,7 @@ export default function RoomPage() {
     }
 
     void queryClient.invalidateQueries({ queryKey: ROOM_KEYS.chats(roomCode) });
-  }, [isChatSseConnected, queryClient, roomCode]);
+  }, [isConnected, queryClient, roomCode]);
 
   useEffect(() => {
     if (!room?.isMyRoom || !latestChatId) return;
@@ -169,10 +167,6 @@ export default function RoomPage() {
     [roomCode],
   );
 
-  const handleDeleteChat = (chat: ChatView) => {
-    deleteChat(chat.id);
-  };
-
   const handleSendMessage = (content: string) => {
     sendMessage(content, replyTo?.id);
     closeReply();
@@ -202,8 +196,12 @@ export default function RoomPage() {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-50/70">
-      <header className="absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl  px-1.5 glass">
-        <IconButton onClick={() => navigate("/rooms")} variant="ghost" className="glass-hover">
+      <header className="glass absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl px-1.5">
+        <IconButton
+          onClick={() => navigate("/rooms")}
+          variant="ghost"
+          className="glass-hover"
+        >
           <ChevronLeft className="h-6 w-6" />
         </IconButton>
 
@@ -229,7 +227,9 @@ export default function RoomPage() {
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}
         canDelete={room.isMyRoom}
-        onDeleteChat={handleDeleteChat}
+        onDeleteChat={(chat: ChatView) => {
+          deleteChat(chat.id);
+        }}
         bottomInset={inputBarHeight + 24}
       />
 

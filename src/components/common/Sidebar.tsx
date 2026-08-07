@@ -44,14 +44,14 @@ export default function Sidebar({
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-xs transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40  backdrop-blur-xs transition-opacity duration-300 ${
           isOpen ? "" : "invisible opacity-0"
         }`}
         onClick={onClose}
       />
 
       <div
-        className={`fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col glass transition-transform duration-300 ease-in-out ${
+        className={` fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col glass transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
