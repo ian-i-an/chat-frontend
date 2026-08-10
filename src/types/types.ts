@@ -23,25 +23,6 @@ export interface ChatSseEvent {
 
 export type ChatSseEventType = "CREATED" | "DELETED";
 
-export type RandomChatEvent =
-  | { type: "WAITING" | "MATCHED" | "PARTNER_LEFT" | "ENDED" | "ERROR" }
-  | { type: "MESSAGE"; content: string; isMine: boolean };
-
-
-export type RandomMessage =
-  | {
-      id: string;
-      type: "message";
-      content: string;
-      isMine: boolean;
-    }
-  | {
-      id: string;
-      type: "system";
-      content: string;
-    };
-
-    
 export interface ChatView {
   id: number;
   content: string | null;
@@ -60,7 +41,6 @@ export interface ChatCursor {
   chatViews: ChatView[];
   hasNext: boolean;
 }
-
 
 export type RoomSseEvent = {
   roomCode: string;

@@ -9,7 +9,6 @@ import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import RoomListPage from "./pages/RoomListPage";
 import Profile from "./pages/Profile";
 import RoomPage from "./pages/RoomPage";
-import RandomChatPage from "./pages/RandomChatPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
 import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
@@ -38,7 +37,6 @@ function App() {
         </Route>
 
         <Route element={<WhiteBarLayout />}>
-          <Route path="/random" element={<RandomChatPage />} />
           <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
 
