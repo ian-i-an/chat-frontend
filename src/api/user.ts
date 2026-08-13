@@ -16,17 +16,17 @@ export const deleteAccount = async (): Promise<void> => {
 };
 
 export const updateNickname = async ({
-  newNickname,
+  nickname,
 }: {
-  newNickname: string;
+  nickname: string;
 }): Promise<UserDto> => {
-  const response = await fetch(`${API_URL}${ENDPOINT}`, {
+  const response = await fetch(`${API_URL}${ENDPOINT}/me`, {
     method: "PATCH",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ newNickname }),
+    body: JSON.stringify({ nickname }),
   });
 
   if (!response.ok) {
@@ -35,6 +35,34 @@ export const updateNickname = async ({
   }
 
   return response.json();
+};
+
+export const updatePassword = async ({
+  currentPassword,
+  newPassword,
+  confirmPassword,
+}: {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/me/password`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
 };
 
 export const fetchMyProfile = async (): Promise<UserDto> => {
@@ -47,7 +75,7 @@ export const fetchMyProfile = async (): Promise<UserDto> => {
     throw new Error(error.message);
   }
 
-  return response.json() ;
+  return response.json();
 };
 
 export const checkIdDuplication = async ({ loginId }: { loginId: string }) => {
@@ -66,14 +94,13 @@ export const checkIdDuplication = async ({ loginId }: { loginId: string }) => {
   }
 };
 
-
 export const signUp = async ({
   loginId,
   password,
 }: {
   loginId: string;
   password: string;
-}) : Promise<void>=> {
+}): Promise<void> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-up`, {
     method: "POST",
     credentials: "include",

@@ -17,8 +17,8 @@ export default function Index() {
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-6 font-medium text-gray-500 sm:text-base sm:leading-7">
-            채팅방을 만들고 링크를 공유해보세요. 초대받은 사람은 별도의
-            가입 없이 익명으로 대화에 참여할 수 있어요.
+            채팅방을 만들고 링크를 공유해보세요. <br/>
+            초대받은 사람은 별도의 가입 없이 익명으로 대화에 참여할 수 있어요.
           </p>
 
           <Link

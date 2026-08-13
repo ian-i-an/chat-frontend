@@ -3,6 +3,7 @@ import Dialog from "../common/Dialog";
 import Button from "../common/Button";
 import { toast } from "sonner";
 import PasswordInput from "../common/PasswordInput";
+import { updatePassword } from "@/api/user";
 // import { Eye, EyeOff } from "lucide-react";
 
 export default function PasswordChangeDialog() {
@@ -10,15 +11,15 @@ export default function PasswordChangeDialog() {
   const [currentPassword, setCurrentPassword] = useState("");
 
   const [newPassword, setNewPassword] = useState("");
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const isCurrentPasswordEmpty = !currentPassword.trim();
   const isNewPasswordEmpty = !newPassword.trim();
-  const isNewPasswordConfirmEmpty = !newPasswordConfirm.trim();
+  const isNewPasswordConfirmEmpty = !confirmPassword.trim();
 
   const isPasswordMismatch =
-    !!newPasswordConfirm && newPassword !== newPasswordConfirm;
+    !!confirmPassword && newPassword !== confirmPassword;
 
   const canSubmit =
     !isCurrentPasswordEmpty &&
@@ -30,11 +31,11 @@ export default function PasswordChangeDialog() {
     setIsOpen(false);
     setCurrentPassword("");
     setNewPassword("");
-    setNewPasswordConfirm("");
+    setConfirmPassword("");
     setIsSubmitted(false);
   };
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
 
@@ -43,8 +44,17 @@ export default function PasswordChangeDialog() {
       return;
     }
 
-    // TODO: 비밀번호 변경 API 연결
-    toast.success("비밀번호 변경 요청을 보낼 수 있는 상태입니다.");
+    try {
+      await updatePassword({
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      });
+      closeDialog();
+      toast.success("비밀번호 변경에 성공했습니다.");
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
   };
 
   return (
@@ -103,9 +113,9 @@ export default function PasswordChangeDialog() {
 
                 <div className="flex flex-col gap-2">
                   <PasswordInput
-                    value={newPasswordConfirm}
+                    value={confirmPassword}
                     onChange={(event) =>
-                      setNewPasswordConfirm(event.target.value)
+                      setConfirmPassword(event.target.value)
                     }
                     placeholder="새로운 비밀번호 확인"
                   />

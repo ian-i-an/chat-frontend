@@ -42,10 +42,7 @@ export default function NicknameEditor({
       setIsEditing(false);
       toast.success("이름이 변경되었습니다.");
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "이름 변경에 실패했습니다.";
-
-      toast.error(message);
+      toast.error((error as Error).message);
     }
   };
 

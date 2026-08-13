@@ -14,7 +14,7 @@ export default function Profile() {
   const { mutate: deleteAccount } = useDeleteAccount();
 
   const handleUpdateNickname = async (nickname: string) => {
-    await updateNickname({ newNickname: nickname });
+    await updateNickname({ nickname });
   };
 
   const handleDeleteAccount = () => {
@@ -30,7 +30,7 @@ export default function Profile() {
   if (isError) return <Navigate to={"/sign-in"} />;
 
   return (
-    <div className="flex flex-1 flex-col px-6 py-10">
+    <div className="flex flex-1  max-w-2xl min-w-64 mx-auto flex-col px-6 py-10">
       <div className="flex flex-col items-center gap-3 border-b border-gray-100 pb-4">
         <div className="h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gray-100">
           <img
