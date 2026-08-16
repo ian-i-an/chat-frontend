@@ -6,6 +6,8 @@ import { useSignIn } from "@/hooks/use-auth";
 import { toast } from "sonner";
 import AuthHeader from "@/components/auth/AuthHeader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function SignInPage() {
   const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
@@ -38,7 +40,7 @@ export default function SignInPage() {
         description="지금 바로 나만의 익명 채팅방 만들러가기"
       />
 
-      <form onSubmit={handleLogin} className="mt-6 mb-3 flex flex-col gap-3">
+      <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-3">
         <FormInput
           placeholder={"아이디"}
 
@@ -58,7 +60,27 @@ export default function SignInPage() {
         </Button>
       </form>
 
-      <div className="text-center text-xs font-medium text-gray-400">
+      <div className="my-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-gray-200" />
+        <span className="text-xs font-medium text-gray-400">또는</span>
+        <div className="h-px flex-1 bg-gray-200" />
+      </div>
+
+      <a
+        href={`${API_URL}/oauth2/authorization/kakao`}
+        className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#fee500] px-4 text-sm font-bold text-[#191919] transition-colors hover:bg-[#f5dc00] active:bg-[#ead300]"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="h-5 w-5 fill-current"
+        >
+          <path d="M12 3C6.48 3 2 6.55 2 10.93c0 2.84 1.88 5.33 4.7 6.73l-.96 3.52a.5.5 0 0 0 .77.54l4.15-2.75c.44.05.89.08 1.34.08 5.52 0 10-3.55 10-7.93S17.52 3 12 3Z" />
+        </svg>
+        <span>카카오로 로그인</span>
+      </a>
+
+      <div className="mt-5 text-center text-xs font-medium text-gray-400">
         아직 가입하지 않으셨나요?{" "}
         <span
           onClick={() => {

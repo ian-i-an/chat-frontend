@@ -12,6 +12,7 @@ import RoomPage from "./pages/RoomPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
 import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
+import SignUpCompletePage from "./pages/SignUpCompletePage";
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-up/password" element={<SignUpPassword />} />
           </Route>
+        </Route>
+
+        <Route element={<CardLayout />}>
+          <Route path="/sign-up/complete" element={<SignUpCompletePage />} />
         </Route>
 
         <Route element={<NavigationLayout />}>
