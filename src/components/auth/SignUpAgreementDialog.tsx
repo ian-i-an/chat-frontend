@@ -23,7 +23,6 @@ const Section = ({
 function TermsContent() {
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-xs text-gray-400">시행일: 2026년 8월 16일</p>
 
       <Section title="1. 약관의 목적">
         이 약관은 첨벙이 제공하는 익명 채팅 서비스의 이용 조건과 운영자 및
@@ -78,7 +77,6 @@ function TermsContent() {
 function PrivacyContent() {
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-xs text-gray-400">시행일: 2026년 8월 16일</p>
 
       <Section title="수집·이용 목적">
         카카오 계정을 통한 회원 식별과 로그인, 회원 계정 관리, 익명 채팅방과

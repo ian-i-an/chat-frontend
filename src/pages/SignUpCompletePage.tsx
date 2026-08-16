@@ -102,7 +102,7 @@ export default function SignUpCompletePage() {
           disabled={!hasAgreedToAll}
           className="mt-7 w-full"
         >
-          동의하고 시작하기
+          동의하고 가입하기
         </Button>
       </form>
 
