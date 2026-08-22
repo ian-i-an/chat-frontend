@@ -3,12 +3,15 @@ import SignUpAgreementDialog, {
   type AgreementType,
 } from "@/components/auth/SignUpAgreementDialog";
 import Button from "@/components/common/Button";
+import { useSignUp } from "@/hooks/use-auth";
 import { CheckCircle2, ChevronRight } from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function SignUpCompletePage() {
   const navigate = useNavigate();
+  const { mutateAsync: signUp, isPending } = useSignUp();
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
   const [hasAgreedToPrivacy, setHasAgreedToPrivacy] = useState(false);
   const [openAgreement, setOpenAgreement] =
@@ -16,12 +19,17 @@ export default function SignUpCompletePage() {
 
   const hasAgreedToAll = hasAgreedToTerms && hasAgreedToPrivacy;
 
-  const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     if (!hasAgreedToAll) return;
 
-    navigate("/rooms", { replace: true });
+    try {
+      await signUp();
+      navigate("/rooms", { replace: true });
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
   };
 
   return (
@@ -99,10 +107,10 @@ export default function SignUpCompletePage() {
 
         <Button
           type="submit"
-          disabled={!hasAgreedToAll}
+          disabled={!hasAgreedToAll || isPending}
           className="mt-7 w-full"
         >
-          동의하고 가입하기
+          {isPending ? "가입 중..." : "동의하고 가입하기"}
         </Button>
       </form>
 

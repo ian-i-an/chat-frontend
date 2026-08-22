@@ -5,7 +5,6 @@ import { useDeleteAccount, useUpdateNickname } from "@/hooks/use-user";
 import NicknameEditor from "@/components/profile/NicknameEditor";
 import { Navigate } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-import PasswordChangeDialog from "@/components/profile/PasswordChangeDialog";
 
 export default function Profile() {
   const { data: myProfile, isError, isLoading } = useFetchMyProfile();
@@ -45,18 +44,6 @@ export default function Profile() {
           isUpdating={isUpdatingNickname}
           onUpdateNickname={handleUpdateNickname}
         />
-      </div>
-
-      <div className="mb-7 flex flex-col gap-3">
-        <h2 className="px-1 pt-8 pb-4 text-sm font-semibold text-gray-500">
-          계정 설정
-        </h2>
-        <PasswordChangeDialog />
-        {/* <button
-        onClick={}
-         className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-gray-700 transition-colors hover:bg-gray-100">
-          
-        </button> */}
       </div>
 
       <div className="mt-auto rounded-2xl border border-red-100 bg-red-50/50 p-5">

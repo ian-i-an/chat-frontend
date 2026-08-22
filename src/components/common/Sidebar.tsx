@@ -4,7 +4,6 @@ import {
   LogOut,
   MessageCircle,
   User,
-  UserPlus,
   X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -104,24 +103,14 @@ export default function Sidebar({
               </button>
             </>
           ) : (
-            <>
-              <Link
-                to="/sign-in"
-                onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
-              >
-                <LogIn className="h-4.5 w-4.5 text-blue-500" />
-                로그인
-              </Link>
-              <Link
-                to="/sign-up"
-                onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
-              >
-                <UserPlus className="h-4.5 w-4.5 text-blue-500" />
-                회원가입
-              </Link>
-            </>
+            <Link
+              to="/sign-in"
+              onClick={onClose}
+              className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+            >
+              <LogIn className="h-4.5 w-4.5 text-blue-500" />
+              로그인
+            </Link>
           )}
         </nav>
       </div>

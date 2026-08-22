@@ -2,8 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import CardLayout from "./layout/CardLayout";
 import Index from "./pages/Index";
 import SignInPage from "./pages/SignInPage";
-import SignUp from "./pages/SignUp";
-import SignUpPassword from "./pages/SignUpPassword";
 import NavigationLayout from "./layout/NavigationLayout";
 import ProtectedRouteLayout from "./layout/ProtectedRouteLayout";
 import RoomListPage from "./pages/RoomListPage";
@@ -13,6 +11,7 @@ import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
 import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
 import SignUpCompletePage from "./pages/SignUpCompletePage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 function App() {
   return (
@@ -25,13 +24,11 @@ function App() {
         <Route element={<PublicRouteLayout />}>
           <Route element={<CardLayout />}>
             <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/sign-up/password" element={<SignUpPassword />} />
           </Route>
         </Route>
 
         <Route element={<CardLayout />}>
-          <Route path="/sign-up/complete" element={<SignUpCompletePage />} />
+          <Route path="/sign-up/confirm" element={<SignUpCompletePage />} />
         </Route>
 
         <Route element={<NavigationLayout />}>
@@ -44,6 +41,8 @@ function App() {
         <Route element={<WhiteBarLayout />}>
           <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
+
+        <Route path="/admin" element={<AdminDashboardPage />} />
 
         <Route path="/*" element={<Navigate to={"/"} replace />} />
       </Route>
