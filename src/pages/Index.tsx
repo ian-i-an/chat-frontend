@@ -11,21 +11,22 @@ export default function Index() {
           </div>
 
           <h1 className="text-3xl leading-tight font-black text-gray-950 sm:text-4xl">
-            링크 하나로 시작하는
+            아싸들의 연결고리,
             <br />
-            익명 채팅
+            첨벙
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-6 font-medium text-gray-500 sm:text-base sm:leading-7">
-            채팅방을 만들고 링크를 공유해보세요. <br/>
-            초대받은 사람은 별도의 가입 없이 익명으로 대화에 참여할 수 있어요.
+            친구가 적어도, 먼저 다가가는 게 서툴러도 괜찮아요.
+            <br />
+            부담 없이 만나고 천천히 가까워지는 우리만의 놀이터예요.
           </p>
 
           <Link
             to="/rooms"
             className="mt-8 flex items-center gap-2 rounded-xl bg-blue-500 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-200 transition-colors hover:bg-blue-400 active:bg-blue-400"
           >
-            내 채팅방으로 가기
+            연결 시작하기
             <ArrowRight className="h-4 w-4" />
           </Link>
         </section>
@@ -34,9 +35,11 @@ export default function Index() {
           <div className="flex items-start gap-3 px-4 py-5">
             <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-blue-500" />
             <div>
-              <h2 className="text-sm font-bold text-gray-900">방을 만들고</h2>
+              <h2 className="text-sm font-bold text-gray-900">
+                가볍게 말을 걸고
+              </h2>
               <p className="mt-1 text-sm leading-5 text-gray-500">
-                대화를 나눌 공간을 만들어요.
+                거창한 소개 없이 편하게 시작해요.
               </p>
             </div>
           </div>
@@ -44,9 +47,11 @@ export default function Index() {
           <div className="flex items-start gap-3 border-t border-gray-200 px-4 py-5 sm:border-t-0">
             <Link2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
             <div>
-              <h2 className="text-sm font-bold text-gray-900">링크를 나누고</h2>
+              <h2 className="text-sm font-bold text-gray-900">
+                느슨하게 연결되고
+              </h2>
               <p className="mt-1 text-sm leading-5 text-gray-500">
-                함께할 사람을 간단히 초대해요.
+                서로의 속도에 맞춰 관계를 이어가요.
               </p>
             </div>
           </div>
@@ -54,11 +59,9 @@ export default function Index() {
           <div className="flex items-start gap-3 border-t border-gray-200 px-4 py-5 sm:border-t-0">
             <UserRound className="mt-0.5 h-5 w-5 shrink-0 text-violet-500" />
             <div>
-              <h2 className="text-sm font-bold text-gray-900">
-                익명으로 이야기하고
-              </h2>
+              <h2 className="text-sm font-bold text-gray-900">함께 놀고</h2>
               <p className="mt-1 text-sm leading-5 text-gray-500">
-                부담 없이 대화를 이어가요.
+                우리에게 맞는 즐거움을 나눠요.
               </p>
             </div>
           </div>
