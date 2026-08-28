@@ -12,6 +12,10 @@ import PublicRouteLayout from "./layout/PublicRouteLayout";
 import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
 import SignUpCompletePage from "./pages/SignUpCompletePage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import QuizCreatePage from "./pages/QuizCreatePage";
+import QuizListPage from "./pages/QuizListPage";
+import QuizSolvePage from "./pages/QuizSolvePage";
+import QuizResultPage from "./pages/QuizResultPage";
 
 function App() {
   return (
@@ -35,10 +39,14 @@ function App() {
           <Route element={<ProtectedRouteLayout />}>
             <Route path="/rooms" element={<RoomListPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/quizzes" element={<QuizListPage />} />
+            <Route path="/quizzes/new" element={<QuizCreatePage />} />
           </Route>
         </Route>
 
         <Route element={<WhiteBarLayout />}>
+          <Route path="/quizzes/:code/result" element={<QuizResultPage />} />
+          <Route path="/quizzes/:code" element={<QuizSolvePage />} />
           <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
 

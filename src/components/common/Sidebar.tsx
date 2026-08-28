@@ -1,5 +1,6 @@
 import {
   Home,
+  ListChecks,
   LogIn,
   LogOut,
   MessageCircle,
@@ -91,6 +92,14 @@ export default function Sidebar({
                 className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
                 <User className="h-4.5 w-4.5 text-blue-500" />내 프로필
+              </Link>
+              <Link
+                to="/quizzes"
+                onClick={onClose}
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+              >
+                <ListChecks className="h-4.5 w-4.5 text-emerald-500" />
+                퀴즈
               </Link>
 
               <button
