@@ -16,6 +16,11 @@ import QuizCreatePage from "./pages/QuizCreatePage";
 import QuizListPage from "./pages/QuizListPage";
 import QuizSolvePage from "./pages/QuizSolvePage";
 import QuizResultPage from "./pages/QuizResultPage";
+import AdminSignInPage from "./pages/AdminSignInPage";
+import AdminProtectedRouteLayout from "./layout/AdminProtectedRouteLayout";
+import AdminLayout from "./layout/AdminLayout";
+import AdminQuizTemplateCreatePage from "./pages/AdminQuizTemplateCreatePage";
+import AdminQuizTemplateEditPage from "./pages/AdminQuizTemplateEditPage";
 
 function App() {
   return (
@@ -50,7 +55,23 @@ function App() {
           <Route path="/:roomCode" element={<RoomPage />} />
         </Route>
 
-        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route element={<CardLayout />}>
+          <Route path="/admin/sign-in" element={<AdminSignInPage />} />
+        </Route>
+
+        <Route element={<AdminProtectedRouteLayout />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route
+              path="/admin/quiz-templates/new"
+              element={<AdminQuizTemplateCreatePage />}
+            />
+            <Route
+              path="/admin/quiz-templates/:quizTemplateId/edit"
+              element={<AdminQuizTemplateEditPage />}
+            />
+          </Route>
+        </Route>
 
         <Route path="/*" element={<Navigate to={"/"} replace />} />
       </Route>
