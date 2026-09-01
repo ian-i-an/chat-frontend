@@ -2,7 +2,11 @@ import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
 import { useFetchQuiz } from "@/hooks/use-quiz";
 import { Crown, Home, Medal, RotateCcw, Trophy } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+
+interface QuizResultRouteState {
+  nickname?: string;
+}
 
 const MOCK_RESULT = {
   score: 82,
@@ -21,7 +25,14 @@ const MOCK_RESULT = {
 
 export default function QuizResultPage() {
   const { code = "" } = useParams();
+  const location = useLocation();
   const { data: quiz, isLoading, isError, refetch } = useFetchQuiz(code);
+  const nickname =
+    (location.state as QuizResultRouteState | null)?.nickname?.trim() ||
+    "익명 참가자";
+  const rankings = MOCK_RESULT.rankings.map((participant) =>
+    participant.isMe ? { ...participant, nickname } : participant,
+  );
 
   if (isLoading) return <Loader fullPage />;
   if (isError || !quiz) return <Fallback onRetry={() => refetch()} />;
@@ -81,7 +92,7 @@ export default function QuizResultPage() {
             </div>
 
             <div className="mt-4 divide-y divide-gray-100 border-y border-gray-200">
-              {MOCK_RESULT.rankings.map((participant) => (
+              {rankings.map((participant) => (
                 <div
                   key={participant.rank}
                   className={`flex min-h-14 items-center gap-3 px-3 py-2 ${
@@ -99,13 +110,20 @@ export default function QuizResultPage() {
                       </span>
                     )}
                   </div>
-                  <span
-                    className={`min-w-0 flex-1 truncate text-sm font-bold ${
-                      participant.isMe ? "text-blue-700" : "text-gray-700"
-                    }`}
-                  >
-                    {participant.nickname}
-                  </span>
+                  <div className="flex min-w-0 flex-1 items-center gap-2">
+                    <span
+                      className={`truncate text-sm font-bold ${
+                        participant.isMe ? "text-blue-700" : "text-gray-700"
+                      }`}
+                    >
+                      {participant.nickname}
+                    </span>
+                    {participant.isMe && (
+                      <span className="shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-600">
+                        나
+                      </span>
+                    )}
+                  </div>
                   <span
                     className={`shrink-0 text-sm font-black ${
                       participant.isMe ? "text-blue-600" : "text-gray-900"

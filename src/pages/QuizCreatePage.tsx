@@ -1,7 +1,28 @@
 import Button from "@/components/common/Button";
+import {
+  useFetchQuizTemplate,
+  useFetchQuizTemplates,
+} from "@/hooks/use-quiz-template";
 import { useCreateQuiz } from "@/hooks/use-quiz";
-import type { QuizCreateInfo } from "@/types/types";
-import { Plus, Trash2 } from "lucide-react";
+import type {
+  QuestionTemplateDto,
+  QuizCreateInfo,
+  QuizTemplateDto,
+} from "@/types/types";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpenCheck,
+  Check,
+  CheckCircle2,
+  ChevronRight,
+  LoaderCircle,
+  Plus,
+  RotateCcw,
+  Sparkles,
+  Trash2,
+  TriangleAlert,
+} from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,41 +36,270 @@ interface DraftQuestion {
   id: number;
   content: string;
   options: DraftOption[];
-  correctOptionId: number;
+  correctOptionId: number | null;
+}
+
+interface TemplatePickerProps {
+  onSelect: (quizTemplateId: number) => void;
+}
+
+interface QuizTemplateEditorProps {
+  quizTemplateId: number;
+  onChangeTemplate: () => void;
 }
 
 let nextDraftId = 0;
 
-const createDraftOption = (): DraftOption => ({
+const templateIconStyles = [
+  "bg-blue-50 text-blue-600",
+  "bg-emerald-50 text-emerald-600",
+  "bg-violet-50 text-violet-600",
+  "bg-amber-50 text-amber-600",
+  "bg-rose-50 text-rose-600",
+  "bg-cyan-50 text-cyan-600",
+];
+
+const createDraftOption = (content = ""): DraftOption => ({
   id: nextDraftId++,
-  content: "",
+  content,
 });
 
-const createDraftQuestion = (): DraftQuestion => {
-  const options = [createDraftOption(), createDraftOption()];
+const createDraftQuestion = (): DraftQuestion => ({
+  id: nextDraftId++,
+  content: "",
+  options: [createDraftOption(), createDraftOption()],
+  correctOptionId: null,
+});
 
-  return {
-    id: nextDraftId++,
-    content: "",
-    options,
-    correctOptionId: options[0].id,
-  };
-};
+const createDraftQuestionFromTemplate = (
+  question: QuestionTemplateDto,
+): DraftQuestion => ({
+  id: nextDraftId++,
+  content: question.content,
+  options: question.options.map((option) => createDraftOption(option.content)),
+  correctOptionId: null,
+});
 
-export default function QuizCreatePage() {
+function TemplatePicker({ onSelect }: TemplatePickerProps) {
+  const {
+    data: templates = [],
+    isLoading,
+    isError,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useFetchQuizTemplates();
+
+  return (
+    <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 pb-20">
+      <main className="mx-auto w-full max-w-3xl">
+        <header className="border-b border-gray-200 pb-6">
+          <p className="flex items-center gap-1.5 text-sm font-bold text-blue-500">
+            <Sparkles className="h-4 w-4" />
+            템플릿으로 빠르게
+          </p>
+          <h1 className="mt-2 text-2xl font-black text-gray-950">
+            어떤 퀴즈를 만들까요?
+          </h1>
+          <p className="mt-2 max-w-xl text-sm leading-6 text-gray-500">
+            마음에 드는 주제를 고르면 질문과 선택지를 모두 준비해드려요. 나에게
+            맞는 정답만 선택하면 퀴즈가 완성됩니다.
+          </p>
+        </header>
+
+        <section className="mt-6" aria-labelledby="template-list-title">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2
+                id="template-list-title"
+                className="text-base font-black text-gray-950"
+              >
+                퀴즈 템플릿
+              </h2>
+              <p className="mt-1 text-xs font-medium text-gray-400">
+                제목과 소개를 확인하고 하나를 선택해주세요.
+              </p>
+            </div>
+            {!isLoading && !isError && (
+              <span className="shrink-0 text-sm font-bold text-gray-400">
+                {templates.length}개
+              </span>
+            )}
+          </div>
+
+          {isLoading && (
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-40 animate-pulse rounded-lg border border-gray-200 bg-white p-5"
+                >
+                  <div className="h-10 w-10 rounded-lg bg-gray-100" />
+                  <div className="mt-5 h-4 w-3/5 rounded bg-gray-100" />
+                  <div className="mt-3 h-3 w-full rounded bg-gray-100" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {isError && (
+            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-4 border-y border-gray-200 bg-white px-4 text-center">
+              <TriangleAlert className="h-6 w-6 text-gray-400" />
+              <p className="text-sm font-semibold text-gray-500">
+                템플릿을 불러오지 못했습니다.
+              </p>
+              <button
+                type="button"
+                onClick={() => refetch()}
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-400"
+              >
+                <RotateCcw className="h-4 w-4" />
+                다시 시도하기
+              </button>
+            </div>
+          )}
+
+          {!isLoading && !isError && templates.length === 0 && (
+            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-3 border-y border-gray-200 bg-white px-4 text-center">
+              <BookOpenCheck className="h-7 w-7 text-gray-300" />
+              <p className="text-sm font-semibold text-gray-500">
+                아직 사용할 수 있는 템플릿이 없습니다.
+              </p>
+            </div>
+          )}
+
+          {!isLoading && !isError && templates.length > 0 && (
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {templates.map((template, index) => (
+                <button
+                  key={template.quizTemplateId}
+                  type="button"
+                  onClick={() => onSelect(template.quizTemplateId)}
+                  className="group flex min-h-40 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-white p-5 text-left shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50/30 active:border-blue-300"
+                >
+                  <div className="flex w-full items-start justify-between gap-3">
+                    <span
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${templateIconStyles[index % templateIconStyles.length]}`}
+                    >
+                      <BookOpenCheck className="h-5 w-5" />
+                    </span>
+                    <ChevronRight className="h-5 w-5 shrink-0 text-gray-300 transition-colors group-hover:text-blue-500" />
+                  </div>
+                  <h3 className="mt-4 text-base font-black text-gray-950">
+                    {template.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-5 text-gray-500">
+                    {template.description || "나만의 정답으로 완성하는 퀴즈"}
+                  </p>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {hasNextPage && (
+            <button
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white py-3 text-sm font-bold text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed disabled:text-gray-300"
+            >
+              {isFetchingNextPage ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <Plus className="h-4 w-4" />
+              )}
+              템플릿 더 보기
+            </button>
+          )}
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function QuizTemplateEditor({
+  quizTemplateId,
+  onChangeTemplate,
+}: QuizTemplateEditorProps) {
+  const {
+    data: template,
+    isLoading,
+    isError,
+    refetch,
+  } = useFetchQuizTemplate(quizTemplateId);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 items-center justify-center text-gray-400">
+        <LoaderCircle className="h-6 w-6 animate-spin" />
+      </div>
+    );
+  }
+
+  if (isError || !template) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
+        <TriangleAlert className="h-6 w-6 text-gray-400" />
+        <p className="text-sm font-semibold text-gray-500">
+          템플릿 상세 내용을 불러오지 못했습니다.
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onChangeTemplate}
+            className="cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50"
+          >
+            목록으로
+          </button>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-400"
+          >
+            <RotateCcw className="h-4 w-4" />
+            다시 시도하기
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <QuizEditorForm
+      key={template.quizTemplateId}
+      template={template}
+      onChangeTemplate={onChangeTemplate}
+    />
+  );
+}
+
+function QuizEditorForm({
+  template,
+  onChangeTemplate,
+}: {
+  template: QuizTemplateDto;
+  onChangeTemplate: () => void;
+}) {
   const navigate = useNavigate();
   const { mutate: createQuiz, isPending } = useCreateQuiz();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [questions, setQuestions] = useState<DraftQuestion[]>(() => [
-    createDraftQuestion(),
-  ]);
+  const [title, setTitle] = useState(template.title);
+  const [description, setDescription] = useState(template.description ?? "");
+  const [questions, setQuestions] = useState<DraftQuestion[]>(() =>
+    template.questions.map(createDraftQuestionFromTemplate),
+  );
+
+  const answeredQuestionCount = questions.filter(
+    (question) => question.correctOptionId !== null,
+  ).length;
 
   const isValid =
     !!title.trim() &&
+    questions.length > 0 &&
     questions.every(
       (question) =>
         !!question.content.trim() &&
+        question.correctOptionId !== null &&
         question.options.length >= 2 &&
         question.options.every((option) => !!option.content.trim()),
     );
@@ -83,16 +333,12 @@ export default function QuizCreatePage() {
     updateQuestion(questionId, (question) => {
       if (question.options.length === 2) return question;
 
-      const options = question.options.filter(
-        (option) => option.id !== optionId,
-      );
-
       return {
         ...question,
-        options,
+        options: question.options.filter((option) => option.id !== optionId),
         correctOptionId:
           question.correctOptionId === optionId
-            ? options[0].id
+            ? null
             : question.correctOptionId,
       };
     });
@@ -127,151 +373,209 @@ export default function QuizCreatePage() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 pb-20">
-      <main className="mx-auto w-full max-w-2xl">
-        <header className="border-b border-gray-200 pb-5">
-          <p className="text-sm font-bold text-blue-500">나만의 퀴즈</p>
-          <h1 className="mt-1 text-2xl font-black text-gray-950">
-            퀴즈 만들기
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-gray-500">
-            친구들이 나를 얼마나 잘 아는지 확인할 질문을 만들어보세요.
-          </p>
+    <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 pb-20">
+      <main className="mx-auto w-full max-w-3xl">
+        <header className="border-b border-gray-200 pb-6">
+          <button
+            type="button"
+            onClick={onChangeTemplate}
+            disabled={isPending}
+            className="flex cursor-pointer items-center gap-1.5 text-sm font-bold text-gray-500 transition-colors hover:text-blue-500 disabled:cursor-not-allowed disabled:text-gray-300"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            다른 템플릿 고르기
+          </button>
+          <div className="mt-5 flex items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+              <CheckCircle2 className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-blue-500">정답 설정</p>
+              <h1 className="mt-1 text-2xl font-black text-gray-950">
+                나만의 답으로 완성하세요
+              </h1>
+              <p className="mt-2 text-sm leading-6 text-gray-500">
+                질문과 선택지는 자유롭게 다듬을 수 있어요. 각 문제마다 나를 가장
+                잘 나타내는 정답을 하나씩 골라주세요.
+              </p>
+            </div>
+          </div>
         </header>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
-          <section className="flex flex-col gap-4">
-            <label className="flex flex-col gap-2 text-sm font-bold text-gray-800">
-              퀴즈 제목
-              <input
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
-                placeholder="예: 나를 얼마나 잘 알고 있을까?"
-                disabled={isPending}
-                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-base font-normal text-gray-900 outline-none focus:border-blue-400"
-              />
-            </label>
-
-            <label className="flex flex-col gap-2 text-sm font-bold text-gray-800">
-              소개
-              <textarea
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                placeholder="퀴즈에 대한 짧은 소개를 적어주세요."
-                rows={3}
-                disabled={isPending}
-                className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-base font-normal text-gray-900 outline-none focus:border-blue-400"
-              />
-            </label>
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-black text-gray-900">문제</h2>
-              <span className="text-sm font-medium text-gray-400">
-                {questions.length}개
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-7">
+          <section className="border-y border-gray-200 bg-white px-4 py-5 sm:px-5">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-base font-black text-gray-950">퀴즈 정보</h2>
+              <span className="max-w-48 truncate text-right text-xs font-bold text-gray-400">
+                {template.title}
               </span>
             </div>
 
-            {questions.map((question, questionIndex) => (
-              <article
-                key={question.id}
-                className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-sm font-black text-gray-900">
-                    문제 {questionIndex + 1}
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => removeQuestion(question.id)}
-                    disabled={questions.length === 1 || isPending}
-                    aria-label="문제 삭제"
-                    title="문제 삭제"
-                    className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-
+            <div className="mt-5 flex flex-col gap-4">
+              <label className="flex flex-col gap-2 text-sm font-bold text-gray-700">
+                제목
                 <input
-                  value={question.content}
-                  onChange={(event) =>
-                    updateQuestion(question.id, (current) => ({
-                      ...current,
-                      content: event.target.value,
-                    }))
-                  }
-                  placeholder="질문을 입력해주세요."
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
+                  placeholder="퀴즈 제목"
                   disabled={isPending}
-                  className="mt-3 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-3 text-sm text-gray-900 outline-none focus:border-blue-400 focus:bg-white"
+                  className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-base font-semibold text-gray-950 transition-colors outline-none focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                 />
+              </label>
 
-                <div className="mt-4 flex flex-col gap-2">
-                  <p className="text-xs font-bold text-gray-500">
-                    정답 하나를 선택해주세요
-                  </p>
+              <label className="flex flex-col gap-2 text-sm font-bold text-gray-700">
+                소개
+                <textarea
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  placeholder="퀴즈에 대한 짧은 소개"
+                  rows={3}
+                  disabled={isPending}
+                  className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm leading-6 text-gray-900 transition-colors outline-none focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                />
+              </label>
+            </div>
+          </section>
 
-                  {question.options.map((option, optionIndex) => (
-                    <div key={option.id} className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name={`correct-option-${question.id}`}
-                        checked={question.correctOptionId === option.id}
-                        onChange={() =>
-                          updateQuestion(question.id, (current) => ({
-                            ...current,
-                            correctOptionId: option.id,
-                          }))
-                        }
-                        disabled={isPending}
-                        aria-label={`${optionIndex + 1}번 선택지를 정답으로 선택`}
-                        className="h-4 w-4 shrink-0 cursor-pointer accent-blue-500"
-                      />
-                      <input
-                        value={option.content}
-                        onChange={(event) =>
-                          updateQuestion(question.id, (current) => ({
-                            ...current,
-                            options: current.options.map((currentOption) =>
-                              currentOption.id === option.id
-                                ? {
-                                    ...currentOption,
-                                    content: event.target.value,
-                                  }
-                                : currentOption,
-                            ),
-                          }))
-                        }
-                        placeholder={`선택지 ${optionIndex + 1}`}
-                        disabled={isPending}
-                        className="min-w-0 flex-1 rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-blue-400"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeOption(question.id, option.id)}
-                        disabled={question.options.length === 2 || isPending}
-                        aria-label="선택지 삭제"
-                        title="선택지 삭제"
-                        className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
+          <section className="flex flex-col gap-4">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <h2 className="text-base font-black text-gray-950">
+                  문제와 정답
+                </h2>
+                <p className="mt-1 text-xs font-medium text-gray-400">
+                  정답을 선택한 문제 {answeredQuestionCount}/{questions.length}
+                </p>
+              </div>
+              <span className="text-sm font-bold text-gray-400">
+                {questions.length}문제
+              </span>
+            </div>
+
+            {questions.map((question, questionIndex) => {
+              const hasAnswer = question.correctOptionId !== null;
+
+              return (
+                <article
+                  key={question.id}
+                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-5"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-2.5">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gray-950 text-xs font-black text-white">
+                        {questionIndex + 1}
+                      </span>
+                      <span
+                        className={`flex items-center gap-1 text-xs font-bold ${
+                          hasAnswer ? "text-emerald-600" : "text-amber-600"
+                        }`}
                       >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                        {hasAnswer && <Check className="h-3.5 w-3.5" />}
+                        {hasAnswer ? "정답 선택됨" : "정답을 골라주세요"}
+                      </span>
                     </div>
-                  ))}
+                    <button
+                      type="button"
+                      onClick={() => removeQuestion(question.id)}
+                      disabled={questions.length === 1 || isPending}
+                      aria-label={`${questionIndex + 1}번 문제 삭제`}
+                      title="문제 삭제"
+                      className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => addOption(question.id)}
+                  <input
+                    value={question.content}
+                    onChange={(event) =>
+                      updateQuestion(question.id, (current) => ({
+                        ...current,
+                        content: event.target.value,
+                      }))
+                    }
+                    aria-label={`${questionIndex + 1}번 질문`}
+                    placeholder="질문을 입력해주세요."
                     disabled={isPending}
-                    className="mt-1 flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 py-2.5 text-sm font-bold text-gray-500 hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed"
-                  >
-                    <Plus className="h-4 w-4" />
-                    선택지 추가
-                  </button>
-                </div>
-              </article>
-            ))}
+                    className="mt-4 w-full border-0 border-b border-gray-200 bg-transparent px-0 pb-3 text-base font-bold text-gray-950 transition-colors outline-none focus:border-blue-400"
+                  />
+
+                  <div className="mt-4 flex flex-col gap-2.5">
+                    {question.options.map((option, optionIndex) => {
+                      const isCorrect = question.correctOptionId === option.id;
+
+                      return (
+                        <div
+                          key={option.id}
+                          className={`flex items-center gap-2 rounded-lg border p-2 transition-colors ${
+                            isCorrect
+                              ? "border-emerald-300 bg-emerald-50"
+                              : "border-gray-200 bg-gray-50"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name={`correct-option-${question.id}`}
+                            checked={isCorrect}
+                            onChange={() =>
+                              updateQuestion(question.id, (current) => ({
+                                ...current,
+                                correctOptionId: option.id,
+                              }))
+                            }
+                            disabled={isPending}
+                            aria-label={`${optionIndex + 1}번 선택지를 정답으로 선택`}
+                            className="h-5 w-5 shrink-0 cursor-pointer accent-emerald-500"
+                          />
+                          <input
+                            value={option.content}
+                            onChange={(event) =>
+                              updateQuestion(question.id, (current) => ({
+                                ...current,
+                                options: current.options.map((currentOption) =>
+                                  currentOption.id === option.id
+                                    ? {
+                                        ...currentOption,
+                                        content: event.target.value,
+                                      }
+                                    : currentOption,
+                                ),
+                              }))
+                            }
+                            aria-label={`${optionIndex + 1}번 선택지 내용`}
+                            placeholder={`선택지 ${optionIndex + 1}`}
+                            disabled={isPending}
+                            className="min-w-0 flex-1 bg-transparent px-1 py-1.5 text-sm text-gray-900 outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeOption(question.id, option.id)}
+                            disabled={
+                              question.options.length === 2 || isPending
+                            }
+                            aria-label={`${optionIndex + 1}번 선택지 삭제`}
+                            title="선택지 삭제"
+                            className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-white hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      );
+                    })}
+
+                    <button
+                      type="button"
+                      onClick={() => addOption(question.id)}
+                      disabled={isPending}
+                      className="mt-0.5 flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 py-2.5 text-sm font-bold text-gray-500 transition-colors hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed"
+                    >
+                      <Plus className="h-4 w-4" />
+                      선택지 추가
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
 
             <button
               type="button"
@@ -279,22 +583,52 @@ export default function QuizCreatePage() {
                 setQuestions((current) => [...current, createDraftQuestion()])
               }
               disabled={isPending}
-              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 py-3 text-sm font-bold text-blue-500 hover:bg-blue-100 disabled:cursor-not-allowed"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 py-3 text-sm font-bold text-blue-600 transition-colors hover:bg-blue-100 disabled:cursor-not-allowed"
             >
               <Plus className="h-4 w-4" />
               문제 추가
             </button>
           </section>
 
-          <Button
-            type="submit"
-            disabled={!isValid || isPending}
-            className="w-full"
-          >
-            {isPending ? "만드는 중..." : "퀴즈 만들기"}
-          </Button>
+          <div className="flex items-center justify-between gap-3 border-t border-gray-200 pt-4">
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-gray-400">완성도</p>
+              <p className="mt-0.5 text-sm font-black text-gray-900">
+                정답 {answeredQuestionCount}/{questions.length}
+              </p>
+            </div>
+            <Button
+              type="submit"
+              disabled={!isValid || isPending}
+              className="flex min-w-36 items-center justify-center gap-2 px-5"
+            >
+              {isPending ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <ArrowRight className="h-4 w-4" />
+              )}
+              {isPending ? "만드는 중" : "퀴즈 만들기"}
+            </Button>
+          </div>
         </form>
       </main>
     </div>
+  );
+}
+
+export default function QuizCreatePage() {
+  const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(
+    null,
+  );
+
+  if (selectedTemplateId === null) {
+    return <TemplatePicker onSelect={setSelectedTemplateId} />;
+  }
+
+  return (
+    <QuizTemplateEditor
+      quizTemplateId={selectedTemplateId}
+      onChangeTemplate={() => setSelectedTemplateId(null)}
+    />
   );
 }
