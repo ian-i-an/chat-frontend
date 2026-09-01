@@ -195,7 +195,7 @@ export default function RoomPage() {
   if (isRoomError || !room) return <Navigate to="/rooms" replace />;
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-50/70">
+    <div className="app-layout relative bg-background/70">
       <header className="glass absolute top-1.5 right-2.5 left-2.5 z-20 flex h-13 items-center gap-2 rounded-2xl px-1.5">
         <IconButton
           onClick={() => navigate("/rooms")}
@@ -206,10 +206,10 @@ export default function RoomPage() {
         </IconButton>
 
         <div className="min-w-0 flex-1">
-          <h2 className="truncate text-base font-extrabold text-gray-950">
+          <h2 className="truncate text-base font-extrabold text-foreground">
             {room.name}
           </h2>
-          <p className="truncate text-xs font-medium text-gray-400">
+          <p className="truncate text-xs font-medium text-subtle-foreground">
             개인 채팅방
           </p>
         </div>
@@ -238,12 +238,12 @@ export default function RoomPage() {
         className="absolute right-2.5 bottom-3 left-2.5 z-20 mb-(--keyboard-height,0px)"
       >
         {replyTo && (
-          <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-white/70 bg-white/60 py-2 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xl">
+          <div className="mb-2 flex items-center justify-between gap-3 rounded-2xl border border-white/70 bg-surface/60 py-2 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xl">
             <div className="flex min-w-0 flex-col gap-1 pr-2 pl-4">
-              <div className="text-[11px] font-bold text-blue-500">
+              <div className="text-[11px] font-bold text-primary">
                 {replyTo.isOwner ? "방장 메시지에 답장" : "익명 메시지에 답장"}
               </div>
-              <div className="line-clamp-2 text-xs font-medium break-all text-gray-500">
+              <div className="line-clamp-2 text-xs font-medium break-all text-muted-foreground">
                 {replyTo.content}
               </div>
             </div>

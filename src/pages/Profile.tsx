@@ -46,7 +46,7 @@ export default function Profile() {
         />
       </div>
 
-      <div className="mt-auto rounded-2xl border border-red-100 bg-red-50/50 p-5">
+      <div className="mt-auto rounded-2xl border border-red-100 bg-danger-soft/50 p-5">
         <div className="mb-4 flex items-center gap-2 text-red-600">
           <AlertCircle className="h-5 w-5" />
           <h2 className="font-bold">Danger Zone</h2>

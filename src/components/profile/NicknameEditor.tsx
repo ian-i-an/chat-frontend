@@ -61,7 +61,7 @@ export default function NicknameEditor({
           onChange={(event) => setDraftNickname(event.target.value)}
           disabled={isUpdating}
           autoFocus
-          className="rounded-xl bg-white px-3 py-1.5 text-center text-lg font-semibold tracking-tight text-gray-800 outline-none focus:ring-2 focus:ring-blue-200 disabled:text-gray-400"
+          className="rounded-xl bg-surface px-3 py-1.5 text-center text-lg font-semibold tracking-tight text-gray-800 outline-none focus:ring-2 focus:ring-blue-200 disabled:text-subtle-foreground"
         />
         <IconButton
           type="submit"

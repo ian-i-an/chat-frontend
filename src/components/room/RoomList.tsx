@@ -15,7 +15,7 @@ export default function RoomList({ rooms }: RoomListProps) {
           <h2 className="text-xl font-black tracking-tight text-gray-900">
             채팅방
           </h2>
-          <p className="mt-1 text-sm font-medium text-gray-500">
+          <p className="mt-1 text-sm font-medium text-muted-foreground">
             참여 중인 방 {rooms.length}개
           </p>
         </div>
@@ -23,7 +23,7 @@ export default function RoomList({ rooms }: RoomListProps) {
       </div>
 
       {rooms.length > 0 ? (
-        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-surface shadow-sm">
           {rooms.map((room, index) => (
             <RoomItem
               key={room.roomCode}
@@ -33,11 +33,11 @@ export default function RoomList({ rooms }: RoomListProps) {
           ))}
         </div>
       ) : (
-        <div className="flex min-h-64 flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white px-6 text-center">
+        <div className="flex min-h-64 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface px-6 text-center">
           <p className="text-base font-bold text-gray-900">
             아직 채팅방이 없어요
           </p>
-          <p className="mt-2 text-sm font-medium text-gray-500">
+          <p className="mt-2 text-sm font-medium text-muted-foreground">
             새 방을 만들고 대화를 시작해보세요.
           </p>
         </div>

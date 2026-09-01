@@ -51,7 +51,7 @@ interface QuizTemplateEditorProps {
 let nextDraftId = 0;
 
 const templateIconStyles = [
-  "bg-blue-50 text-blue-600",
+  "bg-primary-soft text-primary-strong",
   "bg-emerald-50 text-emerald-600",
   "bg-violet-50 text-violet-600",
   "bg-amber-50 text-amber-600",
@@ -94,15 +94,15 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 pb-20">
       <main className="mx-auto w-full max-w-3xl">
-        <header className="border-b border-gray-200 pb-6">
-          <p className="flex items-center gap-1.5 text-sm font-bold text-blue-500">
+        <header className="border-b border-border pb-6">
+          <p className="flex items-center gap-1.5 text-sm font-bold text-primary">
             <Sparkles className="h-4 w-4" />
             템플릿으로 빠르게
           </p>
-          <h1 className="mt-2 text-2xl font-black text-gray-950">
+          <h1 className="mt-2 text-2xl font-black text-foreground">
             어떤 퀴즈를 만들까요?
           </h1>
-          <p className="mt-2 max-w-xl text-sm leading-6 text-gray-500">
+          <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
             마음에 드는 주제를 고르면 질문과 선택지를 모두 준비해드려요. 나에게
             맞는 정답만 선택하면 퀴즈가 완성됩니다.
           </p>
@@ -113,16 +113,16 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
             <div>
               <h2
                 id="template-list-title"
-                className="text-base font-black text-gray-950"
+                className="text-base font-black text-foreground"
               >
                 퀴즈 템플릿
               </h2>
-              <p className="mt-1 text-xs font-medium text-gray-400">
+              <p className="mt-1 text-xs font-medium text-subtle-foreground">
                 제목과 소개를 확인하고 하나를 선택해주세요.
               </p>
             </div>
             {!isLoading && !isError && (
-              <span className="shrink-0 text-sm font-bold text-gray-400">
+              <span className="shrink-0 text-sm font-bold text-subtle-foreground">
                 {templates.length}개
               </span>
             )}
@@ -133,7 +133,7 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
               {Array.from({ length: 6 }).map((_, index) => (
                 <div
                   key={index}
-                  className="h-40 animate-pulse rounded-lg border border-gray-200 bg-white p-5"
+                  className="h-40 animate-pulse rounded-lg border border-border bg-surface p-5"
                 >
                   <div className="h-10 w-10 rounded-lg bg-gray-100" />
                   <div className="mt-5 h-4 w-3/5 rounded bg-gray-100" />
@@ -144,15 +144,15 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
           )}
 
           {isError && (
-            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-4 border-y border-gray-200 bg-white px-4 text-center">
-              <TriangleAlert className="h-6 w-6 text-gray-400" />
-              <p className="text-sm font-semibold text-gray-500">
+            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-4 border-y border-border bg-surface px-4 text-center">
+              <TriangleAlert className="h-6 w-6 text-subtle-foreground" />
+              <p className="text-sm font-semibold text-muted-foreground">
                 템플릿을 불러오지 못했습니다.
               </p>
               <button
                 type="button"
                 onClick={() => refetch()}
-                className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-400"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-hover"
               >
                 <RotateCcw className="h-4 w-4" />
                 다시 시도하기
@@ -161,9 +161,9 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
           )}
 
           {!isLoading && !isError && templates.length === 0 && (
-            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-3 border-y border-gray-200 bg-white px-4 text-center">
+            <div className="mt-4 flex min-h-56 flex-col items-center justify-center gap-3 border-y border-border bg-surface px-4 text-center">
               <BookOpenCheck className="h-7 w-7 text-gray-300" />
-              <p className="text-sm font-semibold text-gray-500">
+              <p className="text-sm font-semibold text-muted-foreground">
                 아직 사용할 수 있는 템플릿이 없습니다.
               </p>
             </div>
@@ -176,7 +176,7 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
                   key={template.quizTemplateId}
                   type="button"
                   onClick={() => onSelect(template.quizTemplateId)}
-                  className="group flex min-h-40 w-full cursor-pointer flex-col rounded-lg border border-gray-200 bg-white p-5 text-left shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50/30 active:border-blue-300"
+                  className="group flex min-h-40 w-full cursor-pointer flex-col rounded-lg border border-border bg-surface p-5 text-left shadow-sm transition-colors hover:border-blue-300 hover:bg-primary-soft/30 active:border-blue-300"
                 >
                   <div className="flex w-full items-start justify-between gap-3">
                     <span
@@ -184,12 +184,12 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
                     >
                       <BookOpenCheck className="h-5 w-5" />
                     </span>
-                    <ChevronRight className="h-5 w-5 shrink-0 text-gray-300 transition-colors group-hover:text-blue-500" />
+                    <ChevronRight className="h-5 w-5 shrink-0 text-gray-300 transition-colors group-hover:text-primary" />
                   </div>
-                  <h3 className="mt-4 text-base font-black text-gray-950">
+                  <h3 className="mt-4 text-base font-black text-foreground">
                     {template.title}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-5 text-gray-500">
+                  <p className="mt-1.5 text-sm leading-5 text-muted-foreground">
                     {template.description || "나만의 정답으로 완성하는 퀴즈"}
                   </p>
                 </button>
@@ -202,7 +202,7 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
               type="button"
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
-              className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white py-3 text-sm font-bold text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed disabled:text-gray-300"
+              className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-surface py-3 text-sm font-bold text-gray-600 transition-colors hover:border-blue-300 hover:text-primary disabled:cursor-not-allowed disabled:text-gray-300"
             >
               {isFetchingNextPage ? (
                 <LoaderCircle className="h-4 w-4 animate-spin" />
@@ -231,7 +231,7 @@ function QuizTemplateEditor({
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center text-gray-400">
+      <div className="flex flex-1 items-center justify-center text-subtle-foreground">
         <LoaderCircle className="h-6 w-6 animate-spin" />
       </div>
     );
@@ -240,22 +240,22 @@ function QuizTemplateEditor({
   if (isError || !template) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
-        <TriangleAlert className="h-6 w-6 text-gray-400" />
-        <p className="text-sm font-semibold text-gray-500">
+        <TriangleAlert className="h-6 w-6 text-subtle-foreground" />
+        <p className="text-sm font-semibold text-muted-foreground">
           템플릿 상세 내용을 불러오지 못했습니다.
         </p>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={onChangeTemplate}
-            className="cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50"
+            className="cursor-pointer rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-bold text-gray-600 hover:bg-background"
           >
             목록으로
           </button>
           <button
             type="button"
             onClick={() => refetch()}
-            className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-400"
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-primary-hover"
           >
             <RotateCcw className="h-4 w-4" />
             다시 시도하기
@@ -375,26 +375,26 @@ function QuizEditorForm({
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 pb-20">
       <main className="mx-auto w-full max-w-3xl">
-        <header className="border-b border-gray-200 pb-6">
+        <header className="border-b border-border pb-6">
           <button
             type="button"
             onClick={onChangeTemplate}
             disabled={isPending}
-            className="flex cursor-pointer items-center gap-1.5 text-sm font-bold text-gray-500 transition-colors hover:text-blue-500 disabled:cursor-not-allowed disabled:text-gray-300"
+            className="flex cursor-pointer items-center gap-1.5 text-sm font-bold text-muted-foreground transition-colors hover:text-primary disabled:cursor-not-allowed disabled:text-gray-300"
           >
             <ArrowLeft className="h-4 w-4" />
             다른 템플릿 고르기
           </button>
           <div className="mt-5 flex items-start gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-strong">
               <CheckCircle2 className="h-5 w-5" />
             </span>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-blue-500">정답 설정</p>
-              <h1 className="mt-1 text-2xl font-black text-gray-950">
+              <p className="text-xs font-bold text-primary">정답 설정</p>
+              <h1 className="mt-1 text-2xl font-black text-foreground">
                 나만의 답으로 완성하세요
               </h1>
-              <p className="mt-2 text-sm leading-6 text-gray-500">
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 질문과 선택지는 자유롭게 다듬을 수 있어요. 각 문제마다 나를 가장
                 잘 나타내는 정답을 하나씩 골라주세요.
               </p>
@@ -403,10 +403,10 @@ function QuizEditorForm({
         </header>
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-7">
-          <section className="border-y border-gray-200 bg-white px-4 py-5 sm:px-5">
+          <section className="border-y border-border bg-surface px-4 py-5 sm:px-5">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-base font-black text-gray-950">퀴즈 정보</h2>
-              <span className="max-w-48 truncate text-right text-xs font-bold text-gray-400">
+              <h2 className="text-base font-black text-foreground">퀴즈 정보</h2>
+              <span className="max-w-48 truncate text-right text-xs font-bold text-subtle-foreground">
                 {template.title}
               </span>
             </div>
@@ -419,7 +419,7 @@ function QuizEditorForm({
                   onChange={(event) => setTitle(event.target.value)}
                   placeholder="퀴즈 제목"
                   disabled={isPending}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-base font-semibold text-gray-950 transition-colors outline-none focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-lg border border-border bg-background px-4 py-3 text-base font-semibold text-foreground transition-colors outline-none focus:border-primary-hover focus:bg-surface focus:ring-2 focus:ring-blue-100"
                 />
               </label>
 
@@ -431,7 +431,7 @@ function QuizEditorForm({
                   placeholder="퀴즈에 대한 짧은 소개"
                   rows={3}
                   disabled={isPending}
-                  className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm leading-6 text-gray-900 transition-colors outline-none focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                  className="w-full resize-none rounded-lg border border-border bg-background px-4 py-3 text-sm leading-6 text-gray-900 transition-colors outline-none focus:border-primary-hover focus:bg-surface focus:ring-2 focus:ring-blue-100"
                 />
               </label>
             </div>
@@ -440,14 +440,14 @@ function QuizEditorForm({
           <section className="flex flex-col gap-4">
             <div className="flex items-end justify-between gap-3">
               <div>
-                <h2 className="text-base font-black text-gray-950">
+                <h2 className="text-base font-black text-foreground">
                   문제와 정답
                 </h2>
-                <p className="mt-1 text-xs font-medium text-gray-400">
+                <p className="mt-1 text-xs font-medium text-subtle-foreground">
                   정답을 선택한 문제 {answeredQuestionCount}/{questions.length}
                 </p>
               </div>
-              <span className="text-sm font-bold text-gray-400">
+              <span className="text-sm font-bold text-subtle-foreground">
                 {questions.length}문제
               </span>
             </div>
@@ -458,7 +458,7 @@ function QuizEditorForm({
               return (
                 <article
                   key={question.id}
-                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-5"
+                  className="rounded-lg border border-border bg-surface p-4 shadow-sm sm:p-5"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex min-w-0 items-center gap-2.5">
@@ -480,7 +480,7 @@ function QuizEditorForm({
                       disabled={questions.length === 1 || isPending}
                       aria-label={`${questionIndex + 1}번 문제 삭제`}
                       title="문제 삭제"
-                      className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
+                      className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-subtle-foreground transition-colors hover:bg-danger-soft hover:text-danger disabled:cursor-not-allowed disabled:text-gray-200"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -497,7 +497,7 @@ function QuizEditorForm({
                     aria-label={`${questionIndex + 1}번 질문`}
                     placeholder="질문을 입력해주세요."
                     disabled={isPending}
-                    className="mt-4 w-full border-0 border-b border-gray-200 bg-transparent px-0 pb-3 text-base font-bold text-gray-950 transition-colors outline-none focus:border-blue-400"
+                    className="mt-4 w-full border-0 border-b border-border bg-transparent px-0 pb-3 text-base font-bold text-foreground transition-colors outline-none focus:border-primary-hover"
                   />
 
                   <div className="mt-4 flex flex-col gap-2.5">
@@ -510,7 +510,7 @@ function QuizEditorForm({
                           className={`flex items-center gap-2 rounded-lg border p-2 transition-colors ${
                             isCorrect
                               ? "border-emerald-300 bg-emerald-50"
-                              : "border-gray-200 bg-gray-50"
+                              : "border-border bg-background"
                           }`}
                         >
                           <input
@@ -555,7 +555,7 @@ function QuizEditorForm({
                             }
                             aria-label={`${optionIndex + 1}번 선택지 삭제`}
                             title="선택지 삭제"
-                            className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-white hover:text-red-500 disabled:cursor-not-allowed disabled:text-gray-200"
+                            className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-subtle-foreground transition-colors hover:bg-surface hover:text-danger disabled:cursor-not-allowed disabled:text-gray-200"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
@@ -567,7 +567,7 @@ function QuizEditorForm({
                       type="button"
                       onClick={() => addOption(question.id)}
                       disabled={isPending}
-                      className="mt-0.5 flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 py-2.5 text-sm font-bold text-gray-500 transition-colors hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed"
+                      className="mt-0.5 flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-gray-300 py-2.5 text-sm font-bold text-muted-foreground transition-colors hover:border-blue-300 hover:text-primary disabled:cursor-not-allowed"
                     >
                       <Plus className="h-4 w-4" />
                       선택지 추가
@@ -583,16 +583,16 @@ function QuizEditorForm({
                 setQuestions((current) => [...current, createDraftQuestion()])
               }
               disabled={isPending}
-              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 py-3 text-sm font-bold text-blue-600 transition-colors hover:bg-blue-100 disabled:cursor-not-allowed"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-primary-soft py-3 text-sm font-bold text-primary-strong transition-colors hover:bg-blue-100 disabled:cursor-not-allowed"
             >
               <Plus className="h-4 w-4" />
               문제 추가
             </button>
           </section>
 
-          <div className="flex items-center justify-between gap-3 border-t border-gray-200 pt-4">
+          <div className="flex items-center justify-between gap-3 border-t border-border pt-4">
             <div className="min-w-0">
-              <p className="text-xs font-bold text-gray-400">완성도</p>
+              <p className="text-xs font-bold text-subtle-foreground">완성도</p>
               <p className="mt-0.5 text-sm font-black text-gray-900">
                 정답 {answeredQuestionCount}/{questions.length}
               </p>

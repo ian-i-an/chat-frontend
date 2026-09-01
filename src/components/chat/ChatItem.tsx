@@ -65,7 +65,7 @@ export default function ChatItem({
           />
         )}
 
-        <span className="min-w-max pb-1 text-[9px] font-medium text-gray-400">
+        <span className="min-w-max pb-1 text-[9px] font-medium text-subtle-foreground">
           {formatTime(chat.createdAt)}
         </span>
       </div>

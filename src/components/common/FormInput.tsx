@@ -9,7 +9,7 @@ export default function FormInput({ rightElement, ...props }: FormInputProps) {
     <div className="relative">
       <input
         {...props}
-        className={`w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-4 text-base text-gray-800 transition-all duration-200 focus:border-blue-300 focus:bg-white focus:outline-none ${
+        className={`w-full rounded-xl border border-border bg-background py-3 pr-4 pl-4 text-base text-gray-800 transition-all duration-200 focus:border-blue-300 focus:bg-surface focus:outline-none ${
           rightElement ? "pr-11" : ""
         }`}
       />

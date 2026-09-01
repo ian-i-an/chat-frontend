@@ -40,7 +40,7 @@ export default function Dialog({ title, onClose, children }: DialogProps) {
       <section
         role="dialog"
         aria-modal="true"
-        className="flex max-h-[85dvh] w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="flex max-h-[85dvh] w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-surface shadow-2xl"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <header className="flex shrink-0 items-center justify-between border-b border-gray-100 p-4">

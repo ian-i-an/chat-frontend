@@ -65,52 +65,52 @@ export default function QuizSolvePage() {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="app-layout">
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-gray-100 px-4">
-        <Link to="/" className="text-lg font-black text-blue-500">
+        <Link to="/" className="text-lg font-black text-primary">
           첨벙
         </Link>
-        <span className="text-sm font-bold text-gray-500">친구 퀴즈</span>
+        <span className="text-sm font-bold text-muted-foreground">친구 퀴즈</span>
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-6 pb-12">
         <main className="mx-auto w-full max-w-xl">
           {!hasStarted ? (
-            <section className="flex min-h-[32rem] flex-col justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+            <section className="flex min-h-100 flex-col justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-soft text-primary">
                 <Brain className="h-6 w-6" />
               </div>
-              <h1 className="mt-4 text-2xl font-black text-gray-950">
+              <h1 className="mt-4 text-2xl font-black text-foreground">
                 {quiz.title}
               </h1>
               {quiz.description && (
-                <p className="mt-2 text-sm leading-6 text-gray-500">
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {quiz.description}
                 </p>
               )}
-              <p className="mt-3 text-xs font-bold text-blue-500">
+              <p className="mt-3 text-xs font-bold text-primary">
                 총 {quiz.questions.length}문제
               </p>
 
               <form
                 onSubmit={handleStart}
-                className="mt-8 border-t border-gray-200 pt-6"
+                className="mt-8 border-t border-border pt-6"
               >
                 <label className="text-sm font-bold text-gray-800">
                   순위표에 표시할 닉네임
                   <div className="relative mt-2">
-                    <UserRound className="absolute top-1/2 left-3 h-4.5 w-4.5 -translate-y-1/2 text-gray-400" />
+                    <UserRound className="absolute top-1/2 left-3 h-4.5 w-4.5 -translate-y-1/2 text-subtle-foreground" />
                     <input
                       value={nickname}
                       onChange={(event) => setNickname(event.target.value)}
                       maxLength={12}
                       placeholder="닉네임을 입력해주세요."
                       autoFocus
-                      className="w-full rounded-lg border border-gray-200 bg-white py-3 pr-4 pl-10 text-base text-gray-900 outline-none focus:border-blue-400"
+                      className="w-full rounded-lg border border-border bg-surface py-3 pr-4 pl-10 text-base text-gray-900 outline-none focus:border-primary-hover"
                     />
                   </div>
                 </label>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-subtle-foreground">
                   입력한 닉네임은 퀴즈 순위표에 공개돼요.
                 </p>
 
@@ -130,18 +130,18 @@ export default function QuizSolvePage() {
                   <p className="truncate text-sm font-black text-gray-900">
                     {quiz.title}
                   </p>
-                  <p className="mt-1 text-xs font-medium text-gray-400">
+                  <p className="mt-1 text-xs font-medium text-subtle-foreground">
                     {nickname}
                   </p>
                 </div>
-                <span className="shrink-0 text-sm font-black text-blue-500">
+                <span className="shrink-0 text-sm font-black text-primary">
                   {currentQuestionIndex + 1} / {quiz.questions.length}
                 </span>
               </div>
 
               <div className="mt-4 h-1 overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="h-full rounded-full bg-blue-500 transition-all duration-300"
+                  className="h-full rounded-full bg-primary transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -151,11 +151,11 @@ export default function QuizSolvePage() {
                   onSubmit={handleQuestionSubmit}
                   className="mt-6 flex flex-col"
                 >
-                  <article className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-                    <p className="text-xs font-black text-blue-500">
+                  <article className="rounded-lg border border-border bg-surface p-5 shadow-sm">
+                    <p className="text-xs font-black text-primary">
                       문제 {currentQuestionIndex + 1}
                     </p>
-                    <h1 className="mt-2 text-lg leading-7 font-black text-gray-950">
+                    <h1 className="mt-2 text-lg leading-7 font-black text-foreground">
                       {currentQuestion.content}
                     </h1>
 
@@ -170,8 +170,8 @@ export default function QuizSolvePage() {
                             key={option.optionId}
                             className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-lg border px-3 py-3 text-sm transition-colors ${
                               isSelected
-                                ? "border-blue-400 bg-blue-50 text-blue-700"
-                                : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                                ? "border-primary-hover bg-primary-soft text-blue-700"
+                                : "border-border bg-surface text-gray-700 hover:border-gray-300"
                             }`}
                           >
                             <input
@@ -189,8 +189,8 @@ export default function QuizSolvePage() {
                             <span
                               className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${
                                 isSelected
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-gray-100 text-gray-500"
+                                  ? "bg-primary text-white"
+                                  : "bg-gray-100 text-muted-foreground"
                               }`}
                             >
                               {isSelected ? (

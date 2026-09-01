@@ -48,26 +48,26 @@ export default function AdminQuizTemplateCreatePage() {
   };
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto bg-gray-50">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <main className="mx-auto w-full max-w-4xl min-w-200 px-6 py-9 pb-20">
-        <header className="border-b border-gray-200 pb-6">
+        <header className="border-b border-border pb-6">
           <Link
             to="/admin"
-            className="flex w-fit items-center gap-1.5 text-sm font-bold text-gray-500 transition-colors hover:text-blue-500"
+            className="flex w-fit items-center gap-1.5 text-sm font-bold text-muted-foreground transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" />
             운영 현황으로
           </Link>
 
           <div className="mt-5 flex items-start gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-strong">
               <FilePlus2 className="h-5 w-5" />
             </span>
             <div>
-              <h1 className="text-2xl font-black text-gray-950">
+              <h1 className="text-2xl font-black text-foreground">
                 퀴즈 템플릿 추가
               </h1>
-              <p className="mt-2 text-sm leading-6 text-gray-500">
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 사용자가 제목과 설명을 보고 선택할 수 있는 질문 세트를 만듭니다.
               </p>
             </div>

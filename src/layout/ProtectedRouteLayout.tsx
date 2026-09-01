@@ -20,7 +20,7 @@ export default function ProtectedRouteLayout() {
 
   if (isFetchMyProfileLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <Loader />
       </div>
     );

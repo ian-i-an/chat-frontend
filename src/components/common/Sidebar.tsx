@@ -59,7 +59,7 @@ export default function Sidebar({
           <Link
             to="/"
             onClick={onClose}
-            className="text-xl font-black tracking-tight text-blue-500"
+            className="text-xl font-black tracking-tight text-primary"
           >
             첨벙
           </Link>
@@ -73,7 +73,7 @@ export default function Sidebar({
             onClick={onClose}
             className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
           >
-            <Home className="h-4.5 w-4.5 text-blue-500" /> 홈
+            <Home className="h-4.5 w-4.5 text-primary" /> 홈
           </Link>
 
           {isAuthenticated ? (
@@ -83,7 +83,7 @@ export default function Sidebar({
                 onClick={onClose}
                 className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
-                <MessageCircle className="h-4.5 w-4.5 text-blue-500" />
+                <MessageCircle className="h-4.5 w-4.5 text-primary" />
                 채팅방
               </Link>
               <Link
@@ -91,7 +91,7 @@ export default function Sidebar({
                 onClick={onClose}
                 className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
               >
-                <User className="h-4.5 w-4.5 text-blue-500" />내 프로필
+                <User className="h-4.5 w-4.5 text-primary" />내 프로필
               </Link>
               <Link
                 to="/quizzes"
@@ -105,7 +105,7 @@ export default function Sidebar({
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold text-red-500 transition-colors glass-hover"
+                className="flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold text-danger transition-colors glass-hover"
               >
                 <LogOut className="h-4.5 w-4.5" />
                 로그아웃
@@ -117,7 +117,7 @@ export default function Sidebar({
               onClick={onClose}
               className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
             >
-              <LogIn className="h-4.5 w-4.5 text-blue-500" />
+              <LogIn className="h-4.5 w-4.5 text-primary" />
               로그인
             </Link>
           )}

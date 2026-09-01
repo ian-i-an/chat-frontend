@@ -11,16 +11,16 @@ export default function AuthHeader({
     <div className="flex flex-col gap-7">
       <Link
         to="/"
-        className="w-fit text-xl font-black tracking-tight text-blue-500 transition-opacity hover:opacity-80"
+        className="w-fit text-xl font-black tracking-tight text-primary transition-opacity hover:opacity-80"
       >
         첨벙
       </Link>
 
       <div className="text-center">
-        <h1 className="text-2xl font-black tracking-tight text-gray-950">
+        <h1 className="text-2xl font-black tracking-tight text-foreground">
           {title}
         </h1>
-        <p className="mt-2 text-sm leading-6 font-medium text-gray-400">
+        <p className="mt-2 text-sm leading-6 font-medium text-subtle-foreground">
           {description}
         </p>
       </div>

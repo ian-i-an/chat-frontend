@@ -1,19 +1,57 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .glass {
-    @apply border border-white/50 bg-white/50  shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs;
-  }
+@theme inline {
+  --color-primary: var(--color-blue-500);
+  --color-primary-hover: var(--color-blue-400);
+  --color-primary-soft: var(--color-blue-50);
+  --color-primary-strong: var(--color-blue-600);
+  /* foreground - 전경 */
+  --color-primary-foreground: var(--color-white);
 
-  .glass-hover {
-    @apply hover:bg-black/5 active:bg-black/5;
-  }
+  --color-background: var(--color-gray-50);
+  --color-surface: var(--color-white);
+  --color-border: var(--color-gray-200);
+
+  --color-foreground: var(--color-gray-900);
+  /* 설명, 부가 정보  */
+  --color-muted-foreground: var(--color-gray-500);
+  /* placeholder, 비활성 정보, 더 약한 글자 */
+  --color-subtle-foreground: var(--color-gray-400);
+
+  --color-danger: var(--color-red-500);
+  --color-danger-soft: var(--color-red-50);
 }
 
-/* =========================================
+@utility glass {
+  @apply bg-surface/50 border border-white/50 shadow-lg ring-1 shadow-gray-200/50 ring-gray-950/5 backdrop-blur-xs;
+}
+
+@utility glass-hover {
+  @apply hover:bg-black/5 active:bg-black/5;
+}
+
+@utility app-layout {
+  @apply flex min-h-0 flex-1 flex-col overflow-hidden;
+}
+
+@layer base {
+  html,
+  body {
+    @apply bg-background overflow-hidden;
+  }
+
+  #root {
+    display: flex;
+    height: 100dvh;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-background);
+  }
+
+  /* =========================================
     스크롤바 디자인 (기존 코드 그대로 적용)
    ========================================= */
-@layer base {
+
   ::-webkit-scrollbar {
     width: 3px; /* 스크롤바 너비를 아주 얇고 세련되게! */
   }
@@ -31,3 +69,40 @@
     background-color: #d1d5db; /* 마우스 올리면 살짝 더 진하게 변경 */
   }
 }
+
+/* 모바일 웹의 기본 페이지 너비 */
+/* @utility mobile-page {
+  @apply mx-auto w-full max-w-lg px-4;
+} */
+
+/* 모바일 브라우저 주소창을 고려한 화면 */
+/* @utility app-screen {
+  @apply flex w-full flex-col bg-background;
+  min-height: 100dvh;
+} */
+
+/* 아이폰 하단 안전 영역 */
+/* @utility safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+} */
+
+/* 하단 입력창이나 주요 버튼 영역 */
+/* @utility bottom-bar {
+  @apply sticky bottom-0 z-20 border-t border-border bg-surface/90 px-4 pt-3
+    backdrop-blur-xl;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+} */
+
+/* 모바일에서 누르기 편한 최소 크기 */
+/* @utility tap-target {
+  min-width: 44px;
+  min-height: 44px;
+} */
+
+/* 반복되는 입력창 */
+/* @utility form-field {
+  @apply w-full rounded-lg border border-border bg-surface px-4 py-3
+    text-foreground outline-none placeholder:text-muted-foreground
+    focus:border-primary focus:ring-2 focus:ring-primary/20
+    disabled:cursor-not-allowed disabled:opacity-50;
+} */

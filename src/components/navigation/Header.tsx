@@ -16,7 +16,7 @@ export default function Header() {
 
           <Link
             to="/"
-            className="cursor-pointer text-xl font-black tracking-tight whitespace-nowrap text-blue-500 transition-opacity hover:opacity-80"
+            className="cursor-pointer text-xl font-black tracking-tight whitespace-nowrap text-primary transition-opacity hover:opacity-80"
           >
             첨벙
           </Link>
@@ -27,7 +27,7 @@ export default function Header() {
         ) : (
           <Link
             to="/sign-in"
-            className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-blue-400 active:bg-blue-400"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary-hover active:bg-primary-hover"
           >
             로그인
           </Link>

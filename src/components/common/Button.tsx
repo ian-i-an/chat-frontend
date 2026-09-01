@@ -14,17 +14,17 @@ export default function Button({
 }: ButtonProps) {
   const variantStyles = {
     filled:
-      "bg-blue-500 enabled:hover:bg-blue-400 enabled:active:bg-blue-400 text-white disabled:bg-gray-200  ",
+      "bg-primary enabled:hover:bg-primary-hover enabled:active:bg-primary-hover text-white disabled:bg-gray-200  ",
 
     outline:
-      "border border-blue-400 text-blue-500 enabled:hover:bg-blue-50 enabled:active:bg-blue-50 disabled:border-gray-200 ",
+      "border border-primary-hover text-primary enabled:hover:bg-primary-soft enabled:active:bg-primary-soft disabled:border-border ",
   };
 
   return (
     <button
       {...props}
       className={`rounded-xl py-3 text-center font-bold transition-all duration-200 enabled:active:scale-95
-         disabled:text-gray-400 cursor-pointer disabled:cursor-not-allowed  ${variantStyles[variant]} ${className}`}
+         disabled:text-subtle-foreground cursor-pointer disabled:cursor-not-allowed  ${variantStyles[variant]} ${className}`}
     >
       {children}
     </button>

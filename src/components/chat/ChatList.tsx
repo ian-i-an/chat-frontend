@@ -62,11 +62,11 @@ export default function ChatList({
             />
             {showDateDivider && (
               <div className="my-1 flex items-center">
-                <div className="flex-1 border-t border-gray-200"></div>
-                <span className="mx-3 rounded-full px-2 py-0.5 text-[10px] font-semibold text-gray-400">
+                <div className="flex-1 border-t border-border"></div>
+                <span className="mx-3 rounded-full px-2 py-0.5 text-[10px] font-semibold text-subtle-foreground">
                   {formatDate(chat.createdAt)}
                 </span>
-                <div className="flex-1 border-t border-gray-200"></div>
+                <div className="flex-1 border-t border-border"></div>
               </div>
             )}
           </React.Fragment>

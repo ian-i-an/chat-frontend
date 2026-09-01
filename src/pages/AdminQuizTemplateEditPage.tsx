@@ -87,12 +87,12 @@ export default function AdminQuizTemplateEditPage() {
   };
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto bg-gray-50">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <main className="mx-auto w-full max-w-4xl min-w-200 px-6 py-9 pb-20">
-        <header className="border-b border-gray-200 pb-6">
+        <header className="border-b border-border pb-6">
           <Link
             to="/admin"
-            className="flex w-fit items-center gap-1.5 text-sm font-bold text-gray-500 transition-colors hover:text-blue-500"
+            className="flex w-fit items-center gap-1.5 text-sm font-bold text-muted-foreground transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" />
             운영 현황으로
@@ -103,10 +103,10 @@ export default function AdminQuizTemplateEditPage() {
               <Pencil className="h-5 w-5" />
             </span>
             <div>
-              <h1 className="text-2xl font-black text-gray-950">
+              <h1 className="text-2xl font-black text-foreground">
                 퀴즈 템플릿 수정
               </h1>
-              <p className="mt-2 text-sm leading-6 text-gray-500">
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 제목과 설명, 질문과 선택지를 변경할 수 있습니다.
               </p>
             </div>

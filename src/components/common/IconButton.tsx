@@ -13,12 +13,12 @@ export default function IconButton({
 }: IconButtonProps) {
   const variantStyles = {
     default:
-      "text-gray-400 enabled:hover:bg-gray-100 enabled:active:bg-gray-100",
+      "text-subtle-foreground enabled:hover:bg-gray-100 enabled:active:bg-gray-100",
     primary:
-      "bg-blue-500 text-white enabled:hover:bg-blue-400 enabled:active:bg-blue-400",
+      "bg-primary text-white enabled:hover:bg-primary-hover enabled:active:bg-primary-hover",
     secondary:
-      "bg-gray-200 text-gray-500 enabled:hover:bg-gray-100 enabled:active:bg-gray-100",
-    ghost: "text-gray-500",
+      "bg-gray-200 text-muted-foreground enabled:hover:bg-gray-100 enabled:active:bg-gray-100",
+    ghost: "text-muted-foreground",
   };
 
   return (

@@ -39,19 +39,19 @@ function StatCard({
   iconClassName,
 }: StatCardProps) {
   return (
-    <article className="flex min-h-36 flex-col rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <article className="flex min-h-36 flex-col rounded-lg border border-border bg-surface p-5 shadow-sm">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-gray-500">{label}</p>
+        <p className="text-sm font-semibold text-muted-foreground">{label}</p>
         <span
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${iconClassName}`}
         >
           {icon}
         </span>
       </div>
-      <p className="mt-4 text-3xl font-black text-gray-950">
+      <p className="mt-4 text-3xl font-black text-foreground">
         {value.toLocaleString()}
       </p>
-      <p className="mt-auto pt-2 text-xs leading-5 text-gray-400">
+      <p className="mt-auto pt-2 text-xs leading-5 text-subtle-foreground">
         {description}
       </p>
     </article>
@@ -116,11 +116,11 @@ export default function AdminDashboardPage() {
   }).format(new Date());
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto bg-gray-50">
+    <div className="min-h-0 flex-1 overflow-y-auto">
       <main className="mx-auto w-full max-w-6xl min-w-240 px-6 py-9">
         <div>
-          <h1 className="text-2xl font-black text-gray-950">운영 현황</h1>
-          <p className="mt-1 text-sm font-medium text-gray-500">
+          <h1 className="text-2xl font-black text-foreground">운영 현황</h1>
+          <p className="mt-1 text-sm font-medium text-muted-foreground">
             {today} 기준
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function AdminDashboardPage() {
             value={userStatistics.totalCount}
             description="현재 가입된 전체 회원"
             icon={<Users className="h-5 w-5" />}
-            iconClassName="bg-blue-50 text-blue-600"
+            iconClassName="bg-primary-soft text-primary-strong"
           />
           <StatCard
             label="오늘 가입자"
@@ -178,23 +178,23 @@ export default function AdminDashboardPage() {
             <div>
               <h2
                 id="quiz-template-title"
-                className="text-base font-black text-gray-950"
+                className="text-base font-black text-foreground"
               >
                 퀴즈 템플릿
               </h2>
-              <p className="mt-1 text-xs font-medium text-gray-400">
+              <p className="mt-1 text-xs font-medium text-subtle-foreground">
                 템플릿을 선택하면 질문과 선택지를 수정할 수 있습니다.
               </p>
             </div>
             <div className="flex items-center gap-3">
               {!templateQuery.isLoading && !templateQuery.isError && (
-                <span className="text-sm font-bold text-gray-400">
+                <span className="text-sm font-bold text-subtle-foreground">
                   {templateQuery.data?.length ?? 0}개
                 </span>
               )}
               <Link
                 to="/admin/quiz-templates/new"
-                className="flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 text-sm font-bold text-white shadow-sm shadow-blue-200 transition-colors hover:bg-blue-400"
+                className="flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-bold text-white shadow-sm shadow-blue-200 transition-colors hover:bg-primary-hover"
               >
                 <Plus className="h-4 w-4" />
                 퀴즈 템플릿 추가
@@ -203,7 +203,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {templateQuery.isLoading && (
-            <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+            <div className="mt-4 overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
@@ -220,15 +220,15 @@ export default function AdminDashboardPage() {
           )}
 
           {templateQuery.isError && (
-            <div className="mt-4 flex min-h-44 flex-col items-center justify-center gap-3 rounded-lg border border-gray-200 bg-white text-center shadow-sm">
-              <TriangleAlert className="h-6 w-6 text-gray-400" />
-              <p className="text-sm font-semibold text-gray-500">
+            <div className="mt-4 flex min-h-44 flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface text-center shadow-sm">
+              <TriangleAlert className="h-6 w-6 text-subtle-foreground" />
+              <p className="text-sm font-semibold text-muted-foreground">
                 퀴즈 템플릿을 불러오지 못했습니다.
               </p>
               <button
                 type="button"
                 onClick={() => templateQuery.refetch()}
-                className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-400"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-hover"
               >
                 <RotateCcw className="h-4 w-4" />
                 다시 시도하기
@@ -239,9 +239,9 @@ export default function AdminDashboardPage() {
           {!templateQuery.isLoading &&
             !templateQuery.isError &&
             templateQuery.data?.length === 0 && (
-              <div className="mt-4 flex min-h-44 flex-col items-center justify-center gap-3 rounded-lg border border-gray-200 bg-white text-center shadow-sm">
+              <div className="mt-4 flex min-h-44 flex-col items-center justify-center gap-3 rounded-lg border border-border bg-surface text-center shadow-sm">
                 <BookOpenCheck className="h-7 w-7 text-gray-300" />
-                <p className="text-sm font-semibold text-gray-500">
+                <p className="text-sm font-semibold text-muted-foreground">
                   등록된 퀴즈 템플릿이 없습니다.
                 </p>
               </div>
@@ -251,29 +251,29 @@ export default function AdminDashboardPage() {
             !templateQuery.isError &&
             templateQuery.data &&
             templateQuery.data.length > 0 && (
-              <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+              <div className="mt-4 overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
                 {templateQuery.data.map((template) => (
                   <Link
                     key={template.quizTemplateId}
                     to={`/admin/quiz-templates/${template.quizTemplateId}/edit`}
-                    className="group flex min-h-20 items-center gap-4 border-b border-gray-100 px-5 transition-colors last:border-b-0 hover:bg-blue-50/40"
+                    className="group flex min-h-20 items-center gap-4 border-b border-gray-100 px-5 transition-colors last:border-b-0 hover:bg-primary-soft/40"
                   >
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-600">
                       <BookOpenCheck className="h-4.5 w-4.5" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-black text-gray-950">
+                      <span className="block truncate text-sm font-black text-foreground">
                         {template.title}
                       </span>
-                      <span className="mt-1 block truncate text-xs font-medium text-gray-500">
+                      <span className="mt-1 block truncate text-xs font-medium text-muted-foreground">
                         {template.description || "설명이 없는 템플릿"}
                       </span>
                     </span>
-                    <span className="flex items-center gap-2 text-xs font-bold text-gray-400 transition-colors group-hover:text-blue-500">
+                    <span className="flex items-center gap-2 text-xs font-bold text-subtle-foreground transition-colors group-hover:text-primary">
                       <Pencil className="h-3.5 w-3.5" />
                       수정
                     </span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 transition-colors group-hover:text-blue-500" />
+                    <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 transition-colors group-hover:text-primary" />
                   </Link>
                 ))}
               </div>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
               type="button"
               onClick={() => templateQuery.fetchNextPage()}
               disabled={templateQuery.isFetchingNextPage}
-              className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white py-3 text-sm font-bold text-gray-600 transition-colors hover:border-blue-300 hover:text-blue-500 disabled:cursor-not-allowed disabled:text-gray-300"
+              className="mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-border bg-surface py-3 text-sm font-bold text-gray-600 transition-colors hover:border-blue-300 hover:text-primary disabled:cursor-not-allowed disabled:text-gray-300"
             >
               {templateQuery.isFetchingNextPage ? (
                 <LoaderCircle className="h-4 w-4 animate-spin" />

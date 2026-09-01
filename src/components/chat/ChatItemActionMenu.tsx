@@ -39,8 +39,8 @@ glass-hover"
             event.stopPropagation();
             onDeleteChat();
           }}
-          className="flex h-9 w-9 items-center justify-center rounded-xl text-red-500 transition-colors
-hover:bg-red-500/10 active:bg-red-500/20"
+          className="flex h-9 w-9 items-center justify-center rounded-xl text-danger transition-colors
+hover:bg-danger/10 active:bg-danger/20"
         >
           <Trash2 size={16} strokeWidth={2.5} />
         </button>

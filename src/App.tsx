@@ -9,7 +9,6 @@ import Profile from "./pages/Profile";
 import RoomPage from "./pages/RoomPage";
 import WhiteBarLayout from "./layout/WhiteBarLayout";
 import PublicRouteLayout from "./layout/PublicRouteLayout";
-import AppBackgroundLayout from "./layout/AppBackgraoudLayout";
 import SignUpCompletePage from "./pages/SignUpCompletePage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import QuizCreatePage from "./pages/QuizCreatePage";
@@ -25,56 +24,54 @@ import AdminQuizTemplateEditPage from "./pages/AdminQuizTemplateEditPage";
 function App() {
   return (
     <Routes>
-      <Route element={<AppBackgroundLayout />}>
-        <Route element={<NavigationLayout />}>
-          <Route path="/" element={<Index />} />
-        </Route>
-
-        <Route element={<PublicRouteLayout />}>
-          <Route element={<CardLayout />}>
-            <Route path="/sign-in" element={<SignInPage />} />
-          </Route>
-        </Route>
-
-        <Route element={<CardLayout />}>
-          <Route path="/sign-up/confirm" element={<SignUpCompletePage />} />
-        </Route>
-
-        <Route element={<NavigationLayout />}>
-          <Route element={<ProtectedRouteLayout />}>
-            <Route path="/rooms" element={<RoomListPage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/quizzes" element={<QuizListPage />} />
-            <Route path="/quizzes/new" element={<QuizCreatePage />} />
-          </Route>
-        </Route>
-
-        <Route element={<WhiteBarLayout />}>
-          <Route path="/quizzes/:code/result" element={<QuizResultPage />} />
-          <Route path="/quizzes/:code" element={<QuizSolvePage />} />
-          <Route path="/:roomCode" element={<RoomPage />} />
-        </Route>
-
-        <Route element={<CardLayout />}>
-          <Route path="/admin/sign-in" element={<AdminSignInPage />} />
-        </Route>
-
-        <Route element={<AdminProtectedRouteLayout />}>
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<AdminDashboardPage />} />
-            <Route
-              path="/admin/quiz-templates/new"
-              element={<AdminQuizTemplateCreatePage />}
-            />
-            <Route
-              path="/admin/quiz-templates/:quizTemplateId/edit"
-              element={<AdminQuizTemplateEditPage />}
-            />
-          </Route>
-        </Route>
-
-        <Route path="/*" element={<Navigate to={"/"} replace />} />
+      <Route element={<NavigationLayout />}>
+        <Route path="/" element={<Index />} />
       </Route>
+
+      <Route element={<PublicRouteLayout />}>
+        <Route element={<CardLayout />}>
+          <Route path="/sign-in" element={<SignInPage />} />
+        </Route>
+      </Route>
+
+      <Route element={<CardLayout />}>
+        <Route path="/sign-up/confirm" element={<SignUpCompletePage />} />
+      </Route>
+
+      <Route element={<NavigationLayout />}>
+        <Route element={<ProtectedRouteLayout />}>
+          <Route path="/rooms" element={<RoomListPage />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/quizzes" element={<QuizListPage />} />
+          <Route path="/quizzes/new" element={<QuizCreatePage />} />
+        </Route>
+      </Route>
+
+      <Route element={<WhiteBarLayout />}>
+        <Route path="/quizzes/:code/result" element={<QuizResultPage />} />
+        <Route path="/quizzes/:code" element={<QuizSolvePage />} />
+        <Route path="/:roomCode" element={<RoomPage />} />
+      </Route>
+
+      <Route element={<CardLayout />}>
+        <Route path="/admin/sign-in" element={<AdminSignInPage />} />
+      </Route>
+
+      <Route element={<AdminProtectedRouteLayout />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route
+            path="/admin/quiz-templates/new"
+            element={<AdminQuizTemplateCreatePage />}
+          />
+          <Route
+            path="/admin/quiz-templates/:quizTemplateId/edit"
+            element={<AdminQuizTemplateEditPage />}
+          />
+        </Route>
+      </Route>
+
+      <Route path="/*" element={<Navigate to={"/"} replace />} />
     </Routes>
   );
 }
