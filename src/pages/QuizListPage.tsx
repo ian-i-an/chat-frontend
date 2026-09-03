@@ -1,7 +1,14 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchQuizzesByUser } from "@/hooks/use-quiz";
-import { Brain, Plus, Share2 } from "lucide-react";
+import { useDeleteQuiz, useFetchQuizzesByUser } from "@/hooks/use-quiz";
+import {
+  Brain,
+  LoaderCircle,
+  Plus,
+  Share2,
+  Trash2,
+  Trophy,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -12,6 +19,7 @@ export default function QuizListPage() {
     isError,
     refetch,
   } = useFetchQuizzesByUser();
+  const deleteQuizMutation = useDeleteQuiz();
 
   const copyQuizLink = async (code: string) => {
     try {
@@ -24,17 +32,32 @@ export default function QuizListPage() {
     }
   };
 
+  const handleDeleteQuiz = async (code: string, title: string) => {
+    if (!window.confirm(`'${title}' 퀴즈를 삭제하시겠습니까?`)) return;
+
+    try {
+      await deleteQuizMutation.mutateAsync({ code });
+      toast.success("퀴즈를 삭제했습니다.");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
   if (isLoading) return <Loader fullPage />;
   if (isError) return <Fallback onRetry={() => refetch()} />;
 
   return (
     <div className="flex-1 overflow-y-auto px-4 py-6 pb-20">
       <main className="mx-auto w-full max-w-2xl">
-        <header className="flex items-end justify-between gap-4 border-b border-border pb-5">
+        <header className="border-border flex items-end justify-between gap-4 border-b pb-5">
           <div className="min-w-0">
-            <p className="text-sm font-bold text-primary">나만의 퀴즈</p>
-            <h1 className="mt-1 text-2xl font-black text-foreground">내 퀴즈</h1>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            <p className="text-primary text-sm font-bold">나만의 퀴즈</p>
+            <h1 className="text-foreground mt-1 text-2xl font-black">
+              내 퀴즈
+            </h1>
+            <p className="text-muted-foreground mt-2 text-sm leading-6">
               만든 퀴즈를 확인하고 친구에게 공유해보세요.
             </p>
           </div>
@@ -43,7 +66,7 @@ export default function QuizListPage() {
             to="/quizzes/new"
             aria-label="퀴즈 만들기"
             title="퀴즈 만들기"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary-hover active:bg-primary-hover"
+            className="bg-primary hover:bg-primary-hover active:bg-primary-hover flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white transition-colors"
           >
             <Plus className="h-5 w-5" />
           </Link>
@@ -51,13 +74,13 @@ export default function QuizListPage() {
 
         {quizzes.length === 0 ? (
           <section className="flex min-h-80 flex-col items-center justify-center px-4 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary">
+            <div className="bg-primary-soft text-primary flex h-12 w-12 items-center justify-center rounded-full">
               <Brain className="h-6 w-6" />
             </div>
             <h2 className="mt-4 text-base font-black text-gray-900">
               아직 만든 퀴즈가 없어요
             </h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-sm leading-6">
               첫 퀴즈를 만들고 친구들과 나눠보세요.
             </p>
           </section>
@@ -66,37 +89,65 @@ export default function QuizListPage() {
             {quizzes.map((quiz) => (
               <article
                 key={quiz.code}
-                className="flex items-center gap-3 rounded-lg border border-border bg-surface p-4 shadow-sm"
+                className="border-border bg-surface flex items-center gap-3 rounded-lg border p-4 shadow-sm"
               >
                 <Link
                   to={`/quizzes/${quiz.code}`}
                   className="flex min-w-0 flex-1 items-center gap-3"
                 >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                  <div className="bg-primary-soft text-primary flex h-11 w-11 shrink-0 items-center justify-center rounded-lg">
                     <Brain className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h2 className="truncate text-base font-black text-foreground">
+                    <h2 className="text-foreground truncate text-base font-black">
                       {quiz.title}
                     </h2>
-                    <p className="mt-1 truncate text-sm text-muted-foreground">
+                    <p className="text-muted-foreground mt-1 truncate text-sm">
                       {quiz.description || "친구들에게 나를 소개하는 퀴즈"}
                     </p>
-                    <p className="mt-2 text-xs font-bold text-primary">
+                    <p className="text-primary mt-2 text-xs font-bold">
                       문제 {quiz.questions.length}개
                     </p>
                   </div>
                 </Link>
 
-                <button
-                  type="button"
-                  onClick={() => copyQuizLink(quiz.code)}
-                  aria-label={`${quiz.title} 공유 링크 복사`}
-                  title="공유 링크 복사"
-                  className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full text-subtle-foreground transition-colors hover:bg-primary-soft hover:text-primary"
-                >
-                  <Share2 className="h-4.5 w-4.5" />
-                </button>
+                <div className="flex shrink-0 items-center gap-1">
+                  <Link
+                    to={`/quizzes/${quiz.code}/result`}
+                    aria-label={`${quiz.title} 결과 보기`}
+                    title="결과 보기"
+                    className="text-subtle-foreground flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-amber-50 hover:text-amber-500"
+                  >
+                    <Trophy className="h-4.5 w-4.5" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => copyQuizLink(quiz.code)}
+                    aria-label={`${quiz.title} 공유 링크 복사`}
+                    title="공유 링크 복사"
+                    className="text-subtle-foreground hover:bg-primary-soft hover:text-primary flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors"
+                  >
+                    <Share2 className="h-4.5 w-4.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteQuiz(quiz.code, quiz.title)}
+                    disabled={
+                      deleteQuizMutation.isPending &&
+                      deleteQuizMutation.variables?.code === quiz.code
+                    }
+                    aria-label={`${quiz.title} 삭제`}
+                    title="퀴즈 삭제"
+                    className="text-subtle-foreground flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed"
+                  >
+                    {deleteQuizMutation.isPending &&
+                    deleteQuizMutation.variables?.code === quiz.code ? (
+                      <LoaderCircle className="h-4.5 w-4.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4.5 w-4.5" />
+                    )}
+                  </button>
+                </div>
               </article>
             ))}
           </section>

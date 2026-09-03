@@ -5,10 +5,6 @@ export interface RoomListItem {
   unreadCount: number;
 }
 
-export interface RoomCreateRequest {
-  roomName: string;
-}
-
 export interface RoomDto {
   roomCode: string;
   name: string;
@@ -41,10 +37,6 @@ export interface UserDto {
   nickname: string;
 }
 
-export interface UserUpdateInfo {
-  nickname: string;
-}
-
 export interface ChatCursorCondition {
   cursor?: number;
   limit: number;
@@ -58,10 +50,6 @@ export interface ChatCursorResponse {
 export interface ChatSendRequest {
   content: string;
   replyToId?: number;
-}
-
-export interface ReadRequest {
-  lastReadChatId: number;
 }
 
 export interface RoomSseEvent {

@@ -14,10 +14,11 @@ export const QUIZ_KEYS = {
   byCode: (code: string) => ["quiz", "byCode", code],
 };
 
-export function useFetchQuizzesByUser() {
+export function useFetchQuizzesByUser(enabled = true) {
   return useQuery({
     queryKey: QUIZ_KEYS.list,
     queryFn: fetchQuizzesByUser,
+    enabled,
   });
 }
 
@@ -71,7 +72,7 @@ export function useDeleteQuiz() {
     mutationFn: deleteQuiz,
     onSuccess: (_, { code }) => {
       queryClient.removeQueries({ queryKey: QUIZ_KEYS.byCode(code) });
-      queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
+      return queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
     },
   });
 }

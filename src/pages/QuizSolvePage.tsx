@@ -1,6 +1,7 @@
 import Button from "@/components/common/Button";
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
+import { useGradeQuiz } from "@/hooks/use-quiz-result";
 import { useFetchQuiz } from "@/hooks/use-quiz";
 import {
   Brain,
@@ -11,11 +12,13 @@ import {
 } from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function QuizSolvePage() {
   const { code = "" } = useParams();
   const navigate = useNavigate();
   const { data: quiz, isLoading, isError, refetch } = useFetchQuiz(code);
+  const { mutateAsync: gradeQuiz, isPending: isGrading } = useGradeQuiz();
   const [nickname, setNickname] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -36,7 +39,9 @@ export default function QuizSolvePage() {
     setHasStarted(true);
   };
 
-  const handleQuestionSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
+  const handleQuestionSubmit: SubmitEventHandler<HTMLFormElement> = async (
+    event,
+  ) => {
     event.preventDefault();
 
     if (!currentQuestion || answers[currentQuestion.questionId] === undefined) {
@@ -46,9 +51,24 @@ export default function QuizSolvePage() {
     const isLastQuestion = currentQuestionIndex === quiz.questions.length - 1;
 
     if (isLastQuestion) {
-      navigate(`/quizzes/${code}/result`, {
-        state: { nickname, answers },
-      });
+      try {
+        const result = await gradeQuiz({
+          code,
+          quizSubmission: {
+            nickname,
+            answers: quiz.questions.map((question) => ({
+              questionId: question.questionId,
+              optionId: answers[question.questionId],
+            })),
+          },
+        });
+
+        navigate(`/quizzes/${code}/result?quizResultId=${result.quizResultId}`);
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
       return;
     }
 
@@ -67,50 +87,52 @@ export default function QuizSolvePage() {
   return (
     <div className="app-layout">
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-gray-100 px-4">
-        <Link to="/" className="text-lg font-black text-primary">
+        <Link to="/" className="text-primary text-lg font-black">
           첨벙
         </Link>
-        <span className="text-sm font-bold text-muted-foreground">친구 퀴즈</span>
+        <span className="text-muted-foreground text-sm font-bold">
+          친구 퀴즈
+        </span>
       </header>
 
       <div className="flex-1 overflow-y-auto px-4 py-6 pb-12">
         <main className="mx-auto w-full max-w-xl">
           {!hasStarted ? (
             <section className="flex min-h-100 flex-col justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-soft text-primary">
+              <div className="bg-primary-soft text-primary flex h-12 w-12 items-center justify-center rounded-lg">
                 <Brain className="h-6 w-6" />
               </div>
-              <h1 className="mt-4 text-2xl font-black text-foreground">
+              <h1 className="text-foreground mt-4 text-2xl font-black">
                 {quiz.title}
               </h1>
               {quiz.description && (
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                <p className="text-muted-foreground mt-2 text-sm leading-6">
                   {quiz.description}
                 </p>
               )}
-              <p className="mt-3 text-xs font-bold text-primary">
+              <p className="text-primary mt-3 text-xs font-bold">
                 총 {quiz.questions.length}문제
               </p>
 
               <form
                 onSubmit={handleStart}
-                className="mt-8 border-t border-border pt-6"
+                className="border-border mt-8 border-t pt-6"
               >
                 <label className="text-sm font-bold text-gray-800">
                   순위표에 표시할 닉네임
                   <div className="relative mt-2">
-                    <UserRound className="absolute top-1/2 left-3 h-4.5 w-4.5 -translate-y-1/2 text-subtle-foreground" />
+                    <UserRound className="text-subtle-foreground absolute top-1/2 left-3 h-4.5 w-4.5 -translate-y-1/2" />
                     <input
                       value={nickname}
                       onChange={(event) => setNickname(event.target.value)}
                       maxLength={12}
                       placeholder="닉네임을 입력해주세요."
                       autoFocus
-                      className="w-full rounded-lg border border-border bg-surface py-3 pr-4 pl-10 text-base text-gray-900 outline-none focus:border-primary-hover"
+                      className="border-border bg-surface focus:border-primary-hover w-full rounded-lg border py-3 pr-4 pl-10 text-base text-gray-900 outline-none"
                     />
                   </div>
                 </label>
-                <p className="mt-2 text-xs text-subtle-foreground">
+                <p className="text-subtle-foreground mt-2 text-xs">
                   입력한 닉네임은 퀴즈 순위표에 공개돼요.
                 </p>
 
@@ -130,18 +152,18 @@ export default function QuizSolvePage() {
                   <p className="truncate text-sm font-black text-gray-900">
                     {quiz.title}
                   </p>
-                  <p className="mt-1 text-xs font-medium text-subtle-foreground">
+                  <p className="text-subtle-foreground mt-1 text-xs font-medium">
                     {nickname}
                   </p>
                 </div>
-                <span className="shrink-0 text-sm font-black text-primary">
+                <span className="text-primary shrink-0 text-sm font-black">
                   {currentQuestionIndex + 1} / {quiz.questions.length}
                 </span>
               </div>
 
               <div className="mt-4 h-1 overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="h-full rounded-full bg-primary transition-all duration-300"
+                  className="bg-primary h-full rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -151,11 +173,11 @@ export default function QuizSolvePage() {
                   onSubmit={handleQuestionSubmit}
                   className="mt-6 flex flex-col"
                 >
-                  <article className="rounded-lg border border-border bg-surface p-5 shadow-sm">
-                    <p className="text-xs font-black text-primary">
+                  <article className="border-border bg-surface rounded-lg border p-5 shadow-sm">
+                    <p className="text-primary text-xs font-black">
                       문제 {currentQuestionIndex + 1}
                     </p>
-                    <h1 className="mt-2 text-lg leading-7 font-black text-foreground">
+                    <h1 className="text-foreground mt-2 text-lg leading-7 font-black">
                       {currentQuestion.content}
                     </h1>
 
@@ -190,7 +212,7 @@ export default function QuizSolvePage() {
                               className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-black ${
                                 isSelected
                                   ? "bg-primary text-white"
-                                  : "bg-gray-100 text-muted-foreground"
+                                  : "text-muted-foreground bg-gray-100"
                               }`}
                             >
                               {isSelected ? (
@@ -221,14 +243,17 @@ export default function QuizSolvePage() {
                     <Button
                       type="submit"
                       disabled={
-                        answers[currentQuestion.questionId] === undefined
+                        answers[currentQuestion.questionId] === undefined ||
+                        isGrading
                       }
                       className="flex items-center justify-center gap-1"
                     >
-                      {currentQuestionIndex === quiz.questions.length - 1
-                        ? "결과 보기"
-                        : "다음 문제"}
-                      <ChevronRight className="h-4 w-4" />
+                      {isGrading
+                        ? "채점 중..."
+                        : currentQuestionIndex === quiz.questions.length - 1
+                          ? "결과 보기"
+                          : "다음 문제"}
+                      {!isGrading && <ChevronRight className="h-4 w-4" />}
                     </Button>
                   </div>
                 </form>

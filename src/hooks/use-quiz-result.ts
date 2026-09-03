@@ -24,7 +24,7 @@ export function useGradeQuiz() {
   return useMutation({
     mutationFn: gradeQuiz,
     onSuccess: (_, { code }) => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: QUIZ_RESULT_KEYS.ranking(code),
       });
     },
@@ -37,7 +37,7 @@ export function useDeleteQuizResult() {
   return useMutation({
     mutationFn: deleteQuizResult,
     onSuccess: (_, { code }) => {
-      queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: QUIZ_RESULT_KEYS.ranking(code),
       });
     },
