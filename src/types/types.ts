@@ -1,8 +1,12 @@
 export interface RoomListItem {
   roomCode: string;
   name: string;
-  lastMessage: string;
+  lastMessage: string | null;
   unreadCount: number;
+}
+
+export interface RoomCreateRequest {
+  roomName: string;
 }
 
 export interface RoomDto {
@@ -37,9 +41,27 @@ export interface UserDto {
   nickname: string;
 }
 
-export interface ChatCursor {
+export interface UserUpdateInfo {
+  nickname: string;
+}
+
+export interface ChatCursorCondition {
+  cursor?: number;
+  limit: number;
+}
+
+export interface ChatCursorResponse {
   chatViews: ChatView[];
   hasNext: boolean;
+}
+
+export interface ChatSendRequest {
+  content: string;
+  replyToId?: number;
+}
+
+export interface ReadRequest {
+  lastReadChatId: number;
 }
 
 export interface RoomSseEvent {
@@ -105,9 +127,26 @@ export interface OptionDto {
   content: string;
 }
 
+export interface Answer {
+  questionId: number;
+  optionId: number;
+}
+
+export interface QuizSubmission {
+  nickname: string;
+  answers: Answer[];
+}
+
+export interface GradeResultResponse {
+  quizResultId: number;
+  nickname: string;
+  score: number;
+  rank: number;
+}
+
 export interface QuizTemplateCursor {
   cursor?: number;
-  limit?: number;
+  limit: number;
 }
 
 export interface QuizTemplateMetadataDto {

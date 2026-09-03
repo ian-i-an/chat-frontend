@@ -11,8 +11,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchAdminQuizTemplates = async ({
   cursor,
-  limit = 50,
-}: QuizTemplateCursor = {}): Promise<QuizTemplateCursorResponse> => {
+  limit,
+}: QuizTemplateCursor): Promise<QuizTemplateCursorResponse> => {
   const params = new URLSearchParams({ limit: String(limit) });
 
   if (cursor !== undefined) {

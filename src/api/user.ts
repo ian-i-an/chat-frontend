@@ -1,4 +1,4 @@
-import type { UserDto } from "@/types/types";
+import type { UserDto, UserUpdateInfo } from "@/types/types";
 
 const ENDPOINT = "/api/users";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -31,9 +31,7 @@ export const deleteAccount = async (): Promise<void> => {
 
 export const updateNickname = async ({
   nickname,
-}: {
-  nickname: string;
-}): Promise<UserDto> => {
+}: UserUpdateInfo): Promise<UserDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/me`, {
     method: "PATCH",
     credentials: "include",

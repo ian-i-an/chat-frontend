@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useCallback, useEffect, useRef } from "react";
 import type {
-  ChatCursor,
+  ChatCursorResponse,
   ChatSseEvent,
   ChatView,
   RoomListItem,
@@ -61,7 +61,9 @@ export default function RoomPage() {
     if (event.type === "CREATED") {
       const newChat = event.chatView;
 
-      queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+      queryClient.setQueryData<
+        InfiniteData<ChatCursorResponse, number | undefined>
+      >(
         ROOM_KEYS.chats(roomCode),
         (old) => {
           if (!old || old.pages.length === 0) return old;
@@ -89,7 +91,9 @@ export default function RoomPage() {
     if (event.type === "DELETED") {
       const deletedChat = event.chatView;
 
-      queryClient.setQueryData<InfiniteData<ChatCursor, number | undefined>>(
+      queryClient.setQueryData<
+        InfiniteData<ChatCursorResponse, number | undefined>
+      >(
         ROOM_KEYS.chats(roomCode),
         (old) => {
           if (!old) return old;

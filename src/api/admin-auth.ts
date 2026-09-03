@@ -20,3 +20,15 @@ export const signInAdmin = async (
     throw new Error(error.message);
   }
 };
+
+export const signOutAdmin = async (): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/sign-out`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+};

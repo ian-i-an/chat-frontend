@@ -1,4 +1,9 @@
-import type { ChatCursor, ChatView } from "@/types/types";
+import type {
+  ChatCursorCondition,
+  ChatCursorResponse,
+  ChatSendRequest,
+  ChatView,
+} from "@/types/types";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -9,10 +14,7 @@ export const fetchChats = async ({
   cursor,
 }: {
   roomCode: string;
-  limit?: number;
-  cursor?: number;
-}): Promise<ChatCursor> => {
-  if (!limit) limit = 50;
+} & ChatCursorCondition): Promise<ChatCursorResponse> => {
 
   const params = new URLSearchParams({ limit: String(limit) });
 
@@ -62,9 +64,7 @@ export const sendChat = async ({
   replyToId,
 }: {
   roomCode: string;
-  content: string;
-  replyToId?: number;
-}): Promise<ChatView> => {
+} & ChatSendRequest): Promise<ChatView> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/chats`, {
     method: "POST",
     credentials: "include",
