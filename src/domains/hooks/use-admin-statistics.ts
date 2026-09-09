@@ -2,7 +2,7 @@ import {
   fetchQuizStatistics,
   fetchRoomStatistics,
   fetchUserStatistics,
-} from "@/api/admin-statistics";
+} from "@/domains/api/admin-statistics";
 import { useQuery } from "@tanstack/react-query";
 
 export const ADMIN_STATISTICS_KEYS = {

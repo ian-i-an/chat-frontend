@@ -1,4 +1,4 @@
-import type { RoomListItem } from "@/types/types";
+import type { RoomListItem } from "@/domains/types/types";
 import { MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 

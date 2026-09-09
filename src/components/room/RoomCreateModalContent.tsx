@@ -1,7 +1,7 @@
 import Button from "../common/Button";
 import FormInput from "../common/FormInput";
 import { type SubmitEvent, useState } from "react";
-import { useCreateRoom as useCreateRoom } from "@/hooks/use-room";
+import { useCreateRoom as useCreateRoom } from "@/domains/hooks/use-room";
 import { toast } from "sonner";
 
 export default function RoomCreateModalContent({

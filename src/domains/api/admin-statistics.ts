@@ -2,7 +2,7 @@ import type {
   QuizStatistics,
   RoomStatistics,
   UserStatistics,
-} from "@/types/types";
+} from "@/domains/types/types";
 
 const ENDPOINT = "/api/admin/statistics";
 const API_URL = import.meta.env.VITE_API_URL;

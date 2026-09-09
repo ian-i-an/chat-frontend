@@ -1,8 +1,8 @@
 import Button from "@/components/common/Button";
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useGradeQuiz } from "@/hooks/use-quiz-result";
-import { useFetchQuiz } from "@/hooks/use-quiz";
+import { useGradeQuiz } from "@/domains/hooks/use-quiz-result";
+import { useFetchQuiz } from "@/domains/hooks/use-quiz";
 import {
   Brain,
   Check,

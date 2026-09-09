@@ -1,4 +1,4 @@
-import { useSignOutAdmin } from "@/hooks/use-admin-auth";
+import { useSignOutAdmin } from "@/domains/hooks/use-admin-auth";
 import { Activity, ArrowLeft, LoaderCircle, LogOut } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 

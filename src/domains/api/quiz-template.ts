@@ -2,7 +2,7 @@ import type {
   QuizTemplateCursor,
   QuizTemplateCursorResponse,
   QuizTemplateDto,
-} from "@/types/types";
+} from "@/domains/types/types";
 
 const ENDPOINT = "/api/quiz-templates";
 const API_URL = import.meta.env.VITE_API_URL;

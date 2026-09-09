@@ -5,7 +5,7 @@ import {
   fetchQuizzesByUser,
   updateQuiz,
   updateQuizMetadata,
-} from "@/api/quiz";
+} from "@/domains/api/quiz";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_KEYS = {

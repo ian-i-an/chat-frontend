@@ -1,12 +1,12 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchMyProfile } from "@/hooks/use-auth";
+import { useFetchMyProfile } from "@/domains/auth/use-auth";
 import {
   useDeleteQuizResult,
   useFetchQuizRanking,
-} from "@/hooks/use-quiz-result";
-import { useFetchQuiz, useFetchQuizzesByUser } from "@/hooks/use-quiz";
-import type { GradeResultResponse } from "@/types/types";
+} from "@/domains/hooks/use-quiz-result";
+import { useFetchQuiz, useFetchQuizzesByUser } from "@/domains/hooks/use-quiz";
+import type { GradeResultResponse } from "@/domains/types/types";
 import {
   Crown,
   Home,

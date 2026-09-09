@@ -1,4 +1,4 @@
-import type { AdminSignInRequest } from "@/types/types";
+import type { AdminSignInRequest } from "@/domains/types/types";
 
 const ENDPOINT = "/api/admin/auth";
 const API_URL = import.meta.env.VITE_API_URL;

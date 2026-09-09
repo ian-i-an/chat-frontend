@@ -1,9 +1,9 @@
-import type { UserDto } from "@/types/types";
+import type { UserDto } from "./user.type";
 
 const ENDPOINT = "/api/users";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const signUp = async (): Promise<UserDto> => {
+export const register = async (): Promise<UserDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/sign-up`, {
     method: "POST",
     credentials: "include",
@@ -17,7 +17,7 @@ export const signUp = async (): Promise<UserDto> => {
   return response.json();
 };
 
-export const deleteAccount = async (): Promise<void> => {
+export const deleteUser = async (): Promise<void> => {
   const response = await fetch(`${API_URL}${ENDPOINT}`, {
     method: "DELETE",
     credentials: "include",
@@ -29,7 +29,7 @@ export const deleteAccount = async (): Promise<void> => {
   }
 };
 
-export const updateNickname = async ({
+export const updateUser = async ({
   nickname,
 }: {
   nickname: string;
@@ -51,7 +51,7 @@ export const updateNickname = async ({
   return response.json();
 };
 
-export const fetchMyProfile = async (): Promise<UserDto> => {
+export const getMe = async (): Promise<UserDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/me`, {
     credentials: "include",
   });

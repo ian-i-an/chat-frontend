@@ -4,8 +4,8 @@ import {
   useFetchQuizStatistics,
   useFetchRoomStatistics,
   useFetchUserStatistics,
-} from "@/hooks/use-admin-statistics";
-import { useFetchAdminQuizTemplates } from "@/hooks/use-admin-quiz-template";
+} from "@/domains/hooks/use-admin-statistics";
+import { useFetchAdminQuizTemplates } from "@/domains/hooks/use-admin-quiz-template";
 import {
   BookOpenCheck,
   Brain,

@@ -32,10 +32,7 @@ export interface ChatView {
   replyView: ReplyView | null;
 }
 
-export interface UserDto {
-  id: number;
-  nickname: string;
-}
+
 
 export interface ChatCursorCondition {
   cursor?: number;

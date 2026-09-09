@@ -2,7 +2,7 @@ import {
   deleteQuizResult,
   fetchQuizRanking,
   gradeQuiz,
-} from "@/api/quiz-result";
+} from "@/domains/api/quiz-result";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_RESULT_KEYS = {

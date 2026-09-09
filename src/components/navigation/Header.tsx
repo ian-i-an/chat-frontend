@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import MenuButton from "./MenuButton";
 import ProfileButton from "./ProfileButton";
-import { useFetchMyProfile } from "@/hooks/use-auth";
+import { useFetchMyProfile } from "@/domains/auth/use-auth";
 
 export default function Header() {
   const { data: myProfile, isError } = useFetchMyProfile();

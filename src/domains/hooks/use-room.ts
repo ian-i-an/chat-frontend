@@ -1,4 +1,4 @@
-import { createRoom, fetchRoomById, fetchRooms } from "@/api/room";
+import { createRoom, fetchRoomById, fetchRooms } from "@/domains/api/room";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const ROOM_KEYS = {

@@ -1,8 +1,8 @@
 import Loader from "@/components/common/Loader";
 import RoomList from "@/components/room/RoomList";
-import { ROOM_KEYS, useFetchRooms } from "@/hooks/use-room";
+import { ROOM_KEYS, useFetchRooms } from "@/domains/hooks/use-room";
 import { useRoomSse } from "@/sse/useRoomSse";
-import type { RoomListItem } from "@/types/types";
+import type { RoomListItem } from "@/domains/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Navigate } from "react-router-dom";
 

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useFetchMyProfile } from "@/hooks/use-auth";
+import { useFetchMyProfile } from "@/domains/auth/use-auth";
 import Loader from "@/components/common/Loader";
 import { useEffect } from "react";
 import { toast } from "sonner";

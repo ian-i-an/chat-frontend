@@ -1,4 +1,4 @@
-import { signInAdmin, signOutAdmin } from "@/api/admin-auth";
+import { signInAdmin, signOutAdmin } from "@/domains/api/admin-auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 

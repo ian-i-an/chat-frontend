@@ -1,6 +1,6 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchUserStatistics } from "@/hooks/use-admin-statistics";
+import { useFetchUserStatistics } from "@/domains/hooks/use-admin-statistics";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function AdminProtectedRouteLayout() {

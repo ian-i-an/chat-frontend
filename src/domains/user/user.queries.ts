@@ -1,6 +1,5 @@
+import { deleteUser, getMe, register, updateUser } from "@/domains/user/user.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signOut } from "@/api/auth";
-import { fetchMyProfile, signUp } from "@/api/user";
 import { useNavigate } from "react-router-dom";
 
 export const USER_KEYS = {
@@ -14,31 +13,42 @@ export function useSignUp() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: signUp,
+    mutationFn: register,
     onSuccess: (userData) => {
       queryClient.setQueryData(USER_KEYS.me, userData);
     },
   });
 }
 
-export function useFetchMyProfile() {
-  return useQuery({
-    queryKey: USER_KEYS.me,
-    queryFn: fetchMyProfile,
-    // staleTime: 1000 * 60 * 30, // 30분
-  });
-}
-
-export const useSignOut = () => {
+export function useDeleteUser() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: signOut,
+    mutationFn: deleteUser,
     onSuccess: () => {
       queryClient.clear();
 
       navigate("/sign-in", { replace: true });
     },
   });
-};
+}
+
+export function useUpdateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateUser,
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(USER_KEYS.me, updatedUser);
+    },
+  });
+}
+
+export function useGetMe() {
+  return useQuery({
+    queryKey: USER_KEYS.me,
+    queryFn: getMe,
+    // staleTime: 1000 * 60 * 30, // 30분
+  });
+}

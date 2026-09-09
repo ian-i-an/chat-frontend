@@ -11,18 +11,18 @@ import type {
   ChatSseEvent,
   ChatView,
   RoomListItem,
-} from "@/types/types";
-import { useDeleteChat, useFetchChats } from "@/hooks/use-chat";
+} from "@/domains/types/types";
+import { useDeleteChat, useFetchChats } from "@/domains/hooks/use-chat";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
-import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
-import { useElementSize } from "@/hooks/use-element-size";
+import { useKeyboardInset } from "@/domains/hooks/use-keyboard-inset";
+import { useElementSize } from "@/domains/hooks/use-element-size";
 import {
   sendChat as sendChatRequest,
   sendReadStatus as sendReadStatusRequest,
-} from "@/api/chat";
-import { ROOM_KEYS, useFetchRoomById } from "@/hooks/use-room";
+} from "@/domains/api/chat";
+import { ROOM_KEYS, useFetchRoomById } from "@/domains/hooks/use-room";
 import { useChatSse } from "@/sse/useChatSse";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 

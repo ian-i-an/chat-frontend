@@ -7,8 +7,8 @@ import {
   useDeleteQuizTemplate,
   useFetchAdminQuizTemplate,
   useUpdateQuizTemplate,
-} from "@/hooks/use-admin-quiz-template";
-import type { QuizTemplateUpdateInfo } from "@/types/types";
+} from "@/domains/hooks/use-admin-quiz-template";
+import type { QuizTemplateUpdateInfo } from "@/domains/types/types";
 import { ArrowLeft, LoaderCircle, Pencil, Trash2 } from "lucide-react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";

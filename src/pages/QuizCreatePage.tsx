@@ -2,13 +2,13 @@ import Button from "@/components/common/Button";
 import {
   useFetchQuizTemplate,
   useFetchQuizTemplates,
-} from "@/hooks/use-quiz-template";
-import { useCreateQuiz } from "@/hooks/use-quiz";
+} from "@/domains/hooks/use-quiz-template";
+import { useCreateQuiz } from "@/domains/hooks/use-quiz";
 import type {
   QuestionTemplateDto,
   QuizCreateInfo,
   QuizTemplateDto,
-} from "@/types/types";
+} from "@/domains/types/types";
 import {
   ArrowLeft,
   ArrowRight,

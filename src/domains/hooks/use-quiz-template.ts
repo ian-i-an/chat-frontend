@@ -1,4 +1,4 @@
-import { fetchQuizTemplate, fetchQuizTemplates } from "@/api/quiz-template";
+import { fetchQuizTemplate, fetchQuizTemplates } from "@/domains/api/quiz-template";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const QUIZ_TEMPLATE_KEYS = {

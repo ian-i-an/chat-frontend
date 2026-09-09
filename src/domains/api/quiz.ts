@@ -3,7 +3,7 @@ import type {
   QuizDto,
   QuizMetadataUpdateInfo,
   QuizUpdateInfo,
-} from "@/types/types";
+} from "@/domains/types/types";
 
 const ENDPOINT = "/api/quizzes";
 const API_URL = import.meta.env.VITE_API_URL;

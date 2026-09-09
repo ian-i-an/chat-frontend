@@ -4,7 +4,7 @@ import {
   fetchAdminQuizTemplate,
   fetchAdminQuizTemplates,
   updateQuizTemplate,
-} from "@/api/admin-quiz-template";
+} from "@/domains/api/admin-quiz-template";
 import {
   useInfiniteQuery,
   useMutation,

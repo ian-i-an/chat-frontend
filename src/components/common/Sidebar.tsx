@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import IconButton from "./IconButton";
-import { useSignOut } from "@/hooks/use-auth";
+import { useSignOut } from "@/domains/auth/use-auth";
 
 interface SidebarProps {
   isOpen: boolean;

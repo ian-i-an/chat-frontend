@@ -1,7 +1,7 @@
 import { AlertCircle } from "lucide-react";
 import defaultProfile from "@/assets/default-profile.png";
-import { useFetchMyProfile } from "@/hooks/use-auth";
-import { useDeleteAccount, useUpdateNickname } from "@/hooks/use-user";
+import { useFetchMyProfile } from "@/domains/auth/use-auth";
+import { useDeleteAccount, useUpdateNickname } from "@/domains/hooks/use-user";
 import NicknameEditor from "@/components/profile/NicknameEditor";
 import { Navigate } from "react-router-dom";
 import Loader from "@/components/common/Loader";
