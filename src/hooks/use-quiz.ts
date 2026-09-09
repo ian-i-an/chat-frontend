@@ -48,7 +48,7 @@ export function useUpdateQuizMetadata() {
     mutationFn: updateQuizMetadata,
     onSuccess: (quiz, { code }) => {
       queryClient.setQueryData(QUIZ_KEYS.byCode(code), quiz);
-      queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
+      return queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
     },
   });
 }
@@ -60,7 +60,7 @@ export function useUpdateQuiz() {
     mutationFn: updateQuiz,
     onSuccess: (quiz, { code }) => {
       queryClient.setQueryData(QUIZ_KEYS.byCode(code), quiz);
-      queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
+      return queryClient.invalidateQueries({ queryKey: QUIZ_KEYS.list });
     },
   });
 }

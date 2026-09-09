@@ -20,6 +20,7 @@ import AdminProtectedRouteLayout from "./layout/AdminProtectedRouteLayout";
 import AdminLayout from "./layout/AdminLayout";
 import AdminQuizTemplateCreatePage from "./pages/AdminQuizTemplateCreatePage";
 import AdminQuizTemplateEditPage from "./pages/AdminQuizTemplateEditPage";
+import QuizEditPage from "./pages/QuizEditPage";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/quizzes" element={<QuizListPage />} />
           <Route path="/quizzes/new" element={<QuizCreatePage />} />
+          <Route path="/quizzes/:code/edit" element={<QuizEditPage />} />
         </Route>
       </Route>
 

@@ -34,6 +34,14 @@
   @apply flex min-h-0 flex-1 flex-col overflow-hidden;
 }
 
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   html,
   body {

@@ -44,14 +44,14 @@ export default function Sidebar({
   return (
     <>
       <div
-        className={`fixed inset-0 z-40  backdrop-blur-xs transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 backdrop-blur-xs transition-opacity duration-300 ${
           isOpen ? "" : "invisible opacity-0"
         }`}
         onClick={onClose}
       />
 
       <div
-        className={` fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col glass transition-transform duration-300 ease-in-out ${
+        className={`glass fixed top-0 left-0 z-50 flex h-full w-72 max-w-[82vw] flex-col transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -59,7 +59,7 @@ export default function Sidebar({
           <Link
             to="/"
             onClick={onClose}
-            className="text-xl font-black tracking-tight text-primary"
+            className="text-primary text-xl font-black tracking-tight"
           >
             첨벙
           </Link>
@@ -71,9 +71,9 @@ export default function Sidebar({
           <Link
             to="/"
             onClick={onClose}
-            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+            className="glass-hover flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors"
           >
-            <Home className="h-4.5 w-4.5 text-primary" /> 홈
+            <Home className="text-primary h-4.5 w-4.5" /> 홈
           </Link>
 
           {isAuthenticated ? (
@@ -81,22 +81,22 @@ export default function Sidebar({
               <Link
                 to="/rooms"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+                className="glass-hover flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors"
               >
-                <MessageCircle className="h-4.5 w-4.5 text-primary" />
+                <MessageCircle className="text-primary h-4.5 w-4.5" />
                 채팅방
               </Link>
               <Link
                 to="/profile"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+                className="glass-hover flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors"
               >
-                <User className="h-4.5 w-4.5 text-primary" />내 프로필
+                <User className="text-primary h-4.5 w-4.5" />내 프로필
               </Link>
               <Link
                 to="/quizzes"
                 onClick={onClose}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+                className="glass-hover flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors"
               >
                 <ListChecks className="h-4.5 w-4.5 text-emerald-500" />
                 퀴즈
@@ -105,7 +105,7 @@ export default function Sidebar({
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold text-danger transition-colors glass-hover"
+                className="text-danger glass-hover flex cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold transition-colors"
               >
                 <LogOut className="h-4.5 w-4.5" />
                 로그아웃
@@ -115,9 +115,9 @@ export default function Sidebar({
             <Link
               to="/sign-in"
               onClick={onClose}
-              className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors glass-hover"
+              className="glass-hover flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-gray-600 transition-colors"
             >
-              <LogIn className="h-4.5 w-4.5 text-primary" />
+              <LogIn className="text-primary h-4.5 w-4.5" />
               로그인
             </Link>
           )}

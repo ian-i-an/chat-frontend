@@ -1,14 +1,7 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useDeleteQuiz, useFetchQuizzesByUser } from "@/hooks/use-quiz";
-import {
-  Brain,
-  LoaderCircle,
-  Plus,
-  Share2,
-  Trash2,
-  Trophy,
-} from "lucide-react";
+import { useFetchQuizzesByUser } from "@/hooks/use-quiz";
+import { Brain, Pencil, Plus, Share2, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -19,7 +12,6 @@ export default function QuizListPage() {
     isError,
     refetch,
   } = useFetchQuizzesByUser();
-  const deleteQuizMutation = useDeleteQuiz();
 
   const copyQuizLink = async (code: string) => {
     try {
@@ -29,19 +21,6 @@ export default function QuizListPage() {
       toast.success("퀴즈 링크를 복사했어요.");
     } catch {
       toast.error("링크를 복사하지 못했어요.");
-    }
-  };
-
-  const handleDeleteQuiz = async (code: string, title: string) => {
-    if (!window.confirm(`'${title}' 퀴즈를 삭제하시겠습니까?`)) return;
-
-    try {
-      await deleteQuizMutation.mutateAsync({ code });
-      toast.success("퀴즈를 삭제했습니다.");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
     }
   };
 
@@ -113,6 +92,14 @@ export default function QuizListPage() {
 
                 <div className="flex shrink-0 items-center gap-1">
                   <Link
+                    to={`/quizzes/${quiz.code}/edit`}
+                    aria-label={`${quiz.title} 수정`}
+                    title="퀴즈 수정"
+                    className="text-subtle-foreground hover:bg-primary-soft hover:text-primary flex h-10 w-10 items-center justify-center rounded-full transition-colors"
+                  >
+                    <Pencil className="h-4.5 w-4.5" />
+                  </Link>
+                  <Link
                     to={`/quizzes/${quiz.code}/result`}
                     aria-label={`${quiz.title} 결과 보기`}
                     title="결과 보기"
@@ -128,24 +115,6 @@ export default function QuizListPage() {
                     className="text-subtle-foreground hover:bg-primary-soft hover:text-primary flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors"
                   >
                     <Share2 className="h-4.5 w-4.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteQuiz(quiz.code, quiz.title)}
-                    disabled={
-                      deleteQuizMutation.isPending &&
-                      deleteQuizMutation.variables?.code === quiz.code
-                    }
-                    aria-label={`${quiz.title} 삭제`}
-                    title="퀴즈 삭제"
-                    className="text-subtle-foreground flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed"
-                  >
-                    {deleteQuizMutation.isPending &&
-                    deleteQuizMutation.variables?.code === quiz.code ? (
-                      <LoaderCircle className="h-4.5 w-4.5 animate-spin" />
-                    ) : (
-                      <Trash2 className="h-4.5 w-4.5" />
-                    )}
                   </button>
                 </div>
               </article>
