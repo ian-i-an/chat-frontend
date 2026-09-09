@@ -1,12 +1,9 @@
-import type {
-  GradeResultResponse,
-  QuizSubmission,
-} from "@/domains/types/types";
+import type { GradeResultResponse, QuizSubmission } from "./quiz-result.type";
 
 const ENDPOINT = "/api/quizzes";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const gradeQuiz = async ({
+export const grade = async ({
   code,
   quizSubmission,
 }: {
@@ -24,13 +21,13 @@ export const gradeQuiz = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const fetchQuizRanking = async ({
+export const ranking = async ({
   code,
 }: {
   code: string;
@@ -41,13 +38,13 @@ export const fetchQuizRanking = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const deleteQuizResult = async ({
+const deleteQuizResult = async ({
   code,
   quizResultId,
 }: {
@@ -64,6 +61,8 @@ export const deleteQuizResult = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 };
+
+export { deleteQuizResult as delete };

@@ -1,11 +1,11 @@
 import {
   createQuiz,
-  deleteQuiz,
-  fetchQuiz,
-  fetchQuizzesByUser,
+  delete as deleteQuiz,
+  getQuiz,
+  getQuizzesByUser,
   updateQuiz,
   updateQuizMetadata,
-} from "@/domains/api/quiz";
+} from "./quiz.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_KEYS = {
@@ -14,18 +14,18 @@ export const QUIZ_KEYS = {
   byCode: (code: string) => ["quiz", "byCode", code],
 };
 
-export function useFetchQuizzesByUser(enabled = true) {
+export function useGetQuizzesByUser(enabled = true) {
   return useQuery({
     queryKey: QUIZ_KEYS.list,
-    queryFn: fetchQuizzesByUser,
+    queryFn: getQuizzesByUser,
     enabled,
   });
 }
 
-export function useFetchQuiz(code: string) {
+export function useGetQuiz(code: string) {
   return useQuery({
     queryKey: QUIZ_KEYS.byCode(code),
-    queryFn: () => fetchQuiz({ code }),
+    queryFn: () => getQuiz({ code }),
     enabled: !!code,
   });
 }
@@ -65,7 +65,7 @@ export function useUpdateQuiz() {
   });
 }
 
-export function useDeleteQuiz() {
+export function useDelete() {
   const queryClient = useQueryClient();
 
   return useMutation({

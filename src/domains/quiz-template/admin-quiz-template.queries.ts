@@ -1,17 +1,17 @@
 import {
-  createQuizTemplate,
-  deleteQuizTemplate,
-  fetchAdminQuizTemplate,
-  fetchAdminQuizTemplates,
-  updateQuizTemplate,
-} from "@/domains/api/admin-quiz-template";
+  create,
+  delete as deleteQuizTemplate,
+  getQuizTemplate,
+  getQuizTemplates,
+  update,
+} from "./admin-quiz-template.api";
+import { QUIZ_TEMPLATE_KEYS } from "./quiz-template.queries";
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { QUIZ_TEMPLATE_KEYS } from "./use-quiz-template";
 
 export const ADMIN_QUIZ_TEMPLATE_KEYS = {
   all: ["admin", "quiz-template"],
@@ -26,12 +26,11 @@ export const ADMIN_QUIZ_TEMPLATE_KEYS = {
   ],
 };
 
-export function useFetchAdminQuizTemplates(limit = 50) {
+export function useGetQuizTemplates(limit = 50) {
   return useInfiniteQuery({
     initialPageParam: undefined as number | undefined,
     queryKey: ADMIN_QUIZ_TEMPLATE_KEYS.list(limit),
-    queryFn: ({ pageParam: cursor }) =>
-      fetchAdminQuizTemplates({ cursor, limit }),
+    queryFn: ({ pageParam: cursor }) => getQuizTemplates({ cursor, limit }),
     getNextPageParam: (lastPage) => {
       if (!lastPage.hasNext || lastPage.quizTemplates.length === 0) {
         return undefined;
@@ -45,20 +44,20 @@ export function useFetchAdminQuizTemplates(limit = 50) {
   });
 }
 
-export function useFetchAdminQuizTemplate(quizTemplateId: number) {
+export function useGetQuizTemplate(quizTemplateId: number) {
   return useQuery({
     queryKey: ADMIN_QUIZ_TEMPLATE_KEYS.detail(quizTemplateId),
-    queryFn: () => fetchAdminQuizTemplate({ quizTemplateId }),
+    queryFn: () => getQuizTemplate({ quizTemplateId }),
     enabled: quizTemplateId > 0,
     retry: false,
   });
 }
 
-export function useCreateQuizTemplate() {
+export function useCreate() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createQuizTemplate,
+    mutationFn: create,
     onSuccess: (quizTemplate) => {
       queryClient.setQueryData(
         ADMIN_QUIZ_TEMPLATE_KEYS.detail(quizTemplate.quizTemplateId),
@@ -72,11 +71,11 @@ export function useCreateQuizTemplate() {
   });
 }
 
-export function useUpdateQuizTemplate() {
+export function useUpdate() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateQuizTemplate,
+    mutationFn: update,
     onSuccess: (quizTemplate, { quizTemplateId }) => {
       queryClient.setQueryData(
         ADMIN_QUIZ_TEMPLATE_KEYS.detail(quizTemplateId),
@@ -94,7 +93,7 @@ export function useUpdateQuizTemplate() {
   });
 }
 
-export function useDeleteQuizTemplate() {
+export function useDelete() {
   const queryClient = useQueryClient();
 
   return useMutation({

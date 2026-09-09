@@ -3,19 +3,17 @@ import type {
   ChatCursorResponse,
   ChatSendRequest,
   ChatView,
-} from "@/domains/types/types";
+  ReadRequest,
+} from "./chat.type";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const fetchChats = async ({
+export const getChats = async ({
   roomCode,
   limit,
   cursor,
-}: {
-  roomCode: string;
-} & ChatCursorCondition): Promise<ChatCursorResponse> => {
-
+}: { roomCode: string } & ChatCursorCondition): Promise<ChatCursorResponse> => {
   const params = new URLSearchParams({ limit: String(limit) });
 
   if (cursor !== undefined) {
@@ -24,17 +22,56 @@ export const fetchChats = async ({
 
   const response = await fetch(
     `${API_URL}${ENDPOINT}/${roomCode}/chats?${params}`,
-    {
-      credentials: "include",
-    },
+    { credentials: "include" },
   );
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
+};
+
+export const sendChat = async ({
+  roomCode,
+  content,
+  replyToId,
+}: { roomCode: string } & ChatSendRequest): Promise<ChatView> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/chats`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ content, replyToId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message, { cause: response.status });
+  }
+
+  return response.json();
+};
+
+export const readChat = async ({
+  roomCode,
+  lastReadChatId,
+}: { roomCode: string } & ReadRequest): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/read`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ lastReadChatId }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message, { cause: response.status });
+  }
 };
 
 export const deleteChat = async ({
@@ -54,52 +91,6 @@ export const deleteChat = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
-  }
-};
-
-export const sendChat = async ({
-  roomCode,
-  content,
-  replyToId,
-}: {
-  roomCode: string;
-} & ChatSendRequest): Promise<ChatView> => {
-  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/chats`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ content, replyToId }),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-
-  return response.json();
-};
-
-export const sendReadStatus = async ({
-  roomCode,
-  lastReadChatId,
-}: {
-  roomCode: string;
-  lastReadChatId: number;
-}): Promise<void> => {
-  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}/read`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ lastReadChatId }),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 };

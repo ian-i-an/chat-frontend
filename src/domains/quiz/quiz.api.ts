@@ -3,7 +3,7 @@ import type {
   QuizDto,
   QuizMetadataUpdateInfo,
   QuizUpdateInfo,
-} from "@/domains/types/types";
+} from "./quiz.type";
 
 const ENDPOINT = "/api/quizzes";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,37 +22,33 @@ export const createQuiz = async (
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const fetchQuizzesByUser = async (): Promise<QuizDto[]> => {
+export const getQuizzesByUser = async (): Promise<QuizDto[]> => {
   const response = await fetch(`${API_URL}${ENDPOINT}`, {
     credentials: "include",
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const fetchQuiz = async ({
-  code,
-}: {
-  code: string;
-}): Promise<QuizDto> => {
+export const getQuiz = async ({ code }: { code: string }): Promise<QuizDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/${code}`, {
     credentials: "include",
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
@@ -76,7 +72,7 @@ export const updateQuizMetadata = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
@@ -100,13 +96,13 @@ export const updateQuiz = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
+const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/${code}`, {
     method: "DELETE",
     credentials: "include",
@@ -114,6 +110,8 @@ export const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 };
+
+export { deleteQuiz as delete };

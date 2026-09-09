@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 import MenuButton from "./MenuButton";
 import ProfileButton from "./ProfileButton";
-import { useFetchMyProfile } from "@/domains/auth/use-auth";
+import { useGetMe } from "@/domains/user/user.queries";
 
 export default function Header() {
-  const { data: myProfile, isError } = useFetchMyProfile();
+  const { data: myProfile, isError } = useGetMe();
   const isAuthenticated = !!myProfile && !isError;
 
   return (

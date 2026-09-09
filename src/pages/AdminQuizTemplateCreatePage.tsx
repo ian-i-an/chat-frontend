@@ -1,8 +1,8 @@
 import QuizTemplateForm, {
   type QuizTemplateFormValue,
 } from "@/components/admin/QuizTemplateForm";
-import { useCreateQuizTemplate } from "@/domains/hooks/use-admin-quiz-template";
-import type { QuizTemplateCreateInfo } from "@/domains/types/types";
+import { useCreate as useCreateQuizTemplate } from "@/domains/quiz-template/admin-quiz-template.queries";
+import type { QuizTemplateCreateInfo } from "@/domains/quiz-template/quiz-template.type";
 import { ArrowLeft, FilePlus2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";

@@ -4,11 +4,11 @@ import QuizTemplateForm, {
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
 import {
-  useDeleteQuizTemplate,
-  useFetchAdminQuizTemplate,
-  useUpdateQuizTemplate,
-} from "@/domains/hooks/use-admin-quiz-template";
-import type { QuizTemplateUpdateInfo } from "@/domains/types/types";
+  useDelete as useDeleteQuizTemplate,
+  useGetQuizTemplate,
+  useUpdate as useUpdateQuizTemplate,
+} from "@/domains/quiz-template/admin-quiz-template.queries";
+import type { QuizTemplateUpdateInfo } from "@/domains/quiz-template/quiz-template.type";
 import { ArrowLeft, LoaderCircle, Pencil, Trash2 } from "lucide-react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ export default function AdminQuizTemplateEditPage() {
   const navigate = useNavigate();
   const { quizTemplateId: quizTemplateIdParam } = useParams();
   const quizTemplateId = Number(quizTemplateIdParam);
-  const templateQuery = useFetchAdminQuizTemplate(quizTemplateId);
+  const templateQuery = useGetQuizTemplate(quizTemplateId);
   const updateMutation = useUpdateQuizTemplate();
   const deleteMutation = useDeleteQuizTemplate();
   const isPending = updateMutation.isPending || deleteMutation.isPending;

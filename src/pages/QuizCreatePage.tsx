@@ -1,14 +1,14 @@
 import Button from "@/components/common/Button";
 import {
-  useFetchQuizTemplate,
-  useFetchQuizTemplates,
-} from "@/domains/hooks/use-quiz-template";
-import { useCreateQuiz } from "@/domains/hooks/use-quiz";
+  useGetQuizTemplate,
+  useGetQuizTemplates,
+} from "@/domains/quiz-template/quiz-template.queries";
+import { useCreateQuiz } from "@/domains/quiz/quiz.queries";
+import type { QuizCreateInfo } from "@/domains/quiz/quiz.type";
 import type {
   QuestionTemplateDto,
-  QuizCreateInfo,
   QuizTemplateDto,
-} from "@/domains/types/types";
+} from "@/domains/quiz-template/quiz-template.type";
 import {
   ArrowLeft,
   ArrowRight,
@@ -89,7 +89,7 @@ function TemplatePicker({ onSelect }: TemplatePickerProps) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFetchQuizTemplates();
+  } = useGetQuizTemplates();
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 pb-20">
@@ -227,7 +227,7 @@ function QuizTemplateEditor({
     isLoading,
     isError,
     refetch,
-  } = useFetchQuizTemplate(quizTemplateId);
+  } = useGetQuizTemplate(quizTemplateId);
 
   if (isLoading) {
     return (

@@ -1,4 +1,9 @@
-import { deleteUser, getMe, register, updateUser } from "@/domains/user/user.api";
+import {
+  deleteUser,
+  getMe,
+  register,
+  updateUser,
+} from "@/domains/user/user.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 

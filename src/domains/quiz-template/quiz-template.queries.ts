@@ -1,4 +1,4 @@
-import { fetchQuizTemplate, fetchQuizTemplates } from "@/domains/api/quiz-template";
+import { getQuizTemplate, getQuizTemplates } from "./quiz-template.api";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const QUIZ_TEMPLATE_KEYS = {
@@ -13,11 +13,11 @@ export const QUIZ_TEMPLATE_KEYS = {
   ],
 };
 
-export function useFetchQuizTemplates(limit = 50) {
+export function useGetQuizTemplates(limit = 50) {
   return useInfiniteQuery({
     initialPageParam: undefined as number | undefined,
     queryKey: QUIZ_TEMPLATE_KEYS.list(limit),
-    queryFn: ({ pageParam: cursor }) => fetchQuizTemplates({ cursor, limit }),
+    queryFn: ({ pageParam: cursor }) => getQuizTemplates({ cursor, limit }),
     getNextPageParam: (lastPage) => {
       if (!lastPage.hasNext || lastPage.quizTemplates.length === 0) {
         return undefined;
@@ -30,10 +30,10 @@ export function useFetchQuizTemplates(limit = 50) {
   });
 }
 
-export function useFetchQuizTemplate(quizTemplateId: number) {
+export function useGetQuizTemplate(quizTemplateId: number) {
   return useQuery({
     queryKey: QUIZ_TEMPLATE_KEYS.detail(quizTemplateId),
-    queryFn: () => fetchQuizTemplate({ quizTemplateId }),
+    queryFn: () => getQuizTemplate({ quizTemplateId }),
     enabled: quizTemplateId > 0,
   });
 }

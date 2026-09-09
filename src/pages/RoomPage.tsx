@@ -10,21 +10,21 @@ import type {
   ChatCursorResponse,
   ChatSseEvent,
   ChatView,
-  RoomListItem,
-} from "@/domains/types/types";
-import { useDeleteChat, useFetchChats } from "@/domains/hooks/use-chat";
+} from "@/domains/chat/chat.type";
+import { useDeleteChat, useGetChats } from "@/domains/chat/chat.queries";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
-import { useKeyboardInset } from "@/domains/hooks/use-keyboard-inset";
-import { useElementSize } from "@/domains/hooks/use-element-size";
+import { useKeyboardInset } from "@/hooks/use-keyboard-inset";
+import { useElementSize } from "@/hooks/use-element-size";
 import {
   sendChat as sendChatRequest,
-  sendReadStatus as sendReadStatusRequest,
-} from "@/domains/api/chat";
-import { ROOM_KEYS, useFetchRoomById } from "@/domains/hooks/use-room";
+  readChat as readChatRequest,
+} from "@/domains/chat/chat.api";
+import { ROOM_KEYS, useGetRoom } from "@/domains/room/room.queries";
 import { useChatSse } from "@/sse/useChatSse";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
+import type { RoomListItem } from "@/domains/room/room.type";
 
 export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;
@@ -45,14 +45,14 @@ export default function RoomPage() {
     data: room,
     isLoading: isRoomLoading,
     isError: isRoomError,
-  } = useFetchRoomById(roomCode);
+  } = useGetRoom(roomCode);
 
   const {
     data: chats = [],
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFetchChats(roomCode);
+  } = useGetChats(roomCode);
 
   const latestChatId = chats.length > 0 ? chats[0].id : null;
   const { chatListRef, scrollToLatestChat } = useChatScroll();
@@ -142,7 +142,7 @@ export default function RoomPage() {
     if (!room?.isMyRoom || !latestChatId) return;
     if (lastReadChatIdRef.current === latestChatId) return;
 
-    void sendReadStatusRequest({ roomCode, lastReadChatId: latestChatId })
+    void readChatRequest({ roomCode, lastReadChatId: latestChatId })
       .then(() => {
         lastReadChatIdRef.current = latestChatId;
 
@@ -162,7 +162,11 @@ export default function RoomPage() {
 
   const sendMessage = useCallback(
     (content: string, replyToId?: number) => {
-      void sendChatRequest({ roomCode, content, replyToId }).catch(
+      void sendChatRequest({
+        roomCode,
+        content,
+        replyToId: replyToId ?? null,
+      }).catch(
         (error: Error) => {
           toast.error(error.message);
         },

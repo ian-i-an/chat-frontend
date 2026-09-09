@@ -1,8 +1,8 @@
 import {
-  fetchQuizStatistics,
-  fetchRoomStatistics,
-  fetchUserStatistics,
-} from "@/domains/api/admin-statistics";
+  getQuizStatistics,
+  getRoomStatistics,
+  getUserStatistics,
+} from "./admin-statistics.api";
 import { useQuery } from "@tanstack/react-query";
 
 export const ADMIN_STATISTICS_KEYS = {
@@ -12,26 +12,26 @@ export const ADMIN_STATISTICS_KEYS = {
   quizzes: ["admin", "statistics", "quizzes"],
 };
 
-export function useFetchUserStatistics() {
+export function useGetUserStatistics() {
   return useQuery({
     queryKey: ADMIN_STATISTICS_KEYS.users,
-    queryFn: fetchUserStatistics,
+    queryFn: getUserStatistics,
     retry: false,
   });
 }
 
-export function useFetchRoomStatistics() {
+export function useGetRoomStatistics() {
   return useQuery({
     queryKey: ADMIN_STATISTICS_KEYS.rooms,
-    queryFn: fetchRoomStatistics,
+    queryFn: getRoomStatistics,
     retry: false,
   });
 }
 
-export function useFetchQuizStatistics() {
+export function useGetQuizStatistics() {
   return useQuery({
     queryKey: ADMIN_STATISTICS_KEYS.quizzes,
-    queryFn: fetchQuizStatistics,
+    queryFn: getQuizStatistics,
     retry: false,
   });
 }

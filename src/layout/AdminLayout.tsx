@@ -1,9 +1,9 @@
-import { useSignOutAdmin } from "@/domains/hooks/use-admin-auth";
+import { useLogout } from "@/domains/admin-auth/admin-auth.queries";
 import { Activity, ArrowLeft, LoaderCircle, LogOut } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 
 export default function AdminLayout() {
-  const { mutate: signOutAdmin, isPending } = useSignOutAdmin();
+  const { mutate: signOutAdmin, isPending } = useLogout();
 
   return (
     <div className="app-layout">

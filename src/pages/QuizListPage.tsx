@@ -1,6 +1,6 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchQuizzesByUser } from "@/domains/hooks/use-quiz";
+import { useGetQuizzesByUser } from "@/domains/quiz/quiz.queries";
 import { Brain, Pencil, Plus, Share2, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -11,7 +11,7 @@ export default function QuizListPage() {
     isLoading,
     isError,
     refetch,
-  } = useFetchQuizzesByUser();
+  } = useGetQuizzesByUser();
 
   const copyQuizLink = async (code: string) => {
     try {

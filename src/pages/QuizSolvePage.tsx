@@ -1,8 +1,8 @@
 import Button from "@/components/common/Button";
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useGradeQuiz } from "@/domains/hooks/use-quiz-result";
-import { useFetchQuiz } from "@/domains/hooks/use-quiz";
+import { useGrade } from "@/domains/quiz-result/quiz-result.queries";
+import { useGetQuiz } from "@/domains/quiz/quiz.queries";
 import {
   Brain,
   Check,
@@ -17,8 +17,8 @@ import { toast } from "sonner";
 export default function QuizSolvePage() {
   const { code = "" } = useParams();
   const navigate = useNavigate();
-  const { data: quiz, isLoading, isError, refetch } = useFetchQuiz(code);
-  const { mutateAsync: gradeQuiz, isPending: isGrading } = useGradeQuiz();
+  const { data: quiz, isLoading, isError, refetch } = useGetQuiz(code);
+  const { mutateAsync: gradeQuiz, isPending: isGrading } = useGrade();
   const [nickname, setNickname] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

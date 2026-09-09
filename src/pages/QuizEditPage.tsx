@@ -2,12 +2,12 @@ import Button from "@/components/common/Button";
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
 import {
-  useDeleteQuiz,
-  useFetchQuizzesByUser,
+  useDelete as useDeleteQuiz,
+  useGetQuizzesByUser,
   useUpdateQuiz,
   useUpdateQuizMetadata,
-} from "@/domains/hooks/use-quiz";
-import type { QuizDto, QuizUpdateInfo } from "@/domains/types/types";
+} from "@/domains/quiz/quiz.queries";
+import type { QuizDto, QuizUpdateInfo } from "@/domains/quiz/quiz.type";
 import {
   ArrowLeft,
   Check,
@@ -525,7 +525,7 @@ export default function QuizEditPage() {
     isLoading,
     isError,
     refetch,
-  } = useFetchQuizzesByUser();
+  } = useGetQuizzesByUser();
 
   if (isLoading) return <Loader fullPage />;
   if (isError || !quizzes) {

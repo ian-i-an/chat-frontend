@@ -1,14 +1,14 @@
 import AuthHeader from "@/components/auth/AuthHeader";
 import Button from "@/components/common/Button";
 import FormInput from "@/components/common/FormInput";
-import { useSignInAdmin } from "@/domains/hooks/use-admin-auth";
+import { useSignIn } from "@/domains/admin-auth/admin-auth.queries";
 import { Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminSignInPage() {
   const navigate = useNavigate();
-  const { mutate: signIn, isPending, error, reset } = useSignInAdmin();
+  const { mutate: signIn, isPending, error, reset } = useSignIn();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

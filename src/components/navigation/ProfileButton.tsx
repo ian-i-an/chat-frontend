@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import defaultProfile from "@/assets/default-profile.png";
-import { useSignOut } from "@/domains/auth/use-auth";
+import { useLogout } from "@/domains/auth/auth.queries";
 import PhotoButton from "../common/PhotoButton";
 import { LogOut, User } from "lucide-react";
 
 export default function ProfileButton() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { mutate: SignOut } = useSignOut();
+  const { mutate: logout } = useLogout();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,7 +28,7 @@ export default function ProfileButton() {
 
   const handleSignOut = () => {
     setIsOpen(false);
-    SignOut();
+    logout();
   };
 
   return (

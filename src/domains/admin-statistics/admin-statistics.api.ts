@@ -2,12 +2,12 @@ import type {
   QuizStatistics,
   RoomStatistics,
   UserStatistics,
-} from "@/domains/types/types";
+} from "./admin-statistics.type";
 
 const ENDPOINT = "/api/admin/statistics";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const fetchUserStatistics = async (): Promise<UserStatistics> => {
+export const getUserStatistics = async (): Promise<UserStatistics> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/users`, {
     credentials: "include",
   });
@@ -20,7 +20,7 @@ export const fetchUserStatistics = async (): Promise<UserStatistics> => {
   return response.json();
 };
 
-export const fetchRoomStatistics = async (): Promise<RoomStatistics> => {
+export const getRoomStatistics = async (): Promise<RoomStatistics> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/rooms`, {
     credentials: "include",
   });
@@ -33,7 +33,7 @@ export const fetchRoomStatistics = async (): Promise<RoomStatistics> => {
   return response.json();
 };
 
-export const fetchQuizStatistics = async (): Promise<QuizStatistics> => {
+export const getQuizStatistics = async (): Promise<QuizStatistics> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/quizzes`, {
     credentials: "include",
   });

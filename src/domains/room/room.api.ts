@@ -1,9 +1,9 @@
-import type { RoomDto, RoomListItem } from "@/domains/types/types";
+import type { RoomDto, RoomListItem } from "./room.type";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const createRoom = async ({
+export const create = async ({
   roomName,
 }: {
   roomName: string;
@@ -25,7 +25,7 @@ export const createRoom = async ({
   return response.json();
 };
 
-export const fetchRooms = async (): Promise<RoomListItem[]> => {
+export const getMyRooms = async (): Promise<RoomListItem[]> => {
   const response = await fetch(`${API_URL}${ENDPOINT}`, {
     credentials: "include",
   });
@@ -38,7 +38,7 @@ export const fetchRooms = async (): Promise<RoomListItem[]> => {
   return response.json();
 };
 
-export const fetchRoomById = async ({
+export const getRoom = async ({
   roomCode,
 }: {
   roomCode: string;
@@ -53,4 +53,44 @@ export const fetchRoomById = async ({
   }
 
   return response.json();
+};
+
+export const update = async ({
+  roomCode,
+  newName,
+}: {
+  roomCode: string;
+  newName: string;
+}): Promise<RoomListItem> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ newName }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
+};
+
+export const deleteRoom = async ({
+  roomCode,
+}: {
+  roomCode: string;
+}): Promise<void> => {
+  const response = await fetch(`${API_URL}${ENDPOINT}/${roomCode}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
 };

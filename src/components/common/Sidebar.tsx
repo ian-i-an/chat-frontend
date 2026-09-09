@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import IconButton from "./IconButton";
-import { useSignOut } from "@/domains/auth/use-auth";
+import { useLogout } from "@/domains/auth/auth.queries";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export default function Sidebar({
   isAuthenticated,
   onClose,
 }: SidebarProps) {
-  const { mutate: signOut } = useSignOut();
+  const { mutate: logout } = useLogout();
 
   useEffect(() => {
     if (isOpen) {
@@ -38,7 +38,7 @@ export default function Sidebar({
 
   const handleSignOut = () => {
     onClose();
-    signOut();
+    logout();
   };
 
   return (

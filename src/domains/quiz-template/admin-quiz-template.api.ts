@@ -1,15 +1,15 @@
 import type {
+  QuizTemplateCreateInfo,
   QuizTemplateCursor,
   QuizTemplateCursorResponse,
-  QuizTemplateCreateInfo,
   QuizTemplateDto,
   QuizTemplateUpdateInfo,
-} from "@/domains/types/types";
+} from "./quiz-template.type";
 
 const ENDPOINT = "/api/admin/quiz-templates";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const fetchAdminQuizTemplates = async ({
+export const getQuizTemplates = async ({
   cursor,
   limit,
 }: QuizTemplateCursor): Promise<QuizTemplateCursorResponse> => {
@@ -31,7 +31,7 @@ export const fetchAdminQuizTemplates = async ({
   return response.json();
 };
 
-export const fetchAdminQuizTemplate = async ({
+export const getQuizTemplate = async ({
   quizTemplateId,
 }: {
   quizTemplateId: number;
@@ -48,7 +48,7 @@ export const fetchAdminQuizTemplate = async ({
   return response.json();
 };
 
-export const createQuizTemplate = async (
+export const create = async (
   createInfo: QuizTemplateCreateInfo,
 ): Promise<QuizTemplateDto> => {
   const response = await fetch(`${API_URL}${ENDPOINT}`, {
@@ -68,7 +68,7 @@ export const createQuizTemplate = async (
   return response.json();
 };
 
-export const updateQuizTemplate = async ({
+export const update = async ({
   quizTemplateId,
   quizTemplateUpdateInfo,
 }: {
@@ -92,7 +92,7 @@ export const updateQuizTemplate = async ({
   return response.json();
 };
 
-export const deleteQuizTemplate = async ({
+const deleteQuizTemplate = async ({
   quizTemplateId,
 }: {
   quizTemplateId: number;
@@ -107,3 +107,5 @@ export const deleteQuizTemplate = async ({
     throw new Error(error.message, { cause: response.status });
   }
 };
+
+export { deleteQuizTemplate as delete };

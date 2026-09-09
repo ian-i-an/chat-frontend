@@ -1,11 +1,11 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
 import {
-  useFetchQuizStatistics,
-  useFetchRoomStatistics,
-  useFetchUserStatistics,
-} from "@/domains/hooks/use-admin-statistics";
-import { useFetchAdminQuizTemplates } from "@/domains/hooks/use-admin-quiz-template";
+  useGetQuizStatistics,
+  useGetRoomStatistics,
+  useGetUserStatistics,
+} from "@/domains/admin-statistics/admin-statistics.queries";
+import { useGetQuizTemplates } from "@/domains/quiz-template/admin-quiz-template.queries";
 import {
   BookOpenCheck,
   Brain,
@@ -59,10 +59,10 @@ function StatCard({
 }
 
 export default function AdminDashboardPage() {
-  const userStatisticsQuery = useFetchUserStatistics();
-  const roomStatisticsQuery = useFetchRoomStatistics();
-  const quizStatisticsQuery = useFetchQuizStatistics();
-  const templateQuery = useFetchAdminQuizTemplates();
+  const userStatisticsQuery = useGetUserStatistics();
+  const roomStatisticsQuery = useGetRoomStatistics();
+  const quizStatisticsQuery = useGetQuizStatistics();
+  const templateQuery = useGetQuizTemplates();
 
   const isLoading =
     userStatisticsQuery.isLoading ||

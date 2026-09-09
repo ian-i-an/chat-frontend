@@ -1,9 +1,9 @@
 import Loader from "@/components/common/Loader";
-import { useFetchMyProfile } from "@/domains/auth/use-auth";
+import { useGetMe } from "@/domains/user/user.queries";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PublicRouteLayout() {
-  const { data: myProfile, isError, isLoading } = useFetchMyProfile();
+  const { data: myProfile, isError, isLoading } = useGetMe();
 
   if (isLoading) {
     return <Loader fullPage />;

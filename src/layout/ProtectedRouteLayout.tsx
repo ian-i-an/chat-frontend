@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useFetchMyProfile } from "@/domains/auth/use-auth";
 import Loader from "@/components/common/Loader";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useGetMe } from "@/domains/user/user.queries";
 
 export default function ProtectedRouteLayout() {
   const {
@@ -10,7 +10,7 @@ export default function ProtectedRouteLayout() {
     isLoading: isFetchMyProfileLoading,
     error,
     isError,
-  } = useFetchMyProfile();
+  } = useGetMe();
 
   useEffect(() => {
     if (isError) {

@@ -1,17 +1,16 @@
+import { logout } from "./auth.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signOut } from "@/domains/auth/auth";
 import { useNavigate } from "react-router-dom";
 
-export const useSignOut = () => {
+export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: signOut,
+    mutationFn: logout,
     onSuccess: () => {
       queryClient.clear();
-
       navigate("/sign-in", { replace: true });
     },
   });
-};
+}

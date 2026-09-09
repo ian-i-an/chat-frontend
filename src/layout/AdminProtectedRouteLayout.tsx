@@ -1,10 +1,10 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchUserStatistics } from "@/domains/hooks/use-admin-statistics";
+import { useGetUserStatistics } from "@/domains/admin-statistics/admin-statistics.queries";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function AdminProtectedRouteLayout() {
-  const { isLoading, isError, error, refetch } = useFetchUserStatistics();
+  const { isLoading, isError, error, refetch } = useGetUserStatistics();
 
   if (isLoading) {
     return <Loader fullPage />;

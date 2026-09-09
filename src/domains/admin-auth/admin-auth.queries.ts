@@ -1,24 +1,24 @@
-import { signInAdmin, signOutAdmin } from "@/domains/api/admin-auth";
+import { logout, signIn } from "./admin-auth.api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-export function useSignInAdmin() {
+export function useSignIn() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: signInAdmin,
+    mutationFn: signIn,
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ["admin", "statistics"] });
     },
   });
 }
 
-export function useSignOutAdmin() {
+export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: signOutAdmin,
+    mutationFn: logout,
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ["admin"] });
       navigate("/admin/sign-in", { replace: true });

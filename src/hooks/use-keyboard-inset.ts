@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export function useKeyboardInset() {
   useEffect(() => {
-    const vv = window.visualViewport;
+    const visualViewport = window.visualViewport;
     const root = document.documentElement;
     const isInAppBrowser = /Twitter/i.test(window.navigator.userAgent);
 
@@ -16,20 +16,18 @@ export function useKeyboardInset() {
         return;
       }
 
-      const keyboard = vv ? Math.max(0, window.innerHeight - vv.height) : 0;
-      root.style.setProperty("--keyboard-height", `${keyboard}px`);
+      const keyboardHeight = visualViewport
+        ? Math.max(0, window.innerHeight - visualViewport.height)
+        : 0;
+      root.style.setProperty("--keyboard-height", `${keyboardHeight}px`);
     };
 
     update();
 
-    if (vv) {
-      vv.addEventListener("resize", update);
-    }
+    visualViewport?.addEventListener("resize", update);
 
     return () => {
-      if (vv) {
-        vv.removeEventListener("resize", update);
-      }
+      visualViewport?.removeEventListener("resize", update);
       reset();
     };
   }, []);

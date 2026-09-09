@@ -1,7 +1,7 @@
 import Button from "../common/Button";
 import FormInput from "../common/FormInput";
 import { type SubmitEvent, useState } from "react";
-import { useCreateRoom as useCreateRoom } from "@/domains/hooks/use-room";
+import { useCreate } from "@/domains/room/room.queries";
 import { toast } from "sonner";
 
 export default function RoomCreateModalContent({
@@ -10,7 +10,7 @@ export default function RoomCreateModalContent({
   onClose: () => void;
 }) {
   const [roomName, setRoomName] = useState("");
-  const { mutate: createRoom, isPending } = useCreateRoom();
+  const { mutate: createRoom, isPending } = useCreate();
 
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,7 +58,6 @@ export default function RoomCreateModalContent({
           <Button
             type="submit"
             className="w-full"
-
             disabled={!roomName.trim() || isPending}
           >
             생성

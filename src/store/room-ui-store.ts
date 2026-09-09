@@ -1,4 +1,4 @@
-import type { ChatView } from "@/domains/types/types";
+import type { ChatView } from "@/domains/chat/chat.type";
 import { create } from "zustand";
 import { devtools, combine } from "zustand/middleware";
 

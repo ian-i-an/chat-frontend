@@ -1,8 +1,4 @@
-import {
-  deleteQuizResult,
-  fetchQuizRanking,
-  gradeQuiz,
-} from "@/domains/api/quiz-result";
+import { delete as deleteQuizResult, grade, ranking } from "./quiz-result.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_RESULT_KEYS = {
@@ -10,19 +6,19 @@ export const QUIZ_RESULT_KEYS = {
   ranking: (code: string) => ["quiz-result", code, "ranking"],
 };
 
-export function useFetchQuizRanking(code: string) {
+export function useRanking(code: string) {
   return useQuery({
     queryKey: QUIZ_RESULT_KEYS.ranking(code),
-    queryFn: () => fetchQuizRanking({ code }),
+    queryFn: () => ranking({ code }),
     enabled: !!code,
   });
 }
 
-export function useGradeQuiz() {
+export function useGrade() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: gradeQuiz,
+    mutationFn: grade,
     onSuccess: (_, { code }) => {
       return queryClient.invalidateQueries({
         queryKey: QUIZ_RESULT_KEYS.ranking(code),
@@ -31,7 +27,7 @@ export function useGradeQuiz() {
   });
 }
 
-export function useDeleteQuizResult() {
+export function useDelete() {
   const queryClient = useQueryClient();
 
   return useMutation({

@@ -1,12 +1,12 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useFetchMyProfile } from "@/domains/auth/use-auth";
 import {
-  useDeleteQuizResult,
-  useFetchQuizRanking,
-} from "@/domains/hooks/use-quiz-result";
-import { useFetchQuiz, useFetchQuizzesByUser } from "@/domains/hooks/use-quiz";
-import type { GradeResultResponse } from "@/domains/types/types";
+  useDelete as useDeleteQuizResult,
+  useRanking,
+} from "@/domains/quiz-result/quiz-result.queries";
+import { useGetQuiz, useGetQuizzesByUser } from "@/domains/quiz/quiz.queries";
+import type { GradeResultResponse } from "@/domains/quiz-result/quiz-result.type";
+import { useGetMe } from "@/domains/user/user.queries";
 import {
   Crown,
   Home,
@@ -23,10 +23,10 @@ import { toast } from "sonner";
 export default function QuizResultPage() {
   const { code = "" } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const quizQuery = useFetchQuiz(code);
-  const rankingQuery = useFetchQuizRanking(code);
-  const profileQuery = useFetchMyProfile();
-  const myQuizzesQuery = useFetchQuizzesByUser(
+  const quizQuery = useGetQuiz(code);
+  const rankingQuery = useRanking(code);
+  const profileQuery = useGetMe();
+  const myQuizzesQuery = useGetQuizzesByUser(
     !!profileQuery.data && !profileQuery.isError,
   );
   const deleteResultMutation = useDeleteQuizResult();

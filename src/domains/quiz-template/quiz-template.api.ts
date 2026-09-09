@@ -2,12 +2,12 @@ import type {
   QuizTemplateCursor,
   QuizTemplateCursorResponse,
   QuizTemplateDto,
-} from "@/domains/types/types";
+} from "./quiz-template.type";
 
 const ENDPOINT = "/api/quiz-templates";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const fetchQuizTemplates = async ({
+export const getQuizTemplates = async ({
   cursor,
   limit,
 }: QuizTemplateCursor): Promise<QuizTemplateCursorResponse> => {
@@ -23,13 +23,13 @@ export const fetchQuizTemplates = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();
 };
 
-export const fetchQuizTemplate = async ({
+export const getQuizTemplate = async ({
   quizTemplateId,
 }: {
   quizTemplateId: number;
@@ -40,7 +40,7 @@ export const fetchQuizTemplate = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message);
+    throw new Error(error.message, { cause: response.status });
   }
 
   return response.json();

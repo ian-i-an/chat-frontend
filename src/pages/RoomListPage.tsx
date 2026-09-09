@@ -1,14 +1,14 @@
 import Loader from "@/components/common/Loader";
 import RoomList from "@/components/room/RoomList";
-import { ROOM_KEYS, useFetchRooms } from "@/domains/hooks/use-room";
+import { ROOM_KEYS, useGetMyRooms } from "@/domains/room/room.queries";
+import type { RoomListItem } from "@/domains/room/room.type";
 import { useRoomSse } from "@/sse/useRoomSse";
-import type { RoomListItem } from "@/domains/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Navigate } from "react-router-dom";
 
 export default function RoomListPage() {
   const queryClient = useQueryClient();
-  const { data: rooms = [], isLoading, isError } = useFetchRooms();
+  const { data: rooms = [], isLoading, isError } = useGetMyRooms();
 
   useRoomSse({
     onEventReceived: (event) => {

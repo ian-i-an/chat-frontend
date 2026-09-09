@@ -1,4 +1,4 @@
-import type { ChatSseEvent } from "@/domains/types/types";
+import type { ChatSseEvent } from "@/domains/chat/chat.type";
 import { useEffect, useRef, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;

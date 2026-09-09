@@ -1,16 +1,19 @@
 import { AlertCircle } from "lucide-react";
 import defaultProfile from "@/assets/default-profile.png";
-import { useFetchMyProfile } from "@/domains/auth/use-auth";
-import { useDeleteAccount, useUpdateNickname } from "@/domains/hooks/use-user";
 import NicknameEditor from "@/components/profile/NicknameEditor";
 import { Navigate } from "react-router-dom";
 import Loader from "@/components/common/Loader";
+import {
+  useDeleteUser,
+  useGetMe,
+  useUpdateUser,
+} from "@/domains/user/user.queries";
 
 export default function Profile() {
-  const { data: myProfile, isError, isLoading } = useFetchMyProfile();
+  const { data: myProfile, isError, isLoading } = useGetMe();
   const { mutateAsync: updateNickname, isPending: isUpdatingNickname } =
-    useUpdateNickname();
-  const { mutate: deleteAccount } = useDeleteAccount();
+    useUpdateUser();
+  const { mutate: deleteAccount } = useDeleteUser();
 
   const handleUpdateNickname = async (nickname: string) => {
     await updateNickname({ nickname });
@@ -29,7 +32,7 @@ export default function Profile() {
   if (isError) return <Navigate to={"/sign-in"} />;
 
   return (
-    <div className="flex flex-1  max-w-2xl min-w-64 mx-auto flex-col px-6 py-10">
+    <div className="mx-auto flex max-w-2xl min-w-64 flex-1 flex-col px-6 py-10">
       <div className="flex flex-col items-center gap-3 border-b border-gray-100 pb-4">
         <div className="h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gray-100">
           <img

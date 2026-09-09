@@ -1,19 +1,13 @@
+import { deleteChat, getChats } from "./chat.api";
+import { ROOM_KEYS } from "@/domains/room/room.queries";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
-import { ROOM_KEYS } from "./use-room";
-import { deleteChat, fetchChats } from "@/domains/api/chat";
 
-export function useFetchChats(roomCode: string) {
+export function useGetChats(roomCode: string) {
   return useInfiniteQuery({
     initialPageParam: undefined as number | undefined,
     queryKey: ROOM_KEYS.chats(roomCode),
-
     queryFn: ({ pageParam: cursor }) =>
-      fetchChats({ roomCode, cursor: cursor, limit: 50 }),
-
-    // 다음 페이지를 가져올 때 어떤 cursor를 넘기면 돼?
-    // 그 답을 getNextPageParam에서 반환합니다.
-    // 다음 요청부터는 getNextPageParam이 반환한 값을 pageParam으로 사용.
-    // undefined를 반환하면 요청을 실행하지 않음
+      getChats({ roomCode, cursor, limit: 50 }),
     getNextPageParam: (lastPage) => {
       if (!lastPage.hasNext || lastPage.chatViews.length === 0) {
         return undefined;
@@ -21,10 +15,7 @@ export function useFetchChats(roomCode: string) {
 
       return lastPage.chatViews[lastPage.chatViews.length - 1].id;
     },
-
-    select: (data) => {
-      return data.pages.flatMap((page) => page.chatViews);
-    },
+    select: (data) => data.pages.flatMap((page) => page.chatViews),
   });
 }
 
