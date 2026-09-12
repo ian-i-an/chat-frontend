@@ -1,5 +1,5 @@
 import { useStartReply } from "@/store/room-ui-store";
-import type { ChatView } from "@/domains/chat/chat.type";
+import type { ChatView } from "@/domain/chat.type";
 import { Reply, Trash2 } from "lucide-react";
 interface ChatIemACtionMenuProps {
   chat: ChatView;

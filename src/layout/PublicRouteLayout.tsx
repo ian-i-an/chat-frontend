@@ -1,5 +1,5 @@
 import Loader from "@/components/common/Loader";
-import { useGetMe } from "@/domains/user/user.queries";
+import { useGetMe } from "@/queries/user.queries";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PublicRouteLayout() {

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import MenuButton from "./MenuButton";
 import ProfileButton from "./ProfileButton";
-import { useGetMe } from "@/domains/user/user.queries";
+import { useGetMe } from "@/queries/user.queries";
 
 export default function Header() {
   const { data: myProfile, isError } = useGetMe();

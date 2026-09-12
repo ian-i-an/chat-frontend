@@ -1,7 +1,7 @@
 import Button from "../common/Button";
 import FormInput from "../common/FormInput";
 import { type SubmitEvent, useState } from "react";
-import { useCreate } from "@/domains/room/room.queries";
+import { useCreate } from "@/queries/room.queries";
 import { toast } from "sonner";
 
 export default function RoomCreateModalContent({

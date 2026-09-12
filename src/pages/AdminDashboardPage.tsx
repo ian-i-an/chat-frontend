@@ -4,8 +4,8 @@ import {
   useGetQuizStatistics,
   useGetRoomStatistics,
   useGetUserStatistics,
-} from "@/domains/admin-statistics/admin-statistics.queries";
-import { useGetQuizTemplates } from "@/domains/quiz-template/admin-quiz-template.queries";
+} from "@/queries/admin-statistics.queries";
+import { useGetQuizTemplates } from "@/queries/admin-quiz-template.queries";
 import {
   BookOpenCheck,
   Brain,

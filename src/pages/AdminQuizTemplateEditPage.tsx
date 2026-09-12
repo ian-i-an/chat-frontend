@@ -7,8 +7,8 @@ import {
   useDelete as useDeleteQuizTemplate,
   useGetQuizTemplate,
   useUpdate as useUpdateQuizTemplate,
-} from "@/domains/quiz-template/admin-quiz-template.queries";
-import type { QuizTemplateUpdateInfo } from "@/domains/quiz-template/quiz-template.type";
+} from "@/queries/admin-quiz-template.queries";
+import type { QuizTemplateUpdateInfo } from "@/domain/quiz.type";
 import { ArrowLeft, LoaderCircle, Pencil, Trash2 } from "lucide-react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";

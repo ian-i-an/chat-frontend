@@ -20,7 +20,7 @@ import { useElementSize } from "@/hooks/use-element-size";
 import {
   sendChat as sendChatRequest,
   readChat as readChatRequest,
-} from "@/backend/chat/chat.api";
+} from "@/api/chat.api";
 import { ROOM_KEYS, useGetRoom } from "@/queries/room.queries";
 import { useChatSse } from "@/sse/useChatSse";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";

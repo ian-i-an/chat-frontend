@@ -1,4 +1,4 @@
-import type { RoomSseEvent } from "@/domains/room/room.type";
+import type { RoomSseEvent } from "@/domain/room.type";
 import { useEffect, useRef, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;

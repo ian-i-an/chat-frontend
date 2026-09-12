@@ -1,4 +1,4 @@
-import { useLogout } from "@/domains/admin-auth/admin-auth.queries";
+import { useLogout } from "@/queries/admin-auth.queries";
 import { Activity, ArrowLeft, LoaderCircle, LogOut } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 

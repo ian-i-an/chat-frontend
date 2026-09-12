@@ -1,7 +1,7 @@
 import AuthHeader from "@/components/auth/AuthHeader";
 import Button from "@/components/common/Button";
 import FormInput from "@/components/common/FormInput";
-import { useSignIn } from "@/domains/admin-auth/admin-auth.queries";
+import { useSignIn } from "@/queries/admin-auth.queries";
 import { Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";

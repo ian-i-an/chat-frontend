@@ -1,6 +1,6 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useGetQuizzesByUser } from "@/domains/quiz/quiz.queries";
+import { useGetQuizzesByUser } from "@/queries/quiz.queries";
 import { Brain, Pencil, Plus, Share2, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";

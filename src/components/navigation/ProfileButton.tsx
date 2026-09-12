@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import defaultProfile from "@/assets/default-profile.png";
-import { useLogout } from "@/domains/auth/auth.queries";
+import { useLogout } from "@/queries/auth.queries";
 import PhotoButton from "../common/PhotoButton";
 import { LogOut, User } from "lucide-react";
 

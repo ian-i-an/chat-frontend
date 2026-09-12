@@ -1,4 +1,4 @@
-import type { ReplyView } from "@/domains/chat/chat.type";
+import type { ReplyView } from "@/domain/chat.type";
 
 export default function ChatReplyPreview({
   replyTo,

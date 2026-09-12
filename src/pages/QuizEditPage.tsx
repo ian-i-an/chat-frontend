@@ -6,8 +6,8 @@ import {
   useGetQuizzesByUser,
   useUpdateQuiz,
   useUpdateQuizMetadata,
-} from "@/domains/quiz/quiz.queries";
-import type { QuizDto, QuizUpdateInfo } from "@/domains/quiz/quiz.type";
+} from "@/queries/quiz.queries";
+import type { QuizDto, QuizUpdateInfo } from "@/domain/quiz.type";
 import {
   ArrowLeft,
   Check,

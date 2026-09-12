@@ -3,10 +3,10 @@ import Loader from "@/components/common/Loader";
 import {
   useDelete as useDeleteQuizResult,
   useRanking,
-} from "@/domains/quiz-result/quiz-result.queries";
-import { useGetQuiz, useGetQuizzesByUser } from "@/domains/quiz/quiz.queries";
-import type { GradeResultResponse } from "@/domains/quiz-result/quiz-result.type";
-import { useGetMe } from "@/domains/user/user.queries";
+} from "@/queries/quiz-result.queries";
+import { useGetQuiz, useGetQuizzesByUser } from "@/queries/quiz.queries";
+import type { GradeResultResponse } from "@/domain/quiz.type";
+import { useGetMe } from "@/queries/user.queries";
 import {
   Crown,
   Home,

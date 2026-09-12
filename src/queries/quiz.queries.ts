@@ -1,11 +1,11 @@
 import {
   createQuiz,
-  delete as deleteQuiz,
+  deleteQuiz,
   getQuiz,
   getQuizzesByUser,
   updateQuiz,
   updateQuizMetadata,
-} from "./quiz.api";
+} from "../api/quiz.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_KEYS = {

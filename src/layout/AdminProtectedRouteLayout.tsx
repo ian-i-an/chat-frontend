@@ -1,6 +1,6 @@
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useGetUserStatistics } from "@/domains/admin-statistics/admin-statistics.queries";
+import { useGetUserStatistics } from "@/queries/admin-statistics.queries";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function AdminProtectedRouteLayout() {

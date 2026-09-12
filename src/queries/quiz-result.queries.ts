@@ -1,4 +1,4 @@
-import { delete as deleteQuizResult, grade, ranking } from "../api/quiz-result.api";
+import { deleteQuizResult, grade, ranking } from "../api/quiz-result.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const QUIZ_RESULT_KEYS = {

@@ -2,13 +2,13 @@ import Button from "@/components/common/Button";
 import {
   useGetQuizTemplate,
   useGetQuizTemplates,
-} from "@/domains/quiz-template/quiz-template.queries";
-import { useCreateQuiz } from "@/domains/quiz/quiz.queries";
-import type { QuizCreateInfo } from "@/domains/quiz/quiz.type";
+} from "@/queries/quiz-template.queries";
+import { useCreateQuiz } from "@/queries/quiz.queries";
+import type { QuizCreateInfo } from "@/domain/quiz.type";
 import type {
   QuestionTemplateDto,
   QuizTemplateDto,
-} from "@/domains/quiz-template/quiz-template.type";
+} from "@/domain/quiz.type";
 import {
   ArrowLeft,
   ArrowRight,
