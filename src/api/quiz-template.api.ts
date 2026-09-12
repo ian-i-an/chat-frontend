@@ -1,8 +1,5 @@
-import type {
-  QuizTemplateCursor,
-  QuizTemplateCursorResponse,
-  QuizTemplateDto,
-} from "./quiz-template.type";
+import type { QuizTemplateCursor, QuizTemplateCursorResponse, QuizTemplateDto } from "@/domain/quiz.type";
+
 
 const ENDPOINT = "/api/quiz-templates";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -23,7 +20,7 @@ export const getQuizTemplates = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -40,7 +37,7 @@ export const getQuizTemplate = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();

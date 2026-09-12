@@ -1,4 +1,4 @@
-import type { RoomDto, RoomListItem } from "./room.type";
+import type { RoomDto, RoomListItem } from "../domain/room.type";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;

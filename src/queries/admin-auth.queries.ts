@@ -1,15 +1,17 @@
-import { logout, signIn } from "./admin-auth.api";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { logout, signIn } from "../api/admin-auth.api";
+
+export const ADMIN_KEY = {
+  all: ["admin"],
+  me: ["admin", "me"],
+  statistics: ["admin", "statistics"]
+};
 
 export function useSignIn() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["admin", "statistics"] });
-    },
   });
 }
 

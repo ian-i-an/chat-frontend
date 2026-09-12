@@ -1,4 +1,4 @@
-import type { AdminSignInRequest } from "./admin-auth.type";
+import type { AdminSignInRequest } from "../domain/admin.type";
 
 const ENDPOINT = "/api/admin/auth";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -15,7 +15,7 @@ export const signIn = async (request: AdminSignInRequest): Promise<void> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };
 
@@ -25,8 +25,8 @@ export const logout = async (): Promise<void> => {
     credentials: "include",
   });
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };

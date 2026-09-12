@@ -7,7 +7,7 @@ import {
   useDeleteUser,
   useGetMe,
   useUpdateUser,
-} from "@/backend/user/user.queries";
+} from "@/queries/user.queries";
 
 export default function Profile() {
   const { data: myProfile, isError, isLoading } = useGetMe();

@@ -1,11 +1,7 @@
-import {
-  create,
-  delete as deleteQuizTemplate,
-  getQuizTemplate,
-  getQuizTemplates,
-  update,
-} from "./admin-quiz-template.api";
+import { create, deleteQuizTemplate, getQuizTemplate, getQuizTemplates, update } from "@/api/admin-quiz-template.api";
 import { QUIZ_TEMPLATE_KEYS } from "./quiz-template.queries";
+
+
 import {
   useInfiniteQuery,
   useMutation,

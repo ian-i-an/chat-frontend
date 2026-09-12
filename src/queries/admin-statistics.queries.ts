@@ -2,7 +2,7 @@ import {
   getQuizStatistics,
   getRoomStatistics,
   getUserStatistics,
-} from "./admin-statistics.api";
+} from "../api/admin-statistics.api";
 import { useQuery } from "@tanstack/react-query";
 
 export const ADMIN_STATISTICS_KEYS = {

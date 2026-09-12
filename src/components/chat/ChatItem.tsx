@@ -1,4 +1,4 @@
-import type { ChatView } from "@/backend/chat/chat.type";
+import type { ChatView } from "@/domain/chat.type";
 import { formatTime } from "@/utils/time";
 import ChatItemActionMenu from "./ChatItemActionMenu";
 import ChatReplyPreview from "./ChatReplyPreview";

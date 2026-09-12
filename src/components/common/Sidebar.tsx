@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import IconButton from "./IconButton";
-import { useLogout } from "@/backend/admin-auth/admin-auth.queries";
+import { useLogout } from "@/queries/admin-auth.queries";
 
 
 interface SidebarProps {

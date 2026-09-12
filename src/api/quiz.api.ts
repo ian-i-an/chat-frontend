@@ -1,9 +1,5 @@
-import type {
-  QuizCreateInfo,
-  QuizDto,
-  QuizMetadataUpdateInfo,
-  QuizUpdateInfo,
-} from "./quiz.type";
+import type { QuizCreateInfo, QuizDto, QuizMetadataUpdateInfo, QuizUpdateInfo } from "@/domain/quiz.type";
+
 
 const ENDPOINT = "/api/quizzes";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -22,7 +18,7 @@ export const createQuiz = async (
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -35,9 +31,8 @@ export const getQuizzesByUser = async (): Promise<QuizDto[]> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
-
   return response.json();
 };
 
@@ -48,7 +43,7 @@ export const getQuiz = async ({ code }: { code: string }): Promise<QuizDto> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -72,7 +67,7 @@ export const updateQuizMetadata = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -96,13 +91,13 @@ export const updateQuiz = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
 };
 
-const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
+export const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
   const response = await fetch(`${API_URL}${ENDPOINT}/${code}`, {
     method: "DELETE",
     credentials: "include",
@@ -110,8 +105,6 @@ const deleteQuiz = async ({ code }: { code: string }): Promise<void> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };
-
-export { deleteQuiz as delete };

@@ -1,4 +1,4 @@
-import type { GradeResultResponse, QuizSubmission } from "./quiz-result.type";
+import type { GradeResultResponse, QuizSubmission } from "@/domain/quiz.type";
 
 const ENDPOINT = "/api/quizzes";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -44,7 +44,7 @@ export const ranking = async ({
   return response.json();
 };
 
-const deleteQuizResult = async ({
+export const deleteQuizResult = async ({
   code,
   quizResultId,
 }: {
@@ -65,4 +65,3 @@ const deleteQuizResult = async ({
   }
 };
 
-export { deleteQuizResult as delete };

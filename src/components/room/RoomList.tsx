@@ -1,7 +1,7 @@
 import RoomCreateButton from "./RoomCreateButton";
 import RoomItem from "./RoomItem";
 
-import type { RoomListItem } from "@/backend/room/room.type";
+import type { RoomListItem } from "@/domain/room.type";
 
 interface RoomListProps {
   rooms: RoomListItem[];

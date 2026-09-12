@@ -16,3 +16,9 @@ export interface RoomSseEvent {
   lastMessage: string;
   isMyMessage: boolean;
 }
+
+
+export interface RoomStatistics {
+  totalCount: number;
+  todayCreatedCount: number;
+}

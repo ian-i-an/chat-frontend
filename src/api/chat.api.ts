@@ -4,7 +4,7 @@ import type {
   ChatSendRequest,
   ChatView,
   ReadRequest,
-} from "./chat.type";
+} from "../domain/chat.type";
 
 const ENDPOINT = "/api/rooms";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -25,9 +25,9 @@ export const getChats = async ({
     { credentials: "include" },
   );
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -49,7 +49,7 @@ export const sendChat = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -68,9 +68,9 @@ export const readChat = async ({
     body: JSON.stringify({ lastReadChatId }),
   });
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };
 
@@ -91,6 +91,6 @@ export const deleteChat = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };

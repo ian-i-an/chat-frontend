@@ -1,4 +1,4 @@
-import { deleteChat, getChats } from "./chat.api";
+import { deleteChat, getChats } from "../backend/chat/chat.api";
 import { ROOM_KEYS } from "@/domains/room/room.queries";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 

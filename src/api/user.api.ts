@@ -1,4 +1,4 @@
-import type { UserDto } from "./user.type";
+import type { UserDto } from "../domain/user.type";
 
 const ENDPOINT = "/api/users";
 const API_URL = import.meta.env.VITE_API_URL;

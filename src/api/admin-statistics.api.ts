@@ -1,8 +1,6 @@
-import type {
-  QuizStatistics,
-  RoomStatistics,
-  UserStatistics,
-} from "./admin-statistics.type";
+import type { QuizStatistics } from "@/domain/quiz.type";
+import type { RoomStatistics } from "@/domain/room.type";
+import type { UserStatistics } from "@/domain/user.type";
 
 const ENDPOINT = "/api/admin/statistics";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -12,11 +10,10 @@ export const getUserStatistics = async (): Promise<UserStatistics> => {
     credentials: "include",
   });
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
-
   return response.json();
 };
 
@@ -27,7 +24,7 @@ export const getRoomStatistics = async (): Promise<RoomStatistics> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -40,7 +37,7 @@ export const getQuizStatistics = async (): Promise<QuizStatistics> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();

@@ -1,8 +1,8 @@
 import Button from "@/components/common/Button";
 import Fallback from "@/components/common/Fallback";
 import Loader from "@/components/common/Loader";
-import { useGrade } from "@/backend/quiz-result/quiz-result.queries";
-import { useGetQuiz } from "@/backend/quiz/quiz.queries";
+import { useGrade } from "@/queries/quiz-result.queries";
+import { useGetQuiz } from "@/queries/quiz.queries";
 import {
   Brain,
   Check,

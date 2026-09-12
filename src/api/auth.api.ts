@@ -9,6 +9,6 @@ export const logout = async (): Promise<void> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };

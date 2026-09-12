@@ -1,10 +1,5 @@
-import type {
-  QuizTemplateCreateInfo,
-  QuizTemplateCursor,
-  QuizTemplateCursorResponse,
-  QuizTemplateDto,
-  QuizTemplateUpdateInfo,
-} from "./quiz-template.type";
+import type { QuizTemplateCreateInfo, QuizTemplateCursor, QuizTemplateCursorResponse, QuizTemplateDto, QuizTemplateUpdateInfo } from "@/domain/quiz.type";
+
 
 const ENDPOINT = "/api/admin/quiz-templates";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -23,9 +18,9 @@ export const getQuizTemplates = async ({
     credentials: "include",
   });
 
-  if (!response.ok) {
+if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -40,9 +35,9 @@ export const getQuizTemplate = async ({
     credentials: "include",
   });
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -62,7 +57,7 @@ export const create = async (
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -84,15 +79,15 @@ export const update = async ({
     body: JSON.stringify(quizTemplateUpdateInfo),
   });
 
-  if (!response.ok) {
+ if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 
   return response.json();
 };
 
-const deleteQuizTemplate = async ({
+export const deleteQuizTemplate = async ({
   quizTemplateId,
 }: {
   quizTemplateId: number;
@@ -104,8 +99,7 @@ const deleteQuizTemplate = async ({
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message, { cause: response.status });
+    throw new Error(error.message);
   }
 };
 
-export { deleteQuizTemplate as delete };

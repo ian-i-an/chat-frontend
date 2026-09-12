@@ -3,7 +3,7 @@ import {
   getMe,
   register,
   updateUser,
-} from "@/backend/user/user.api";
+} from "@/api/user.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
