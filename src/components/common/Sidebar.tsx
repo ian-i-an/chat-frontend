@@ -10,7 +10,8 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import IconButton from "./IconButton";
-import { useLogout } from "@/domains/auth/auth.queries";
+import { useLogout } from "@/backend/admin-auth/admin-auth.queries";
+
 
 interface SidebarProps {
   isOpen: boolean;

@@ -10,8 +10,8 @@ import type {
   ChatCursorResponse,
   ChatSseEvent,
   ChatView,
-} from "@/domains/chat/chat.type";
-import { useDeleteChat, useGetChats } from "@/domains/chat/chat.queries";
+} from "@/backend/chat/chat.type";
+import { useDeleteChat, useGetChats } from "@/backend/chat/chat.queries";
 import { toast } from "sonner";
 import { useChatScroll } from "@/components/chat/use-chat-scroll";
 import { useCloseReply, useReplyTo, useReset } from "@/store/room-ui-store";
@@ -20,11 +20,11 @@ import { useElementSize } from "@/hooks/use-element-size";
 import {
   sendChat as sendChatRequest,
   readChat as readChatRequest,
-} from "@/domains/chat/chat.api";
-import { ROOM_KEYS, useGetRoom } from "@/domains/room/room.queries";
+} from "@/backend/chat/chat.api";
+import { ROOM_KEYS, useGetRoom } from "@/backend/room/room.queries";
 import { useChatSse } from "@/sse/useChatSse";
 import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
-import type { RoomListItem } from "@/domains/room/room.type";
+import type { RoomListItem } from "@/backend/room/room.type";
 
 export default function RoomPage() {
   const roomCode = useParams<{ roomCode: string }>().roomCode!;

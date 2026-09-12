@@ -3,7 +3,7 @@ import SignUpAgreementDialog, {
   type AgreementType,
 } from "@/components/auth/SignUpAgreementDialog";
 import Button from "@/components/common/Button";
-import { useSignUp } from "@/domains/user/user.queries";
+import { useSignUp } from "@/backend/user/user.queries";
 import { CheckCircle2, ChevronRight } from "lucide-react";
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";

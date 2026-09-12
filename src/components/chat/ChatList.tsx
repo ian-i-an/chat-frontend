@@ -1,6 +1,6 @@
 import React, { type RefObject } from "react";
 import ChatItem from "./ChatItem";
-import type { ChatView } from "@/domains/chat/chat.type";
+import type { ChatView } from "@/backend/chat/chat.type";
 import { formatDate, isSameDay } from "@/utils/time";
 import Loader from "../common/Loader";
 import { useChatNext } from "./use-chat-next";

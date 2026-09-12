@@ -2,7 +2,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { useGetMe } from "@/domains/user/user.queries";
+import { useGetMe } from "@/backend/user/user.queries";
+
 
 export default function ProtectedRouteLayout() {
   const {

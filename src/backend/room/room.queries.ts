@@ -4,7 +4,7 @@ import {
   getMyRooms,
   getRoom,
   update,
-} from "@/domains/room/room.api";
+} from "@/backend/room/room.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const ROOM_KEYS = {
