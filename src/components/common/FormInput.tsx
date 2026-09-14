@@ -1,23 +1,12 @@
-import { type InputHTMLAttributes, type ReactNode } from "react";
+import type { InputHTMLAttributes } from "react";
 
-interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  rightElement?: ReactNode;
-}
-
-export default function FormInput({ rightElement, ...props }: FormInputProps) {
+export default function FormInput({ ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <div className="relative">
+    
       <input
         {...props}
-        className={`w-full rounded-xl border border-border bg-background py-3 pr-4 pl-4 text-base text-gray-800 transition-all duration-200 focus:border-blue-300 focus:bg-surface focus:outline-none ${
-          rightElement ? "pr-11" : ""
-        }`}
+        className={`w-full rounded-xl border border-border bg-background py-3 pr-4 pl-4 text-base text-foreground transition-all duration-200 focus:border-primary-middle focus:bg-surface focus:outline-none`}
       />
-      {rightElement && (
-        <div className="absolute top-1/2 right-3 -translate-y-1/2">
-          {rightElement}
-        </div>
-      )}
-    </div>
+   
   );
 }

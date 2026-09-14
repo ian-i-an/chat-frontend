@@ -1,18 +1,33 @@
 import { Link } from "react-router-dom";
 
-import MenuButton from "./MenuButton";
 import ProfileButton from "./ProfileButton";
 import { useGetMe } from "@/queries/user.queries";
+import IconButton from "../common/IconButton";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import Sidebar from "./Sidebar";
 
-export default function Header() {
+export default function NavBar() {
   const { data: myProfile, isError } = useGetMe();
   const isAuthenticated = !!myProfile && !isError;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full px-4 py-3">
-      <div className="flex w-full min-w-64 items-center justify-between gap-4">
+    <header className="bg-surface px-4 py-2">
+      <div className="flex  min-w-page-min items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <MenuButton isAuthenticated={isAuthenticated} />
+          <IconButton 
+          onClick={() => setIsOpen(true)}
+          className="text-subtle-foreground hover:bg-subtle-background"
+          >
+        <Menu className="h-6 w-6" />
+      </IconButton>
+
+      <Sidebar
+        isOpen={isOpen}
+        isAuthenticated={isAuthenticated}
+        onClose={() => setIsOpen(false)}
+      />
 
           <Link
             to="/"

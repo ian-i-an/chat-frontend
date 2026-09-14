@@ -3,20 +3,20 @@ import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
-    <div className="flex flex-1 overflow-y-auto px-5 pt-10 pb-12 sm:pt-16">
-      <main className="mx-auto flex w-full max-w-3xl flex-col items-center">
+    <div className="mobile-page-size flex min-h-0 flex-1 flex-col overflow-y-auto border bg-surface">
+      
         <section className="flex max-w-xl flex-col items-center text-center">
           <div className="bg-primary mb-6 flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg shadow-blue-200">
             <MessageCircle className="h-7 w-7" />
           </div>
 
-          <h1 className="text-foreground text-3xl leading-tight font-black sm:text-4xl">
+          <h1 className="text-foreground text-3xl leading-tight font-black">
             아싸들의 연결고리,
             <br />
             첨벙
           </h1>
 
-          <p className="text-muted-foreground mt-5 max-w-md text-sm leading-6 font-medium sm:text-base sm:leading-7">
+          <p className="text-muted-foreground mt-5 max-w-md text-sm leading-6 font-medium sm:text-base">
             친구가 적어도, 먼저 다가가는 게 서툴러도 괜찮아요.
             <br />
             부담 없이 만나고 천천히 가까워지는 우리만의 놀이터예요.
@@ -68,7 +68,7 @@ export default function Index() {
             </div>
           </div>
         </section>
-      </main>
+      
     </div>
   );
 }

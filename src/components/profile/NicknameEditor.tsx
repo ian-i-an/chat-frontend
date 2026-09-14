@@ -65,7 +65,7 @@ export default function NicknameEditor({
         />
         <IconButton
           type="submit"
-          variant="primary"
+          
           disabled={!draftNickname.trim() || isUpdating}
         >
           <Check className="h-4 w-4" />
@@ -73,7 +73,7 @@ export default function NicknameEditor({
         <IconButton
           type="button"
           onClick={cancelEditing}
-          variant="secondary"
+          
           disabled={isUpdating}
         >
           <X className="h-4 w-4" />

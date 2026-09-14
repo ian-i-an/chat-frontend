@@ -40,12 +40,14 @@ function App() {
       </Route>
 
       <Route element={<NavigationLayout />}>
+       <Route element={<WhiteBarLayout />}>
         <Route element={<ProtectedRouteLayout />}>
           <Route path="/rooms" element={<RoomListPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/quizzes" element={<QuizListPage />} />
           <Route path="/quizzes/new" element={<QuizCreatePage />} />
           <Route path="/quizzes/:code/edit" element={<QuizEditPage />} />
+          </Route>
         </Route>
       </Route>
 

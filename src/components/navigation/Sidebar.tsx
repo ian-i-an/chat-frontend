@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import IconButton from "./IconButton";
+import IconButton from "../common/IconButton";
 import { useLogout } from "@/queries/admin-auth.queries";
 
 
@@ -64,8 +64,10 @@ export default function Sidebar({
           >
             첨벙
           </Link>
-          <IconButton onClick={onClose}>
-            <X className="h-4 w-4" />
+          <IconButton 
+          onClick={onClose}
+          className="text-subtle-foreground hover:bg-subtle-background">
+            <X className="h-5 w-5" />
           </IconButton>
         </div>
         <nav className="flex flex-col gap-1 p-3">

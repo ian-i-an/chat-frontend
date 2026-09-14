@@ -44,19 +44,19 @@ export default function ProfileButton() {
       </PhotoButton>
 
       {isOpen && (
-        <div className="absolute top-full right-0 z-20 mt-2 flex w-44 flex-col overflow-hidden rounded-2xl border border-white/60 bg-surface/50 p-1.5 text-sm font-bold text-gray-600 shadow-lg ring-1 ring-gray-950/5 backdrop-blur-xs">
+        <div className="text-foreground glass absolute top-full right-0 z-20 mt-2 flex w-44 flex-col overflow-hidden rounded-2xl p-1.5 text-sm font-bold">
           <Link
             to={`/profile`} // 프로필 페이지 경로
             onClick={() => setIsOpen(false)}
-            className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface/50 active:bg-surface/50"
+            className="glass-hover flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors"
           >
-            <User className="h-4.5 w-4.5 text-primary" />
+            <User className="text-primary h-4.5 w-4.5" />
             프로필
           </Link>
 
           <button
             onClick={handleSignOut}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-danger transition-colors hover:bg-surface/50 active:bg-surface/50"
+            className="text-danger glass-hover flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors"
           >
             <LogOut className="h-4.5 w-4.5" />
             로그아웃

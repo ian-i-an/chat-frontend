@@ -90,8 +90,7 @@ export default function ChatInput({
         <IconButton
           onClick={handleSend}
           disabled={!content.trim()}
-          className={isMultiline ? "ml-auto" : ""}
-          variant="primary"
+          className={isMultiline ? "ml-auto bg-primary text-white hover:bg-primary-hover disabled:bg-primary" : "bg-primary text-white hover:bg-primary-hover disabled:bg-primary"}
         >
           <Send className="-ml-0.5 h-4 w-4" />
         </IconButton>

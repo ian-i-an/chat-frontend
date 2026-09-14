@@ -16,8 +16,11 @@ export const QUIZ_TEMPLATE_KEYS = {
 export function useGetQuizTemplates(limit = 50) {
   return useInfiniteQuery({
     initialPageParam: undefined as number | undefined,
+
     queryKey: QUIZ_TEMPLATE_KEYS.list(limit),
+
     queryFn: ({ pageParam: cursor }) => getQuizTemplates({ cursor, limit }),
+    
     getNextPageParam: (lastPage) => {
       if (!lastPage.hasNext || lastPage.quizTemplates.length === 0) {
         return undefined;
