@@ -6,7 +6,7 @@ export default function AdminLayout() {
   const { mutate: signOutAdmin, isPending } = useLogout();
 
   return (
-    <div className="app-layout">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <header className="border-border bg-surface/80 shrink-0 border-b backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
           <Link to="/admin" className="flex items-center gap-3">

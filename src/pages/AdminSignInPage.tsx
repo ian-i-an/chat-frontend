@@ -2,7 +2,8 @@ import AuthHeader from "@/components/auth/AuthHeader";
 import Button from "@/components/common/Button";
 import FormInput from "@/components/common/FormInput";
 import { useSignIn } from "@/queries/admin-auth.queries";
-import { Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
+
 import { useState, type SubmitEventHandler } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +12,6 @@ export default function AdminSignInPage() {
   const { mutate: signIn, isPending, error, reset } = useSignIn();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const isValid = !!loginId.trim() && !!password;
 
@@ -37,13 +37,13 @@ export default function AdminSignInPage() {
         description="운영 계정으로 첨벙 관리 페이지에 접속합니다."
       />
 
-      <div className="mt-7 flex items-center gap-3 border-y border-border py-4">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-strong">
+      <div className="border-border mt-7 flex items-center gap-3 border-y py-4">
+        <span className="bg-primary-soft text-primary-strong flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
           <ShieldCheck className="h-5 w-5" />
         </span>
         <div>
           <p className="text-sm font-bold text-gray-900">관리자 전용</p>
-          <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-xs leading-5">
             발급된 운영 계정만 로그인할 수 있습니다.
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function AdminSignInPage() {
         <label className="flex flex-col gap-2 text-sm font-bold text-gray-700">
           비밀번호
           <FormInput
-            type={showPassword ? "text" : "password"}
+            type={"password"}
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -76,26 +76,11 @@ export default function AdminSignInPage() {
             autoComplete="current-password"
             placeholder="비밀번호"
             disabled={isPending}
-            rightElement={
-              <button
-                type="button"
-                onClick={() => setShowPassword((current) => !current)}
-                aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
-                title={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-subtle-foreground hover:bg-gray-100 hover:text-gray-700"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            }
           />
         </label>
 
         {error && (
-          <p className="rounded-lg bg-danger-soft px-3 py-2.5 text-sm font-semibold text-red-600">
+          <p className="bg-danger-soft rounded-lg px-3 py-2.5 text-sm font-semibold text-red-600">
             {error.message}
           </p>
         )}
